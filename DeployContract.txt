@@ -1,0 +1,1 @@
+CarbonFootPrint.deployed().then(function(i){app = i})
