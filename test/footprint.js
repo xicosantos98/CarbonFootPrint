@@ -55,6 +55,13 @@ contract("CarbonFootPrint", function (accounts) {
         assert.equal(nome, organization.name);
     })
 
+    it("allows to block user ", async function(){
+        await cfootprintInstance.addUser(accounts[0], accounts[1], 1, 0)
+        await cfootprintInstance.blockUser(accounts[0], accounts[1]);
+        var user = await cfootprintInstance.users(accounts[1]);
+        assert.equal(false, user.status);
+    })
+
     it("allows to create new product", async function(){
         await cfootprintInstance.addProduct("Tecido", "10 kg de tecido", true, 0, 2, []);
         assert.equal(1, await cfootprintInstance.productsCount());

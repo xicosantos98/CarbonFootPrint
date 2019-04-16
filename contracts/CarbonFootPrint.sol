@@ -202,6 +202,14 @@ contract CarbonFootPrint{
         
     }
 
+    function blockUser (address _userResp, address _userBlock) public {
+
+        require(users[_userResp].user_add != address(0), "User is not registred");
+        require(users[_userResp].tipo == 0, "You need to have admin permissions");
+
+        users[_userBlock].status = false;
+    }
+
     function addUnit(string memory _measure, string memory _initials, uint32 _base, uint32 _exp, uint32 _idUnit,bool _negative) private{
         
         require(users[msg.sender].tipo == 0, "You need to have admin permissions");
