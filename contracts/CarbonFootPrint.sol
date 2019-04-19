@@ -250,6 +250,7 @@ contract CarbonFootPrint{
         organizations[organizationsCount] = Organization(organizationsCount, 0, 0, _name, _products, _m_activities, _m_fixcosts); 
     }
 
+
     function addProduct(string memory _name, string memory _description, 
         bool _intermediate, uint32 _org, uint32 _unit, uint32[] memory _footPrints) public{
         
@@ -332,6 +333,11 @@ contract CarbonFootPrint{
         mactivities[_idMA].productQuantities.push(_idProd);
     }
 
+    function updateCO2org(uint32 _org, uint32 _co2eq, uint16 _exp) public {
+
+        organizations[_org].co2eq = _co2eq;
+        organizations[_org].exp = _exp;
 
 
+    }
 }
