@@ -8,8 +8,6 @@ contract CarbonFootPrint{
         string name;
         string description;
         string prodUnit;
-        uint32 co2eq;
-        uint16 exp;
         bool intermediate;
         uint32 idOrganization;
         uint32 idUnit;
@@ -165,16 +163,32 @@ contract CarbonFootPrint{
         addUnit("kilogram", "kg", 10, 3, 1, true);
         addUnit("gram", "g", 10, 6, 1, true);
         addUnit("milligram", "mg", 10, 9, 1, true);
+
+        addYear("2019");
     }
 
     function getUsersCount() public view returns(uint count) {
         return arrayUsers.length;
     }
 
+    function isNull(address _add) public pure returns(bool addressNull){
+        return _add == address(0);
+    }
+
     // -- GETTERS -> organization
     function getOrgProducts(uint32 _org) public view returns(uint32[] memory prods){
         return organizations[_org].products;
     }
+
+    function getOrgMactivities(uint32 _org) public view returns(uint32[] memory m_activities){
+        return organizations[_org].m_activities;
+    }
+
+    function getOrgFixCosts(uint32 _org) public view returns(uint32[] memory m_fixcosts){
+        return organizations[_org].m_fixcosts;
+    }
+
+
 
     // -- GETTERS -> products
     function getFootPrintsProd(uint32 _prod) public view returns(uint32[] memory footprints){
@@ -221,6 +235,16 @@ contract CarbonFootPrint{
 
     function addOrganization(string memory _name, uint32[] memory _products, uint32[] memory _m_activities, uint32[] memory _m_fixcosts) public {
         require(users[msg.sender].tipo == 0, "You need to have admin permissions");
+        bool exist = false;
+
+        for(uint32 i=1; i <= organizationsCount; i++){
+            string memory name = organizations[i].name;
+            if(keccak256(abi.encodePacked(name)) == keccak256(abi.encodePacked(_name))){
+                exist = true;
+            }
+        }
+
+        require(!exist, "Organization already registred");
 
         organizationsCount++;
         organizations[organizationsCount] = Organization(organizationsCount, 0, 0, _name, _products, _m_activities, _m_fixcosts); 
@@ -229,10 +253,22 @@ contract CarbonFootPrint{
     function addProduct(string memory _name, string memory _description, 
         bool _intermediate, uint32 _org, uint32 _unit, uint32[] memory _footPrints) public{
         
+        bool exist = false;        
         //require(users[msg.sender].idOrganization == _org, "You need to belong to the organization");
+        require(organizations[_org].id != uint32(0), "Organization doesn't exist");
+
+        for(uint32 i=1; i <= organizationsCount; i++){
+            string memory name = products[i].name;
+            if(keccak256(abi.encodePacked(name)) == keccak256(abi.encodePacked(_name))){
+                exist = true;
+            }
+        }
+
+        require(!exist, "Product already registred");
+
 
         productsCount++;
-        products[productsCount] = Product(productsCount, _name, _description, units[_unit].initials, 0, 0,
+        products[productsCount] = Product(productsCount, _name, _description, units[_unit].initials,
             _intermediate, _org, _unit, _footPrints);
         organizations[_org].products.push(productsCount);
 
@@ -247,15 +283,12 @@ contract CarbonFootPrint{
     function addFootPrintProd(uint32 _co2eq, uint16 _exp, uint32 _idProd, uint32 _idYear) public {
         
         //require(users[msg.sender].idOrganization == products[_idProd].idOrganization, "The product doesnt belong to your organization");        
+        require(products[_idProd].id != uint32(0), "Product doesn't exist");
+
 
         pfootPrintCount++;
         productFootPrints[pfootPrintCount] = ProductFootprint(pfootPrintCount, _co2eq, _exp, _idProd, _idYear);
         products[_idProd].productFootPrints.push(pfootPrintCount);
-    }
-
-    function updateCO2Prod(uint32 _id, uint32 _co2eq, uint16 _exp) public {
-        products[_id].co2eq = _co2eq;
-        products[_id].exp = _exp;
     }
 
     function addCostType(uint32 _co2, uint16 _exp, string memory _desc, uint32 _idUnit, 
