@@ -187,6 +187,11 @@ contract CarbonFootPrint{
     function getOrgFixCosts(uint32 _org) public view returns(uint32[] memory m_fixcosts){
         return organizations[_org].m_fixcosts;
     }
+    
+    // -- GETTERS -> MonthlyActivity
+    function getProdQuantities(uint32 _prod) public view returns(uint32[] memory quantities){
+        return mactivities[_prod].productQuantities;
+    }
 
 
 
@@ -199,7 +204,6 @@ contract CarbonFootPrint{
 
     function addUser (address _userResp,address _user, uint16 _tipo, uint32 _idOrganization) public {
         
-        require(users[_userResp].user_add != address(0), "User is not registred");
         require(users[_user].user_add == address(0), "User already registred");
 
         if(_tipo == 0 || _tipo == 1){
@@ -218,10 +222,16 @@ contract CarbonFootPrint{
 
     function blockUser (address _userResp, address _userBlock) public {
 
-        require(users[_userResp].user_add != address(0), "User is not registred");
         require(users[_userResp].tipo == 0, "You need to have admin permissions");
 
         users[_userBlock].status = false;
+    }
+    
+    function unblockUser(address _userResp, address _userBlock) public {
+        
+        require(users[_userResp].tipo == 0, "You need to have admin permissions");
+        
+        users[_userBlock].status = true;
     }
 
     function addUnit(string memory _measure, string memory _initials, uint32 _base, uint32 _exp, uint32 _idUnit,bool _negative) private{
@@ -276,7 +286,19 @@ contract CarbonFootPrint{
     }
 
     function addYear(string memory _year) public {
-        require(users[msg.sender].tipo == 0, "You need to have admin permissions");        
+        require(users[msg.sender].tipo == 0, "You need to have admin permissions");
+        
+        
+        bool exist = false;
+        for(uint32 i=1; i <= yearliesCount; i++){
+            string memory name = yearly[i].year;
+            if(keccak256(abi.encodePacked(name)) == keccak256(abi.encodePacked(_year))){
+                exist = true;
+            }
+        }
+        
+        require(!exist, "Year already registred");
+        
         yearliesCount++;
         yearly[yearliesCount] = Year(yearliesCount, _year);
     }
@@ -287,6 +309,7 @@ contract CarbonFootPrint{
         require(products[_idProd].id != uint32(0), "Product doesn't exist");
 
 
+        
         pfootPrintCount++;
         productFootPrints[pfootPrintCount] = ProductFootprint(pfootPrintCount, _co2eq, _exp, _idProd, _idYear);
         products[_idProd].productFootPrints.push(pfootPrintCount);
@@ -313,31 +336,48 @@ contract CarbonFootPrint{
         organizations[_idOrg].m_fixcosts.push(mfixcostsCount);
     }
 
-    function addMonthlyActivity(string memory _desc, uint32 _co2eq, uint32 _qtd, uint16 _exp, string memory _month,
+    function addMonthlyActivity(string memory _desc, uint32 _qtd, string memory _month,
         uint32[] memory _prodQuantities, uint32 _output, uint32 _idOrg, uint32 _idUnit, uint32 _idYear) public{
         
         //require(users[msg.sender].idOrganization == _idOrg, "You need to belong to the organization");    
 
         mactivitiesCount++;
-        mactivities[mactivitiesCount] = MonthlyActivity(mactivitiesCount, _desc, _co2eq, _qtd, _exp, _month, _prodQuantities, _output, _idOrg, _idUnit, _idYear, msg.sender);
-        organizations[_idOrg].m_fixcosts.push(mactivitiesCount);
+        mactivities[mactivitiesCount] = MonthlyActivity(mactivitiesCount, _desc, 0, _qtd, 0, _month, _prodQuantities, _output, _idOrg, _idUnit, _idYear, msg.sender);
+        organizations[_idOrg].m_activities.push(mactivitiesCount);
+    }
+    
+    
+    function addProductionCost(uint32 _co2, uint16 _exp, uint32 _qt, uint32 _costType, uint32 _mactivity) public {
+        productCostsCount++;
+        productCosts[productCostsCount] = ProductCost(productCostsCount, _co2, _exp, _qt, _costType, _mactivity);
     }
 
 
     function addProdQuantity(uint32 _qtd, uint32 _idPfootPrint, uint32 _m_activity) public{
         productsQuantitiesCount++;
         productsQuantities[productsQuantitiesCount] = ProductQuantity(productsQuantitiesCount, _qtd, _idPfootPrint, _m_activity);
-    }
-
-    function updateMonthlyActivity(uint32 _idProd, uint32 _idMA) public {
-        mactivities[_idMA].productQuantities.push(_idProd);
+        mactivities[_m_activity].productQuantities.push(productsQuantitiesCount);
     }
 
     function updateCO2org(uint32 _org, uint32 _co2eq, uint16 _exp) public {
-
         organizations[_org].co2eq = _co2eq;
         organizations[_org].exp = _exp;
+    }
+    
+    function updateCO2mactivity(uint32 _mactivity, uint32 _co2eq, uint16 _exp) public {
+        mactivities[_mactivity].co2eq = _co2eq;
+        mactivities[_mactivity].exp = _exp;
+    }
 
-
+    function verifyUser(address _user) public view returns(string memory message){
+        
+        if(users[_user].user_add == address(0)){
+            return "not_registred";
+        }else if(users[_user].status == false){
+            return "blocked";
+        }else {
+            return "ok";
+        }
+        
     }
 }
