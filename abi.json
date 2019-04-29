@@ -39,29 +39,6 @@
   },
   {
     "constant": true,
-    "inputs": [
-      {
-        "name": "",
-        "type": "uint32"
-      }
-    ],
-    "name": "yearly",
-    "outputs": [
-      {
-        "name": "id",
-        "type": "uint32"
-      },
-      {
-        "name": "year",
-        "type": "string"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
     "inputs": [],
     "name": "productsQuantitiesCount",
     "outputs": [
@@ -121,7 +98,7 @@
         "type": "uint32"
       },
       {
-        "name": "idYear",
+        "name": "year",
         "type": "uint32"
       },
       {
@@ -131,6 +108,28 @@
     ],
     "payable": false,
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_pfootprint",
+        "type": "uint32"
+      },
+      {
+        "name": "_co2eq",
+        "type": "uint32"
+      },
+      {
+        "name": "_exp",
+        "type": "uint16"
+      }
+    ],
+    "name": "updateCO2pfootprint",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -160,7 +159,7 @@
         "type": "uint32"
       },
       {
-        "name": "idYear",
+        "name": "year",
         "type": "uint32"
       }
     ],
@@ -225,11 +224,11 @@
   {
     "constant": true,
     "inputs": [],
-    "name": "yearliesCount",
+    "name": "getYearsCount",
     "outputs": [
       {
-        "name": "",
-        "type": "uint32"
+        "name": "count",
+        "type": "uint256"
       }
     ],
     "payable": false,
@@ -281,6 +280,20 @@
       }
     ],
     "name": "updateCO2org",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_year",
+        "type": "uint32"
+      }
+    ],
+    "name": "addYear",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
@@ -430,20 +443,6 @@
       }
     ],
     "name": "addCostType",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_year",
-        "type": "string"
-      }
-    ],
-    "name": "addYear",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
@@ -608,7 +607,7 @@
         "type": "uint32"
       },
       {
-        "name": "idYear",
+        "name": "year",
         "type": "uint32"
       }
     ],
@@ -691,7 +690,7 @@
         "type": "uint32"
       },
       {
-        "name": "_idYear",
+        "name": "_year",
         "type": "uint32"
       }
     ],
@@ -910,7 +909,7 @@
         "type": "uint32"
       },
       {
-        "name": "_idYear",
+        "name": "_year",
         "type": "uint32"
       }
     ],
@@ -954,6 +953,25 @@
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "arrayYears",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -1078,7 +1096,7 @@
         "type": "uint32"
       },
       {
-        "name": "_idYear",
+        "name": "_year",
         "type": "uint32"
       }
     ],
@@ -1096,6 +1114,25 @@
       {
         "name": "",
         "type": "uint32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_year",
+        "type": "uint32"
+      }
+    ],
+    "name": "existsYear",
+    "outputs": [
+      {
+        "name": "exists",
+        "type": "bool"
       }
     ],
     "payable": false,

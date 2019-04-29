@@ -2,15 +2,14 @@ var express = require("express");
 var router = express.Router();
 
 router
-
   .get("/", function(req, res) {
-    var count = c_instance.yearliesCount().toNumber();
+    var count = c_instance.getYearsCount().toNumber();
     var years = [];
 
-    for (var i = 1; i <= count; i++) {
-      var year = c_instance.yearly(i);
+    for (var i = 0; i < count; i++) {
+      var year = c_instance.arrayYears(i);
 
-      years.push({ id: year[0], year: year[1] });
+      years.push({ id: year });
     }
 
     if (years.length == 0) {
@@ -25,11 +24,16 @@ router
       res.status(400).send({ message: "Error, invalid request" });
     } else {
       try {
-        c_instance.addYear(req.body.year, {
-          from: req.headers.address,
-          gas: 3000000
-        });
-        res.status(201).send({ message: "Year created" });
+        var year = parseInt(req.body.year);
+        if (c_instance.existsYear(year)) {
+          res.status(400).send({ message: "Error, invalid request" });
+        } else {
+          c_instance.addYear(year, {
+            from: req.headers.address,
+            gas: 3000000
+          });
+          res.status(201).send({ message: "Year created" });
+        }
       } catch (error) {
         res.status(403).send({ message: error.message });
       }

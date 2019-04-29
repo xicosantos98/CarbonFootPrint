@@ -15,7 +15,7 @@ fs.readFile("./abi.json", handleFile);
 function handleFile(err, data) {
   if (err) console.log(err);
   abijson = JSON.parse(data);
-  contractAddress = "0x5a9b0098875e1ee6cb251b0308278f0721acbc74";
+  contractAddress = "0x25dff896354a7e5ab0d17045712a86c31e4719db";
 
   console.log("Contract addres: " + contractAddress);
   initWeb3();
@@ -49,6 +49,17 @@ countDecimals = function(value) {
   if (Math.floor(value) !== value)
     return value.toString().split(".")[1].length || 0;
   return 0;
+};
+
+createYear = function(year, address) {
+  if (c_instance.existsYear(year)) {
+    return;
+  } else {
+    c_instance.addYear(year, {
+      from: address,
+      gas: 3000000
+    });
+  }
 };
 
 app.use(express.json());

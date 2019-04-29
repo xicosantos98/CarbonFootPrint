@@ -7,7 +7,7 @@ function verifyBody(body) {
     body.hasOwnProperty("productQt") &&
     body.hasOwnProperty("month") &&
     body.hasOwnProperty("unit") &&
-    body.hasOwnProperty("output_product") &&
+    body.hasOwnProperty("product_id") &&
     body.hasOwnProperty("organization") &&
     body.hasOwnProperty("year")
   ) {
@@ -95,18 +95,46 @@ router
       res.status(400).send({ message: "Error, invalid request" });
     } else {
       try {
+        var year = parseInt(req.body.year);
+        createYear(year, req.headers.address);
+
+        c_instance.addFootPrintProd(0, 0, req.body.product_id, year, {
+          from: req.headers.address,
+          gas: 3000000
+        });
+
         c_instance.addMonthlyActivity(
           req.body.description,
           req.body.productQt,
           req.body.month,
           [],
-          req.body.output_product,
+          c_instance.pfootPrintCount().toNumber(),
           req.body.organization,
           req.body.unit,
-          req.body.year,
+          year,
           { from: req.headers.address, gas: 3000000 }
         );
         res.status(201).send({ message: "Monthly activity created" });
+      } catch (error) {
+        res.status(403).send({ message: error.message });
+      }
+    }
+  })
+
+  .put("/productFootPrint", (req, res) => {
+    if (req.body.co2 == null || req.body.p_footprint == null) {
+      res.status(400).send({ message: "Error, invalid request" });
+    } else {
+      var num = req.body.co2;
+      var exp = countDecimals(num);
+      var co2eq = Math.round(num * Math.pow(10, exp));
+
+      try {
+        c_instance.updateCO2pfootprint(req.body.p_footprint, co2eq, exp, {
+          from: req.headers.address,
+          gas: 3000000
+        });
+        console.log(c_instance.productFootPrints(req.body.p_footprint));
       } catch (error) {
         res.status(403).send({ message: error.message });
       }
