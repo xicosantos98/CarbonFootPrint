@@ -1,0 +1,1123 @@
+[
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_org",
+        "type": "uint32"
+      }
+    ],
+    "name": "getOrgProducts",
+    "outputs": [
+      {
+        "name": "prods",
+        "type": "uint32[]"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_org",
+        "type": "uint32"
+      }
+    ],
+    "name": "getOrgMactivities",
+    "outputs": [
+      {
+        "name": "m_activities",
+        "type": "uint32[]"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "name": "yearly",
+    "outputs": [
+      {
+        "name": "id",
+        "type": "uint32"
+      },
+      {
+        "name": "year",
+        "type": "string"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "productsQuantitiesCount",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "name": "mactivities",
+    "outputs": [
+      {
+        "name": "id",
+        "type": "uint32"
+      },
+      {
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "name": "co2eq",
+        "type": "uint32"
+      },
+      {
+        "name": "finalProductQt",
+        "type": "uint32"
+      },
+      {
+        "name": "exp",
+        "type": "uint16"
+      },
+      {
+        "name": "month",
+        "type": "string"
+      },
+      {
+        "name": "output",
+        "type": "uint32"
+      },
+      {
+        "name": "idOrganization",
+        "type": "uint32"
+      },
+      {
+        "name": "idUnit",
+        "type": "uint32"
+      },
+      {
+        "name": "idYear",
+        "type": "uint32"
+      },
+      {
+        "name": "idUser",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "name": "productFootPrints",
+    "outputs": [
+      {
+        "name": "id",
+        "type": "uint32"
+      },
+      {
+        "name": "co2eq",
+        "type": "uint32"
+      },
+      {
+        "name": "exp",
+        "type": "uint16"
+      },
+      {
+        "name": "idProduct",
+        "type": "uint32"
+      },
+      {
+        "name": "idYear",
+        "type": "uint32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "name": "costsTypes",
+    "outputs": [
+      {
+        "name": "id",
+        "type": "uint32"
+      },
+      {
+        "name": "co2PerUnit",
+        "type": "uint32"
+      },
+      {
+        "name": "exp",
+        "type": "uint16"
+      },
+      {
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "name": "idUnit",
+        "type": "uint32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_user",
+        "type": "address"
+      }
+    ],
+    "name": "verifyUser",
+    "outputs": [
+      {
+        "name": "message",
+        "type": "string"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "yearliesCount",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "organizationsCount",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "unitsCount",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_org",
+        "type": "uint32"
+      },
+      {
+        "name": "_co2eq",
+        "type": "uint32"
+      },
+      {
+        "name": "_exp",
+        "type": "uint16"
+      }
+    ],
+    "name": "updateCO2org",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_name",
+        "type": "string"
+      },
+      {
+        "name": "_products",
+        "type": "uint32[]"
+      },
+      {
+        "name": "_m_activities",
+        "type": "uint32[]"
+      },
+      {
+        "name": "_m_fixcosts",
+        "type": "uint32[]"
+      }
+    ],
+    "name": "addOrganization",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_userResp",
+        "type": "address"
+      },
+      {
+        "name": "_userBlock",
+        "type": "address"
+      }
+    ],
+    "name": "unblockUser",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_userResp",
+        "type": "address"
+      },
+      {
+        "name": "_user",
+        "type": "address"
+      },
+      {
+        "name": "_tipo",
+        "type": "uint16"
+      },
+      {
+        "name": "_idOrganization",
+        "type": "uint32"
+      }
+    ],
+    "name": "addUser",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "productCostsCount",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "name": "productsQuantities",
+    "outputs": [
+      {
+        "name": "id",
+        "type": "uint32"
+      },
+      {
+        "name": "quantity",
+        "type": "uint32"
+      },
+      {
+        "name": "idPFootPrint",
+        "type": "uint32"
+      },
+      {
+        "name": "idM_Activity",
+        "type": "uint32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_co2",
+        "type": "uint32"
+      },
+      {
+        "name": "_exp",
+        "type": "uint16"
+      },
+      {
+        "name": "_desc",
+        "type": "string"
+      },
+      {
+        "name": "_idUnit",
+        "type": "uint32"
+      },
+      {
+        "name": "_fixCosts",
+        "type": "uint32[]"
+      },
+      {
+        "name": "_p_costs",
+        "type": "uint32[]"
+      }
+    ],
+    "name": "addCostType",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_year",
+        "type": "string"
+      }
+    ],
+    "name": "addYear",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_qtd",
+        "type": "uint32"
+      },
+      {
+        "name": "_idPfootPrint",
+        "type": "uint32"
+      },
+      {
+        "name": "_m_activity",
+        "type": "uint32"
+      }
+    ],
+    "name": "addProdQuantity",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_prod",
+        "type": "uint32"
+      }
+    ],
+    "name": "getProdQuantities",
+    "outputs": [
+      {
+        "name": "quantities",
+        "type": "uint32[]"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getUsersCount",
+    "outputs": [
+      {
+        "name": "count",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_co2",
+        "type": "uint32"
+      },
+      {
+        "name": "_exp",
+        "type": "uint16"
+      },
+      {
+        "name": "_qt",
+        "type": "uint32"
+      },
+      {
+        "name": "_costType",
+        "type": "uint32"
+      },
+      {
+        "name": "_mactivity",
+        "type": "uint32"
+      }
+    ],
+    "name": "addProductionCost",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "users",
+    "outputs": [
+      {
+        "name": "user_add",
+        "type": "address"
+      },
+      {
+        "name": "tipo",
+        "type": "uint16"
+      },
+      {
+        "name": "status",
+        "type": "bool"
+      },
+      {
+        "name": "idOrganization",
+        "type": "uint32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "name": "mfixcosts",
+    "outputs": [
+      {
+        "name": "id",
+        "type": "uint32"
+      },
+      {
+        "name": "co2eq",
+        "type": "uint32"
+      },
+      {
+        "name": "exp",
+        "type": "uint16"
+      },
+      {
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "name": "quantity",
+        "type": "uint32"
+      },
+      {
+        "name": "month",
+        "type": "string"
+      },
+      {
+        "name": "idCostType",
+        "type": "uint32"
+      },
+      {
+        "name": "idOrganization",
+        "type": "uint32"
+      },
+      {
+        "name": "idYear",
+        "type": "uint32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "name": "products",
+    "outputs": [
+      {
+        "name": "id",
+        "type": "uint32"
+      },
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "name": "prodUnit",
+        "type": "string"
+      },
+      {
+        "name": "intermediate",
+        "type": "bool"
+      },
+      {
+        "name": "idOrganization",
+        "type": "uint32"
+      },
+      {
+        "name": "idUnit",
+        "type": "uint32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_co2eq",
+        "type": "uint32"
+      },
+      {
+        "name": "_exp",
+        "type": "uint16"
+      },
+      {
+        "name": "_desc",
+        "type": "string"
+      },
+      {
+        "name": "_qtd",
+        "type": "uint32"
+      },
+      {
+        "name": "_month",
+        "type": "string"
+      },
+      {
+        "name": "_idCost",
+        "type": "uint32"
+      },
+      {
+        "name": "_idOrg",
+        "type": "uint32"
+      },
+      {
+        "name": "_idYear",
+        "type": "uint32"
+      }
+    ],
+    "name": "addMonthlyFixCost",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_org",
+        "type": "uint32"
+      }
+    ],
+    "name": "getOrgFixCosts",
+    "outputs": [
+      {
+        "name": "m_fixcosts",
+        "type": "uint32[]"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_prod",
+        "type": "uint32"
+      }
+    ],
+    "name": "getFootPrintsProd",
+    "outputs": [
+      {
+        "name": "footprints",
+        "type": "uint32[]"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "arrayUsers",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "costsTypesCount",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "name": "units",
+    "outputs": [
+      {
+        "name": "id",
+        "type": "uint32"
+      },
+      {
+        "name": "measure",
+        "type": "string"
+      },
+      {
+        "name": "initials",
+        "type": "string"
+      },
+      {
+        "name": "base",
+        "type": "uint32"
+      },
+      {
+        "name": "exp",
+        "type": "uint32"
+      },
+      {
+        "name": "idUnit",
+        "type": "uint32"
+      },
+      {
+        "name": "negative",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_name",
+        "type": "string"
+      },
+      {
+        "name": "_description",
+        "type": "string"
+      },
+      {
+        "name": "_intermediate",
+        "type": "bool"
+      },
+      {
+        "name": "_org",
+        "type": "uint32"
+      },
+      {
+        "name": "_unit",
+        "type": "uint32"
+      },
+      {
+        "name": "_footPrints",
+        "type": "uint32[]"
+      }
+    ],
+    "name": "addProduct",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "name": "organizations",
+    "outputs": [
+      {
+        "name": "id",
+        "type": "uint32"
+      },
+      {
+        "name": "co2eq",
+        "type": "uint32"
+      },
+      {
+        "name": "exp",
+        "type": "uint16"
+      },
+      {
+        "name": "name",
+        "type": "string"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "pfootPrintCount",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_co2eq",
+        "type": "uint32"
+      },
+      {
+        "name": "_exp",
+        "type": "uint16"
+      },
+      {
+        "name": "_idProd",
+        "type": "uint32"
+      },
+      {
+        "name": "_idYear",
+        "type": "uint32"
+      }
+    ],
+    "name": "addFootPrintProd",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "productsCount",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_mactivity",
+        "type": "uint32"
+      },
+      {
+        "name": "_co2eq",
+        "type": "uint32"
+      },
+      {
+        "name": "_exp",
+        "type": "uint16"
+      }
+    ],
+    "name": "updateCO2mactivity",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_add",
+        "type": "address"
+      }
+    ],
+    "name": "isNull",
+    "outputs": [
+      {
+        "name": "addressNull",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_userResp",
+        "type": "address"
+      },
+      {
+        "name": "_userBlock",
+        "type": "address"
+      }
+    ],
+    "name": "blockUser",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "mactivitiesCount",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "name": "productCosts",
+    "outputs": [
+      {
+        "name": "id",
+        "type": "uint32"
+      },
+      {
+        "name": "co2eq",
+        "type": "uint32"
+      },
+      {
+        "name": "exp",
+        "type": "uint16"
+      },
+      {
+        "name": "quantity",
+        "type": "uint32"
+      },
+      {
+        "name": "idCostType",
+        "type": "uint32"
+      },
+      {
+        "name": "idM_Activity",
+        "type": "uint32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_desc",
+        "type": "string"
+      },
+      {
+        "name": "_qtd",
+        "type": "uint32"
+      },
+      {
+        "name": "_month",
+        "type": "string"
+      },
+      {
+        "name": "_prodQuantities",
+        "type": "uint32[]"
+      },
+      {
+        "name": "_output",
+        "type": "uint32"
+      },
+      {
+        "name": "_idOrg",
+        "type": "uint32"
+      },
+      {
+        "name": "_idUnit",
+        "type": "uint32"
+      },
+      {
+        "name": "_idYear",
+        "type": "uint32"
+      }
+    ],
+    "name": "addMonthlyActivity",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "mfixcostsCount",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "_candidateAddress",
+        "type": "address"
+      }
+    ],
+    "name": "registUserEvent",
+    "type": "event"
+  }
+]

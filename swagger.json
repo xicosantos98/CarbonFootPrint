@@ -1,0 +1,606 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Carbon Foot Print API - Ethereum blockchain",
+    "description": "API developed in Node.js with Express framework"
+  },
+  "host": "localhost:3000",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "Users",
+      "description": "API for users in the blockchain"
+    },
+    {
+      "name": "Products",
+      "description": "API for products in the blockchain"
+    },
+    {
+      "name": "Organizations",
+      "description": "API for organizations in the blockchain"
+    },
+    {
+      "name": "Cost_Types",
+      "description": "API for cost types in the blockchain"
+    },
+    {
+      "name": "Monthly Fix Costs",
+      "description": "API for monthly fix costs (organization) in the blockchain"
+    },
+    {
+      "name": "Years",
+      "description": "API for years in the blockchain"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Create new user in the blockchain",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User that we want to create",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "User responsible for the transaction"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New user is created"
+          },
+          "400": {
+            "description": "Invalide request"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get all users in the blockchain",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{address}": {
+      "parameters": [
+        {
+          "name": "userAddress",
+          "in": "path",
+          "required": true,
+          "description": "Address of user that we want to find",
+          "type": "string",
+          "example": "0xB33C21aFFf4F04E36E0bb10580E4e25F050b4740"
+        }
+      ],
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get user with given address",
+        "responses": {
+          "200": {
+            "description": "User is found",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "users/block": {
+      "put": {
+        "summary": "Block user with give address",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "userAddress",
+            "in": "body",
+            "required": true,
+            "description": "Address of user that we want to block",
+            "type": "string",
+            "example": "0xB33C21aFFf4F04E36E0bb10580E4e25F050b4740"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "User responsible for the transaction"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User is blocked"
+          }
+        }
+      }
+    },
+    "users/unblock": {
+      "put": {
+        "summary": "Unblock user with given address",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "userAddress",
+            "in": "body",
+            "required": true,
+            "description": "Address of user that we want to unblock",
+            "type": "string",
+            "example": "0xB33C21aFFf4F04E36E0bb10580E4e25F050b4740"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "User responsible for the transaction"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User is blocked"
+          }
+        }
+      }
+    },
+    "/organizations": {
+      "post": {
+        "tags": ["Organizations"],
+        "description": "Create new organization in the blockchain",
+        "parameters": [
+          {
+            "name": "organization",
+            "in": "body",
+            "description": "Organization that we want to create",
+            "example": "New Organization"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "User responsible for the transaction"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New organization is created"
+          },
+          "400": {
+            "description": "Invalide request"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Organizations"],
+        "summary": "Get all organizations in the blockchain",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Organization"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organizations/{id}": {
+      "parameters": [
+        {
+          "name": "organizationId",
+          "in": "path",
+          "required": true,
+          "description": "Id of organization that we want to find",
+          "type": "integer",
+          "example": "2"
+        }
+      ],
+      "get": {
+        "tags": ["Organizations"],
+        "summary": "Get organization with given id",
+        "responses": {
+          "200": {
+            "description": "Organization is found",
+            "schema": {
+              "$ref": "#/definitions/Organization"
+            }
+          }
+        }
+      }
+    },
+    "/products": {
+      "post": {
+        "tags": ["Products"],
+        "description": "Create new product in the blockchain",
+        "parameters": [
+          {
+            "name": "product",
+            "in": "body",
+            "description": "Product that we want to create",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "User responsible for the transaction"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New product is created"
+          },
+          "400": {
+            "description": "Invalide request"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Products"],
+        "summary": "Get all products in the blockchain",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Product"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "parameters": [
+        {
+          "name": "productId",
+          "in": "path",
+          "required": true,
+          "description": "Id of product that we want to find",
+          "type": "integer",
+          "example": "2"
+        }
+      ],
+      "get": {
+        "tags": ["Products"],
+        "summary": "Get product with given id",
+        "responses": {
+          "200": {
+            "description": "Product is found",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        }
+      }
+    },
+    "/products/footprint": {
+      "post": {
+        "tags": ["Products"],
+        "description": "Create new foot print of a product in the blockchain",
+        "parameters": [
+          {
+            "name": "foot_print",
+            "in": "body",
+            "description": "Foot Print that we want to add",
+            "schema": {
+              "$ref": "#/definitions/NewFootPrint"
+            }
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "User responsible for the transaction"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New foot print is added to the product"
+          },
+          "400": {
+            "description": "Invalide request"
+          }
+        }
+      }
+    },
+    "/cost_type": {
+      "post": {
+        "tags": ["Cost_Types"],
+        "description": "Create new cost type in the blockchain",
+        "parameters": [
+          {
+            "name": "cost type",
+            "in": "body",
+            "description": "Cost Type that we want to add",
+            "schema": {
+              "$ref": "#/definitions/Cost_Type"
+            }
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "User responsible for the transaction"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New cost type is created"
+          },
+          "400": {
+            "description": "Invalide request"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Cost_Types"],
+        "summary": "Get all cost types in the blockchain",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Cost_Type"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cost_type/{id}": {
+      "parameters": [
+        {
+          "name": "costTypeId",
+          "in": "path",
+          "required": true,
+          "description": "Id of cost type that we want to find",
+          "type": "integer",
+          "example": "2"
+        }
+      ],
+      "get": {
+        "tags": ["Cost_Types"],
+        "summary": "Get cost type with given id",
+        "responses": {
+          "200": {
+            "description": "Cost Type is found",
+            "schema": {
+              "$ref": "#/definitions/Cost_Type"
+            }
+          }
+        }
+      }
+    },
+    "/years": {
+      "post": {
+        "tags": ["Years"],
+        "description": "Create new year in the blockchain",
+        "parameters": [
+          {
+            "name": "number of year",
+            "in": "body",
+            "description": "Year that we want to add",
+            "schema": {
+              "$ref": "#/definitions/Year"
+            }
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "User responsible for the transaction"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New year is created"
+          },
+          "400": {
+            "description": "Invalide request"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Years"],
+        "summary": "Get all years in the blockchain",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Year"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ID_Array": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "example": 2
+        }
+      }
+    },
+    "User": {
+      "required": ["address", "type", "organization"],
+      "properties": {
+        "address": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "type": {
+          "type": "integer"
+        },
+        "organization": {
+          "type": "integer"
+        }
+      }
+    },
+    "Users": {
+      "type": "array",
+      "$ref": "#/definitions/User"
+    },
+    "Organization": {
+      "required": ["name"],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "co2eq": {
+          "type": "integer"
+        },
+        "exp": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ID_Array"
+          }
+        },
+        "monthly_activities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ID_Array"
+          }
+        },
+        "monthly_fix_costs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ID_Array"
+          }
+        }
+      }
+    },
+    "Product": {
+      "required": [
+        "name",
+        "description",
+        "intermediate",
+        "organization",
+        "unit"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "prodUnit": {
+          "type": "string"
+        },
+        "intermediate": {
+          "type": "boolean"
+        },
+        "organization": {
+          "type": "integer"
+        },
+        "unit": {
+          "type": "integer"
+        },
+        "productFootPrints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ID_Array"
+          }
+        }
+      }
+    },
+    "NewFootPrint": {
+      "required": ["co2", "product", "year"],
+      "properties": {
+        "co2": {
+          "type": "float"
+        },
+        "product": {
+          "type": "integer"
+        },
+        "year": {
+          "type": "integer"
+        }
+      }
+    },
+    "Cost_Type": {
+      "required": ["description", "co2", "unit"],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "co2": {
+          "type": "integer"
+        },
+        "exp": {
+          "type": "integer"
+        },
+        "description": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "integer"
+        },
+        "m_fixcosts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ID_Array"
+          }
+        },
+        "products_costs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ID_Array"
+          }
+        }
+      }
+    },
+    "Year": {
+      "required": ["year"],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "year": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
