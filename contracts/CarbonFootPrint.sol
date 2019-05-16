@@ -19,7 +19,7 @@ contract CarbonFootPrint{
         uint32 co2eq;
         uint16 exp;
         uint32 idProduct;
-        uint32 idYear;
+        uint32 year;
     }
 
     struct ProductQuantity{
@@ -36,6 +36,9 @@ contract CarbonFootPrint{
         uint32 co2eq;
         uint16 exp;
         string name;
+        string description;
+        string businessArea;
+        string email;
         uint32[] products;
         uint32[] m_activities;
         uint32[] m_fixcosts;
@@ -53,7 +56,7 @@ contract CarbonFootPrint{
         uint32 output; // -- codigo do product foot print de output
         uint32 idOrganization;
         uint32 idUnit;
-        uint32 idYear;
+        uint32 year;
         address idUser;
     }
 
@@ -67,7 +70,7 @@ contract CarbonFootPrint{
         string month;
         uint32 idCostType;
         uint32 idOrganization;
-        uint32 idYear;
+        uint32 year;
     }
 
     // -- Estrutura dos custos dos produtos
@@ -109,10 +112,16 @@ contract CarbonFootPrint{
         bool status;
         uint32 idOrganization;
     }
-
-    struct Year{
+    
+    // -- Request
+    struct Request{
         uint32 id;
-        string year;
+        address user;
+        bool accepted;
+        string org_name;
+        string org_desc;
+        string org_barea;
+        string org_email;
     }
 
 
@@ -146,9 +155,11 @@ contract CarbonFootPrint{
 
     mapping(uint32 => ProductQuantity) public productsQuantities;
     uint32 public productsQuantitiesCount;
+    
+    mapping(uint32 => Request) public requests;
+    uint32 public requestsCount;
 
-    mapping(uint32 => Year) public yearly;
-    uint32 public yearliesCount;
+    uint32[] public arrayYears;
 
     event registUserEvent (
         address indexed _candidateAddress
@@ -164,7 +175,11 @@ contract CarbonFootPrint{
         addUnit("gram", "g", 10, 6, 1, true);
         addUnit("milligram", "mg", 10, 9, 1, true);
 
-        addYear("2019");
+        addYear(2019);
+    }
+
+    function getYearsCount() public view returns(uint count){
+        return arrayYears.length;
     }
 
     function getUsersCount() public view returns(uint count) {
@@ -243,7 +258,9 @@ contract CarbonFootPrint{
         units[unitsCount] = Unit(unitsCount, _measure, _initials, _base, _exp, _idUnit, _negative);
     }
 
-    function addOrganization(string memory _name, uint32[] memory _products, uint32[] memory _m_activities, uint32[] memory _m_fixcosts) public {
+    function addOrganization(string memory _name, string memory _description, 
+    string memory _businessArea, string memory _email, 
+    uint32[] memory _products, uint32[] memory _m_activities, uint32[] memory _m_fixcosts) public {
         require(users[msg.sender].tipo == 0, "You need to have admin permissions");
         bool exist = false;
 
@@ -255,9 +272,16 @@ contract CarbonFootPrint{
         }
 
         require(!exist, "Organization already registred");
+        
+        for(uint32 i=1; i <= requestsCount; i++){
+            string memory name = requests[i].org_name;
+            if(keccak256(abi.encodePacked(name)) == keccak256(abi.encodePacked(_name))){
+                requests[i].accepted = true;
+            }
+        }
 
         organizationsCount++;
-        organizations[organizationsCount] = Organization(organizationsCount, 0, 0, _name, _products, _m_activities, _m_fixcosts); 
+        organizations[organizationsCount] = Organization(organizationsCount, 0, 0, _name, _description, _businessArea, _email, _products, _m_activities, _m_fixcosts); 
     }
 
 
@@ -285,25 +309,33 @@ contract CarbonFootPrint{
 
     }
 
-    function addYear(string memory _year) public {
+    function addYear(uint32 _year) public {
         require(users[msg.sender].tipo == 0, "You need to have admin permissions");
+        require(!existsYear(_year), "Year already registred");
         
-        
+        arrayYears.push(_year);
+    }
+    
+    
+    function addRequest(address _user, string memory _orgName, string memory _orgDesc, 
+    string memory _orgBarea, string memory _orgEmail) public {
+        requestsCount ++;
+        requests[requestsCount] = Request(requestsCount, _user, false, _orgName, _orgDesc, _orgBarea, _orgEmail);
+    }
+    
+    function existsYear(uint32 _year) public view returns (bool exists){
         bool exist = false;
-        for(uint32 i=1; i <= yearliesCount; i++){
-            string memory name = yearly[i].year;
-            if(keccak256(abi.encodePacked(name)) == keccak256(abi.encodePacked(_year))){
-                exist = true;
+        
+        for(uint i=0; i < arrayYears.length; i++){
+            if(arrayYears[i] == _year){
+                return true;
             }
         }
         
-        require(!exist, "Year already registred");
-        
-        yearliesCount++;
-        yearly[yearliesCount] = Year(yearliesCount, _year);
+        return exist;
     }
 
-    function addFootPrintProd(uint32 _co2eq, uint16 _exp, uint32 _idProd, uint32 _idYear) public {
+    function addFootPrintProd(uint32 _co2eq, uint16 _exp, uint32 _idProd, uint32 _year) public {
         
         //require(users[msg.sender].idOrganization == products[_idProd].idOrganization, "The product doesnt belong to your organization");        
         require(products[_idProd].id != uint32(0), "Product doesn't exist");
@@ -311,7 +343,7 @@ contract CarbonFootPrint{
 
         
         pfootPrintCount++;
-        productFootPrints[pfootPrintCount] = ProductFootprint(pfootPrintCount, _co2eq, _exp, _idProd, _idYear);
+        productFootPrints[pfootPrintCount] = ProductFootprint(pfootPrintCount, _co2eq, _exp, _idProd, _year);
         products[_idProd].productFootPrints.push(pfootPrintCount);
     }
 
@@ -326,23 +358,23 @@ contract CarbonFootPrint{
     }
 
     function addMonthlyFixCost(uint32 _co2eq, uint16 _exp, string memory _desc, uint32 _qtd, 
-        string memory _month,uint32 _idCost,uint32 _idOrg, uint32 _idYear) public{
+        string memory _month,uint32 _idCost,uint32 _idOrg, uint32 _year) public{
 
         //require(users[msg.sender].idOrganization == _idOrg, "You need to belong to the organization");        
 
         mfixcostsCount++;
-        mfixcosts[mfixcostsCount] = MonthlyFixCost(mfixcostsCount, _co2eq, _exp, _desc, _qtd, _month, _idCost, _idOrg, _idYear);
+        mfixcosts[mfixcostsCount] = MonthlyFixCost(mfixcostsCount, _co2eq, _exp, _desc, _qtd, _month, _idCost, _idOrg, _year);
         costsTypes[_idCost].m_fixcosts.push(mfixcostsCount);
         organizations[_idOrg].m_fixcosts.push(mfixcostsCount);
     }
 
     function addMonthlyActivity(string memory _desc, uint32 _qtd, string memory _month,
-        uint32[] memory _prodQuantities, uint32 _output, uint32 _idOrg, uint32 _idUnit, uint32 _idYear) public{
+        uint32[] memory _prodQuantities, uint32 _output, uint32 _idOrg, uint32 _idUnit, uint32 _year) public{
         
         //require(users[msg.sender].idOrganization == _idOrg, "You need to belong to the organization");    
 
         mactivitiesCount++;
-        mactivities[mactivitiesCount] = MonthlyActivity(mactivitiesCount, _desc, 0, _qtd, 0, _month, _prodQuantities, _output, _idOrg, _idUnit, _idYear, msg.sender);
+        mactivities[mactivitiesCount] = MonthlyActivity(mactivitiesCount, _desc, 0, _qtd, 0, _month, _prodQuantities, _output, _idOrg, _idUnit, _year, msg.sender);
         organizations[_idOrg].m_activities.push(mactivitiesCount);
     }
     
@@ -367,6 +399,11 @@ contract CarbonFootPrint{
     function updateCO2mactivity(uint32 _mactivity, uint32 _co2eq, uint16 _exp) public {
         mactivities[_mactivity].co2eq = _co2eq;
         mactivities[_mactivity].exp = _exp;
+    }
+    
+    function updateCO2pfootprint(uint32 _pfootprint, uint32 _co2eq, uint16 _exp) public {
+        productFootPrints[_pfootprint].co2eq = _co2eq;
+        productFootPrints[_pfootprint].exp = _exp;
     }
 
     function verifyUser(address _user) public view returns(string memory message){
