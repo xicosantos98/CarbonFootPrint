@@ -22,6 +22,49 @@
     "constant": true,
     "inputs": [
       {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "name": "requests",
+    "outputs": [
+      {
+        "name": "id",
+        "type": "uint32"
+      },
+      {
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "name": "accepted",
+        "type": "bool"
+      },
+      {
+        "name": "org_name",
+        "type": "string"
+      },
+      {
+        "name": "org_desc",
+        "type": "string"
+      },
+      {
+        "name": "org_barea",
+        "type": "string"
+      },
+      {
+        "name": "org_email",
+        "type": "string"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
         "name": "_org",
         "type": "uint32"
       }
@@ -168,6 +211,36 @@
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_user",
+        "type": "address"
+      },
+      {
+        "name": "_orgName",
+        "type": "string"
+      },
+      {
+        "name": "_orgDesc",
+        "type": "string"
+      },
+      {
+        "name": "_orgBarea",
+        "type": "string"
+      },
+      {
+        "name": "_orgEmail",
+        "type": "string"
+      }
+    ],
+    "name": "addRequest",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "constant": true,
     "inputs": [
       {
@@ -294,32 +367,6 @@
       }
     ],
     "name": "addYear",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_name",
-        "type": "string"
-      },
-      {
-        "name": "_products",
-        "type": "uint32[]"
-      },
-      {
-        "name": "_m_activities",
-        "type": "uint32[]"
-      },
-      {
-        "name": "_m_fixcosts",
-        "type": "uint32[]"
-      }
-    ],
-    "name": "addOrganization",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
@@ -873,10 +920,60 @@
       {
         "name": "name",
         "type": "string"
+      },
+      {
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "name": "businessArea",
+        "type": "string"
+      },
+      {
+        "name": "email",
+        "type": "string"
       }
     ],
     "payable": false,
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_name",
+        "type": "string"
+      },
+      {
+        "name": "_description",
+        "type": "string"
+      },
+      {
+        "name": "_businessArea",
+        "type": "string"
+      },
+      {
+        "name": "_email",
+        "type": "string"
+      },
+      {
+        "name": "_products",
+        "type": "uint32[]"
+      },
+      {
+        "name": "_m_activities",
+        "type": "uint32[]"
+      },
+      {
+        "name": "_m_fixcosts",
+        "type": "uint32[]"
+      }
+    ],
+    "name": "addOrganization",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -1110,6 +1207,20 @@
     "constant": true,
     "inputs": [],
     "name": "mfixcostsCount",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "requestsCount",
     "outputs": [
       {
         "name": "",

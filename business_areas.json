@@ -1,0 +1,1528 @@
+[
+  [
+    {
+      "Name": "Nível",
+      "design": "1"
+    },
+    {
+      "Name": "Código",
+      "design": "A"
+    },
+    {
+      "Name": "Designação",
+      "design": "Agricultura, produção animal, caça, floresta e pesca"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "01"
+    },
+    {
+      "Name": "Designação",
+      "design": "Agricultura, produção animal, caça e actividades dos serviços relacionados"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "02"
+    },
+    {
+      "Name": "Designação",
+      "design": "Silvicultura e exploração florestal"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "03"
+    },
+    {
+      "Name": "Designação",
+      "design": "Pesca e aquicultura"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "1"
+    },
+    {
+      "Name": "Código",
+      "design": "B"
+    },
+    {
+      "Name": "Designação",
+      "design": "Indústrias extractivas"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "05"
+    },
+    {
+      "Name": "Designação",
+      "design": "Extracção de hulha e lenhite"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "06"
+    },
+    {
+      "Name": "Designação",
+      "design": "Extracção de petróleo bruto e gás natural"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "07"
+    },
+    {
+      "Name": "Designação",
+      "design": "Extracção e preparação de minérios metálicos"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "08"
+    },
+    {
+      "Name": "Designação",
+      "design": "Outras indústrias extractivas"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "09"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades dos serviços relacionados com as indústrias extractivas"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "1"
+    },
+    {
+      "Name": "Código",
+      "design": "C"
+    },
+    {
+      "Name": "Designação",
+      "design": "Indústrias transformadoras"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "10"
+    },
+    {
+      "Name": "Designação",
+      "design": "Indústrias alimentares"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "11"
+    },
+    {
+      "Name": "Designação",
+      "design": "Indústria das bebidas"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "12"
+    },
+    {
+      "Name": "Designação",
+      "design": "Indústria do tabaco"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "13"
+    },
+    {
+      "Name": "Designação",
+      "design": "Fabricação de têxteis"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "14"
+    },
+    {
+      "Name": "Designação",
+      "design": "Indústria do vestuário"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "15"
+    },
+    {
+      "Name": "Designação",
+      "design": "Indústria do couro e dos produtos do couro"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "16"
+    },
+    {
+      "Name": "Designação",
+      "design": "Indústrias da madeira e da cortiça e suas obras, excepto mobiliário; fabricação de obras de cestaria e de espartaria"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "17"
+    },
+    {
+      "Name": "Designação",
+      "design": "Fabricação de pasta, de papel, de cartão e seus artigos"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "18"
+    },
+    {
+      "Name": "Designação",
+      "design": "Impressão e reprodução de suportes gravados"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "19"
+    },
+    {
+      "Name": "Designação",
+      "design": "Fabricação de coque, produtos petrolíferos refinados e de aglomerados de combustíveis"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "20"
+    },
+    {
+      "Name": "Designação",
+      "design": "Fabricação de produtos químicos e de fibras sintéticas ou artificiais, excepto produtos farmacêuticos"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "21"
+    },
+    {
+      "Name": "Designação",
+      "design": "Fabricação de produtos farmacêuticos de base e de  preparações farmacêuticas"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "22"
+    },
+    {
+      "Name": "Designação",
+      "design": "Fabricação de artigos de borracha e de matérias plásticas"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "23"
+    },
+    {
+      "Name": "Designação",
+      "design": "Fabrico de outros produtos minerais não metálicos"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "24"
+    },
+    {
+      "Name": "Designação",
+      "design": "Indústrias metalúrgicas de base"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "25"
+    },
+    {
+      "Name": "Designação",
+      "design": "Fabricação de produtos metálicos, excepto máquinas e equipamentos"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "26"
+    },
+    {
+      "Name": "Designação",
+      "design": "Fabricação de equipamentos informáticos, equipamento para comunicações e produtos electrónicos e ópticos"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "27"
+    },
+    {
+      "Name": "Designação",
+      "design": "Fabricação de equipamento eléctrico"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "28"
+    },
+    {
+      "Name": "Designação",
+      "design": "Fabricação de máquinas e de equipamentos, n.e."
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "29"
+    },
+    {
+      "Name": "Designação",
+      "design": "Fabricação de veículos automóveis, reboques, semi-reboques e componentes para veículos automóveis"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "30"
+    },
+    {
+      "Name": "Designação",
+      "design": "Fabricação de outro equipamento de transporte"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "31"
+    },
+    {
+      "Name": "Designação",
+      "design": "Fabrico de mobiliário e de colchões"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "32"
+    },
+    {
+      "Name": "Designação",
+      "design": "Outras indústrias transformadoras"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "33"
+    },
+    {
+      "Name": "Designação",
+      "design": "Reparação, manutenção e instalação de máquinas e equipamentos"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "1"
+    },
+    {
+      "Name": "Código",
+      "design": "D"
+    },
+    {
+      "Name": "Designação",
+      "design": "Electricidade, gás, vapor, água quente e fria e ar frio"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "35"
+    },
+    {
+      "Name": "Designação",
+      "design": "Electricidade, gás, vapor, água quente e fria e ar frio"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "1"
+    },
+    {
+      "Name": "Código",
+      "design": "E"
+    },
+    {
+      "Name": "Designação",
+      "design": "Captação, tratamento e distribuição de água; saneamento, gestão de resíduos e despoluição"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "36"
+    },
+    {
+      "Name": "Designação",
+      "design": "Captação, tratamento e distribuição de água"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "37"
+    },
+    {
+      "Name": "Designação",
+      "design": "Recolha, drenagem e tratamento de águas residuais"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "38"
+    },
+    {
+      "Name": "Designação",
+      "design": "Recolha, tratamento e eliminação de resíduos; valorização de materiais"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "39"
+    },
+    {
+      "Name": "Designação",
+      "design": "Descontaminação e actividades similares"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "1"
+    },
+    {
+      "Name": "Código",
+      "design": "F"
+    },
+    {
+      "Name": "Designação",
+      "design": "Construção"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "41"
+    },
+    {
+      "Name": "Designação",
+      "design": "Promoção imobiliária (desenvolvimento de projectos de edifícios); construção de edifícios"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "42"
+    },
+    {
+      "Name": "Designação",
+      "design": "Engenharia civil"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "43"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades especializadas de construção"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "1"
+    },
+    {
+      "Name": "Código",
+      "design": "G"
+    },
+    {
+      "Name": "Designação",
+      "design": "Comércio por grosso e a retalho; reparação de veículos automóveis e motociclos"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "45"
+    },
+    {
+      "Name": "Designação",
+      "design": "Comércio, manutenção e reparação, de veículos automóveis e motociclos"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "46"
+    },
+    {
+      "Name": "Designação",
+      "design": "Comércio por grosso (inclui agentes), excepto de veículos automóveis e motociclos"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "47"
+    },
+    {
+      "Name": "Designação",
+      "design": "Comércio a retalho, excepto de veículos automóveis e motociclos"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "1"
+    },
+    {
+      "Name": "Código",
+      "design": "H"
+    },
+    {
+      "Name": "Designação",
+      "design": "Transportes e armazenagem"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "49"
+    },
+    {
+      "Name": "Designação",
+      "design": "Transportes terrestres e transportes por oleodutos ou gasodutos"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "50"
+    },
+    {
+      "Name": "Designação",
+      "design": "Transportes por água"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "51"
+    },
+    {
+      "Name": "Designação",
+      "design": "Transportes aéreos"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "52"
+    },
+    {
+      "Name": "Designação",
+      "design": "Armazenagem e actividades auxiliares dos transportes (inclui manuseamento)"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "53"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades postais e de courier"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "1"
+    },
+    {
+      "Name": "Código",
+      "design": "I"
+    },
+    {
+      "Name": "Designação",
+      "design": "Alojamento, restauração e similares"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "55"
+    },
+    {
+      "Name": "Designação",
+      "design": "Alojamento"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "56"
+    },
+    {
+      "Name": "Designação",
+      "design": "Restauração e similares"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "1"
+    },
+    {
+      "Name": "Código",
+      "design": "J"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades de informação e de comunicação"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "58"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades de edição"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "59"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades cinematográficas, de vídeo, de produção de programas de televisão, de gravação de som e de edição de música"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "60"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades de rádio e de televisão"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "61"
+    },
+    {
+      "Name": "Designação",
+      "design": "Telecomunicações"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "62"
+    },
+    {
+      "Name": "Designação",
+      "design": "Consultoria e programação informática e actividades relacionadas"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "63"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades dos serviços de informação"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "1"
+    },
+    {
+      "Name": "Código",
+      "design": "K"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades financeiras e de seguros"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "64"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades de serviços financeiros, excepto seguros e fundos de pensões"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "65"
+    },
+    {
+      "Name": "Designação",
+      "design": "Seguros, resseguros e fundos de pensões, excepto segurança social obrigatória"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "66"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades auxiliares de serviços financeiros e dos seguros"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "1"
+    },
+    {
+      "Name": "Código",
+      "design": "L"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades imobiliárias"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "68"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades imobiliárias"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "1"
+    },
+    {
+      "Name": "Código",
+      "design": "M"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades de consultoria, científicas, técnicas e similares"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "69"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades jurídicas e de contabilidade"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "70"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades das sedes sociais e de consultoria para a gestão"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "71"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades de arquitectura, de engenharia e técnicas afins; actividades de ensaios e de análises técnicas"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "72"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades de investigação científica e de desenvolvimento"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "73"
+    },
+    {
+      "Name": "Designação",
+      "design": "Publicidade, estudos de mercado e sondagens de opinião"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "74"
+    },
+    {
+      "Name": "Designação",
+      "design": "Outras actividades de consultoria, científicas, técnicas e similares"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "75"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades veterinárias"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "1"
+    },
+    {
+      "Name": "Código",
+      "design": "N"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades administrativas e dos serviços de apoio"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "77"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades de aluguer"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "78"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades de emprego"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "79"
+    },
+    {
+      "Name": "Designação",
+      "design": "Agências de viagem, operadores turísticos, outros serviços de reservas e actividades relacionadas"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "80"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades de investigação e segurança"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "81"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades relacionadas com edifícios, plantação e manutenção de jardins"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "82"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades de serviços administrativos e de apoio prestados às empresas"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "1"
+    },
+    {
+      "Name": "Código",
+      "design": "O"
+    },
+    {
+      "Name": "Designação",
+      "design": "Administração Pública e Defesa; Segurança Social Obrigatória"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "84"
+    },
+    {
+      "Name": "Designação",
+      "design": "Administração Pública e Defesa; Segurança Social Obrigatória"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "1"
+    },
+    {
+      "Name": "Código",
+      "design": "P"
+    },
+    {
+      "Name": "Designação",
+      "design": "Educação"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "85"
+    },
+    {
+      "Name": "Designação",
+      "design": "Educação"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "1"
+    },
+    {
+      "Name": "Código",
+      "design": "Q"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades de saúde humana e apoio social"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "86"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades de saúde humana"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "87"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades de apoio social com alojamento"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "88"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades de apoio social sem alojamento"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "1"
+    },
+    {
+      "Name": "Código",
+      "design": "R"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades artísticas, de espectáculos, desportivas e recreativas"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "90"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades de teatro, de música, de dança e outras actividades artísticas e literárias"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "91"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades das bibliotecas, arquivos, museus e outras actividades culturais"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "92"
+    },
+    {
+      "Name": "Designação",
+      "design": "Lotarias e outros jogos de aposta"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "93"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades desportivas, de diversão e recreativas"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "1"
+    },
+    {
+      "Name": "Código",
+      "design": "S"
+    },
+    {
+      "Name": "Designação",
+      "design": "Outras actividades de serviços"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "94"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades das organizações associativas"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "95"
+    },
+    {
+      "Name": "Designação",
+      "design": "Reparação de computadores e de bens de uso pessoal e doméstico"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "96"
+    },
+    {
+      "Name": "Designação",
+      "design": "Outras actividades de serviços pessoais"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "1"
+    },
+    {
+      "Name": "Código",
+      "design": "T"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades das famílias empregadoras de pessoal doméstico e actividades de produção das famílias para uso próprio"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "97"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades das famílias empregadoras de pessoal doméstico"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "98"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades de produção de bens e serviços pelas famílias para uso próprio"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "1"
+    },
+    {
+      "Name": "Código",
+      "design": "U"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades dos organismos internacionais e outras instituições extra-territoriais"
+    }
+  ],
+  [
+    {
+      "Name": "Nível",
+      "design": "2"
+    },
+    {
+      "Name": "Código",
+      "design": "99"
+    },
+    {
+      "Name": "Designação",
+      "design": "Actividades dos organismos internacionais e outras instituições extra-territoriais"
+    }
+  ]
+]

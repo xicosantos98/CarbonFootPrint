@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const Web3 = require("web3");
+var cors = require("cors");
 const fs = require("fs");
 const bodyParser = require("body-parser");
 var abijson,
@@ -15,7 +16,7 @@ fs.readFile("./abi.json", handleFile);
 function handleFile(err, data) {
   if (err) console.log(err);
   abijson = JSON.parse(data);
-  contractAddress = "0x25dff896354a7e5ab0d17045712a86c31e4719db";
+  contractAddress = "0x5a9b0098875e1ee6cb251b0308278f0721acbc74";
 
   console.log("Contract addres: " + contractAddress);
   initWeb3();
@@ -63,6 +64,7 @@ createYear = function(year, address) {
 };
 
 app.use(express.json());
+app.use(cors());
 
 app.use((req, res, next) => {
   if (req.method == "POST" || req.method == "PUT") {
@@ -101,6 +103,7 @@ var mfixcostRoute = require("./routes/m_costs");
 var yearsRoute = require("./routes/years");
 var mactivitiesRoute = require("./routes/m_activities");
 var pcostsRoute = require("./routes/p_costs");
+var reqsRoute = require("./routes/requests");
 
 app.use("/api/v1/users", usersRoute);
 app.use("/api/v1/organizations", orgsRoute);
@@ -110,6 +113,7 @@ app.use("/api/v1/m_costs", mfixcostRoute);
 app.use("/api/v1/years", yearsRoute);
 app.use("/api/v1/m_activities", mactivitiesRoute);
 app.use("/api/v1/p_costs", pcostsRoute);
+app.use("/api/v1/requests", reqsRoute);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
