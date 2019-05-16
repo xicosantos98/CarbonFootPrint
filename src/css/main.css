@@ -1,0 +1,34 @@
+.sidebar {
+    background: #4caf50 !important;
+}
+
+.sidebar .nav-link.active {
+    color: #fff !important;
+    background: #0b5b3b !important;
+}
+
+.sidebar .nav-link:hover {
+    background: #66cc99 !important;
+}
+
+.sidebar .nav-link .nav-icon {
+    color: #fff !important;
+}
+
+.app-header {
+    border-bottom: 1px solid #0b5b3b !important;
+}
+
+.app-header .navbar-toggler-icon {
+    background-image: url('../assets/icons/burger.png') !important;
+    height: 20px !important;
+}
+
+.app-header .navbar-toggler-icon:hover {
+    background-image: url('../assets/icons/burger.png') !important;
+    height: 20px !important;
+}
+
+.img-avatar {
+    background: #4caf50 !important;
+}
