@@ -1,18 +1,32 @@
 .sidebar {
-    background: #4caf50 !important;
+    background: #fff !important;
 }
+
+.sidebar .nav-link {
+    color: #0b5b3b !important;
+}
+
 
 .sidebar .nav-link.active {
     color: #fff !important;
     background: #0b5b3b !important;
 }
 
+.sidebar .nav-link.active .nav-icon {
+    color: #fff !important;
+}
+
 .sidebar .nav-link:hover {
     background: #66cc99 !important;
+    color: #fff !important;
+}
+
+.sidebar .nav-link:hover .nav-icon {
+    color: #fff !important;
 }
 
 .sidebar .nav-link .nav-icon {
-    color: #fff !important;
+    color: #0b5b3b !important;
 }
 
 .app-header {
