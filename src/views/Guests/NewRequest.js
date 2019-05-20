@@ -180,7 +180,7 @@ class NewRequest extends Component {
                   onChange={this.handleChangeBarea}
                   inputProps={{
                     name: "business_area",
-                    id: "barea"
+                    id: "bare"
                   }}
                 >
                   {this.state.b_areas.map(area => (
