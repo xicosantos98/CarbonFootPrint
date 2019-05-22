@@ -42,6 +42,7 @@ router
   })
 
   .get("/pending", function(req, res) {
+    console.log(req.originalUrl);
     var count = c_instance.requestsCount().toNumber();
     var requests = [];
 
@@ -61,7 +62,7 @@ router
     }
 
     if (requests.length == 0) {
-      res.status(200).json({ warning: "0 pending requests found" });
+      res.status(200).json({ warning: "0 pending requests found", length: 0 });
     } else {
       res.status(200).json(requests);
     }
