@@ -83,6 +83,7 @@ class DefaultHeader extends Component {
 
         <AppNavbarBrand
           full={{ src: logo, width: 135, height: 45, alt: "CoreUI Logo" }}
+          href="#/"
         />
         {this.props.role != "guest" ? (
           <AppSidebarToggler className="d-md-down-none" display="lg" />
