@@ -3,7 +3,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import { Container } from "reactstrap";
 
 import { AppHeader } from "@coreui/react";
-
+import loading_gif from "../../assets/loading.gif";
 // routes config
 import routes from "../../routes_guest";
 
@@ -25,7 +25,15 @@ class Guests extends Component {
   }
 
   loading = () => (
-    <div className="animated fadeIn pt-1 text-center">Loading...</div>
+    <div
+      className="app animated fadeIn pt-3 text-center"
+      style={{
+        justifyContent: "center",
+        alignItems: "center"
+      }}
+    >
+      <img src={loading_gif} width="200px" height="200px" />
+    </div>
   );
 
   render() {
@@ -49,7 +57,12 @@ class Guests extends Component {
                         path={route.path}
                         exact={route.exact}
                         name={route.name}
-                        render={props => <route.component {...props} />}
+                        render={props => (
+                          <route.component
+                            {...props}
+                            account={this.props.account}
+                          />
+                        )}
                       />
                     ) : null;
                   })}

@@ -1,7 +1,6 @@
 import React, { Component, Suspense } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { Container } from "reactstrap";
-import axios from "axios";
 
 import {
   AppAside,
@@ -20,6 +19,10 @@ import navigation from "../../_nav";
 // routes config
 import routes from "../../routes";
 
+import { connect } from "react-redux";
+import { getPendingRequests } from "../../actions/requestsActions";
+import loading_gif from "../../assets/loading.gif";
+
 const DefaultAside = React.lazy(() => import("./DefaultAside"));
 const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
 const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
@@ -37,27 +40,20 @@ class DefaultLayout extends Component {
     };
   }
 
-  loadPendingReq = () => {
-    return new Promise((resolve, reject) => {
-      axios
-        .get("http://localhost:3000/api/v1/requests/pending")
-        .then(function(response) {
-          resolve(response);
-        })
-        .catch(function(error) {
-          reject(error);
-          return;
-        });
-    });
-  };
-
-  async componentWillMount() {
-    let pending = await this.loadPendingReq();
-    this.setState({ pendingReg: pending });
+  componentWillMount() {
+    this.props.getPendingRequests();
   }
 
   loading = () => (
-    <div className="animated fadeIn pt-1 text-center">Loading...</div>
+    <div
+      className="app animated fadeIn pt-3 text-center"
+      style={{
+        justifyContent: "center",
+        alignItems: "center"
+      }}
+    >
+      <img src={loading_gif} width="200px" height="200px" />
+    </div>
   );
 
   signOut(e) {
@@ -66,68 +62,72 @@ class DefaultLayout extends Component {
   }
 
   render() {
-    if (this.state.pendingReg) {
-      console.log("COUNT:" + this.state.pendingReg);
-    }
-
-    return (
-      <div className="app">
-        <AppHeader fixed style={headerStyle}>
-          <Suspense fallback={this.loading()}>
-            <DefaultHeader
-              onLogout={e => this.signOut(e)}
-              role={this.props.role}
-              pending_count={
-                this.state.pendingReg ? this.state.pendingReg.data.length : 0
-              }
-            />
-          </Suspense>
-        </AppHeader>
-        <div className="app-body">
-          <AppSidebar fixed display="lg">
-            <AppSidebarHeader />
-            <AppSidebarForm />
-            <Suspense>
-              <AppSidebarNav navConfig={navigation} {...this.props} />
-            </Suspense>
-            <AppSidebarFooter />
-            <AppSidebarMinimizer />
-          </AppSidebar>
-          <main className="main" style={{ backgroundColor: "#e0fae1" }}>
-            {/* <AppBreadcrumb appRoutes={routes} /> */}
-            <Container fluid className="mt-3">
-              <Suspense fallback={this.loading()}>
-                <Switch>
-                  {routes.map((route, idx) => {
-                    return route.component ? (
-                      <Route
-                        key={idx}
-                        path={route.path}
-                        exact={route.exact}
-                        name={route.name}
-                        render={props => <route.component {...props} />}
-                      />
-                    ) : null;
-                  })}
-                  <Redirect from="/" to="/dashboard" />
-                </Switch>
-              </Suspense>
-            </Container>
-          </main>
-          <AppAside fixed>
+    if (this.props.pendingRequests.data) {
+      return (
+        <div className="app">
+          <AppHeader fixed style={headerStyle}>
             <Suspense fallback={this.loading()}>
-              <DefaultAside />
+              <DefaultHeader
+                onLogout={e => this.signOut(e)}
+                role={this.props.role}
+                pending_count={this.props.pendingRequests.data.length}
+              />
             </Suspense>
-          </AppAside>
+          </AppHeader>
+          <div className="app-body">
+            <AppSidebar fixed display="lg">
+              <AppSidebarHeader />
+              <AppSidebarForm />
+              <Suspense>
+                <AppSidebarNav navConfig={navigation} {...this.props} />
+              </Suspense>
+              <AppSidebarFooter />
+              <AppSidebarMinimizer />
+            </AppSidebar>
+            <main className="main" style={{ backgroundColor: "#e0fae1" }}>
+              <Container fluid className="mt-3">
+                <Suspense fallback={this.loading()}>
+                  <Switch>
+                    {routes.map((route, idx) => {
+                      return route.component ? (
+                        <Route
+                          key={idx}
+                          path={route.path}
+                          exact={route.exact}
+                          name={route.name}
+                          render={props => <route.component {...props} />}
+                        />
+                      ) : null;
+                    })}
+                    <Redirect from="/" to="/dashboard" />
+                  </Switch>
+                </Suspense>
+              </Container>
+            </main>
+            <AppAside fixed>
+              <Suspense>
+                <DefaultAside />
+              </Suspense>
+            </AppAside>
+          </div>
+          <AppFooter>
+            <Suspense>
+              <DefaultFooter />
+            </Suspense>
+          </AppFooter>
         </div>
-        <AppFooter>
-          <Suspense fallback={this.loading()}>
-            <DefaultFooter />
-          </Suspense>
-        </AppFooter>
-      </div>
-    );
+      );
+    } else {
+      return this.loading();
+    }
   }
 }
 
-export default DefaultLayout;
+const mapStateToProps = state => ({
+  pendingRequests: state.requests.pendingRequests
+});
+
+export default connect(
+  mapStateToProps,
+  { getPendingRequests }
+)(DefaultLayout);

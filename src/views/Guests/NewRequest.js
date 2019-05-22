@@ -35,6 +35,11 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 
 import axios from "axios";
+import iziToast from "izitoast";
+
+import { connect } from "react-redux";
+import { getBAreas, createRequest } from "../../actions/requestsActions";
+import PropTypes from "prop-types";
 
 import {
   withStyles,
@@ -55,6 +60,9 @@ const theme = createMuiTheme({
       main: "#f44336",
       dark: "#ba000d",
       contrastText: "#000"
+    },
+    typography: {
+      useNextVariants: true
     }
   }
 });
@@ -79,7 +87,9 @@ class NewRequest extends Component {
       subAreaSelected: "",
       b_areas: [],
       subAreas: [],
-      text: ""
+      textName: "",
+      textDescription: "",
+      email: ""
     };
   }
 
@@ -93,9 +103,32 @@ class NewRequest extends Component {
     });
   }
 
+  showNotification(type, msg) {
+    var color;
+
+    if (type == "error") {
+      color = "#ec644b";
+    } else {
+      color = "#4dbd74";
+    }
+
+    iziToast.show({
+      title: "",
+      position: "topRight",
+      messageSize: 15,
+      messageColor: "#fff",
+      iconColor: "#fff",
+      icon: "fa fa-exclamation-triangle",
+      message: msg,
+      color: color,
+      maxWidth: 800,
+      progressBarColor: "#fff"
+    });
+  }
+
   handleChangeBarea = event => {
     this.setState({ b_areaSelected: event.target.value });
-    var area = this.state.b_areas.find(findBArea, [event.target.value]);
+    var area = this.props.bareas.find(findBArea, [event.target.value]);
     this.setState({ subAreas: area.sub_cat });
     this.setState({ subAreaSelected: area.sub_cat[0].Descricao });
   };
@@ -104,36 +137,57 @@ class NewRequest extends Component {
     this.setState({ subAreaSelected: event.target.value });
   };
 
-  loadBAreas = () => {
-    return new Promise((resolve, reject) => {
-      axios
-        .get("http://localhost:3000/api/v1/requests/b_areas")
-        .then(function(response) {
-          resolve(response.data);
-        })
-        .catch(function(error) {
-          reject(error);
-          return;
-        });
-    });
-  };
-
-  async componentWillMount() {
-    let bareas = await this.loadBAreas(this.state.account);
-    this.setState({ b_areas: bareas });
-    this.setState({ b_areaSelected: bareas[0].Descricao });
-    var area = this.state.b_areas.find(findBArea, [bareas[0].Descricao]);
-    this.setState({ subAreas: area.sub_cat });
-    this.setState({ subAreaSelected: area.sub_cat[0].Descricao });
+  validateEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
   }
+
+  componentWillMount() {
+    this.props.getBAreas().then(response => {
+      if (this.props.bareas && response) {
+        this.setState({ b_areaSelected: this.props.bareas[0].Descricao });
+        var area = this.props.bareas.find(findBArea, [
+          this.props.bareas[0].Descricao
+        ]);
+        this.setState({ subAreas: area.sub_cat });
+        this.setState({ subAreaSelected: area.sub_cat[0].Descricao });
+      }
+    });
+  }
+
+  submitFormHandler = event => {
+    event.preventDefault();
+
+    if (this.state.textName == "" || this.state.textDescription == "") {
+      this.showNotification("error", "Please fill all required fields");
+    } else if (!this.validateEmail(this.state.email)) {
+      this.showNotification("error", "Please enter valid email address");
+    } else {
+      var body = {
+        org_name: this.state.textName,
+        org_desc: this.state.textDescription,
+        org_barea: this.state.subAreaSelected,
+        org_email: this.state.email
+      };
+      this.props.createRequest(body, this.props.account).then(response => {
+        this.setState({ textName: "", textDescription: "", email: "" });
+
+        if (response.valid) {
+          this.showNotification("success", response.msg);
+        } else {
+          this.showNotification("error", response.msg);
+        }
+      });
+    }
+  };
 
   render() {
     return (
-      <form>
+      <form onSubmit={this.submitFormHandler}>
         <MuiThemeProvider theme={theme}>
-          <div class="container">
-            <div class="row justify-content-center">
-              <div class="col-6 text-center">
+          <div className="container">
+            <div className="row justify-content-center">
+              <div className="col-6 text-center">
                 <Typography
                   variant="h5"
                   gutterBottom
@@ -144,33 +198,77 @@ class NewRequest extends Component {
               </div>
             </div>
 
-            <div class="row justify-content-center mt-5">
-              <div class="form-group col-4">
+            <div className="row justify-content-center mt-5">
+              <div className="form-group col-4">
                 <TextField
-                  id="inputName"
                   label="Organization name"
+                  inputProps={{
+                    name: "textName",
+                    id: "inputName"
+                  }}
                   margin="normal"
                   fullWidth
                   autoComplete="off"
+                  value={this.state.textName}
                   onChange={event =>
-                    this.setState({ text: event.target.value })
+                    this.setState({ textName: event.target.value })
                   }
-                  error={this.state.text === ""}
-                  helperText={this.state.text === "" ? "Empty field!" : " "}
+                  error={this.state.textName === ""}
+                  helperText={this.state.textName === "" ? "Required !!" : " "}
                 />
               </div>
-              <div class="form-group col-4">
+              <div className="form-group col-4">
                 <TextField
                   id="inputDesc"
+                  name="inputDesc"
                   label="Organization description"
                   margin="normal"
                   fullWidth
                   autoComplete="off"
+                  inputProps={{
+                    name: "textDescription",
+                    id: "inputDescription"
+                  }}
+                  value={this.state.textDescription}
+                  onChange={event =>
+                    this.setState({ textDescription: event.target.value })
+                  }
+                  error={this.state.textDescription === ""}
+                  helperText={
+                    this.state.textDescription === "" ? "Required !!" : " "
+                  }
+                />
+              </div>
+              <div className="form-group col-4">
+                <TextField
+                  id="inputEmail"
+                  name="inputEmail"
+                  label="Organization email"
+                  type={"email"}
+                  margin="normal"
+                  fullWidth
+                  autoComplete="off"
+                  inputProps={{
+                    name: "textEmail",
+                    id: "inputEmail"
+                  }}
+                  onChange={event =>
+                    this.setState({ email: event.target.value })
+                  }
+                  value={this.state.email}
+                  error={!this.validateEmail(this.state.email)}
+                  helperText={
+                    this.state.email === ""
+                      ? "Required !!"
+                      : !this.validateEmail(this.state.email)
+                      ? "Invalid e-mail"
+                      : ""
+                  }
                 />
               </div>
             </div>
-            <div class="row justify-content-center mt-4">
-              <div class="form-group col-4">
+            <div className="row justify-content-start mt-4">
+              <div className="form-group col-4">
                 <InputLabel htmlFor="business_area">
                   Organization business area
                 </InputLabel>
@@ -180,17 +278,19 @@ class NewRequest extends Component {
                   onChange={this.handleChangeBarea}
                   inputProps={{
                     name: "business_area",
-                    id: "bare"
+                    id: "barea"
                   }}
                 >
-                  {this.state.b_areas.map(area => (
-                    <MenuItem key={area.cod} value={area.Descricao}>
-                      {area.Descricao}
-                    </MenuItem>
-                  ))}
+                  {this.props.bareas
+                    ? this.props.bareas.map((area, i) => (
+                        <MenuItem key={i} value={area.Descricao}>
+                          {area.Descricao}
+                        </MenuItem>
+                      ))
+                    : null}
                 </Select>
               </div>
-              <div class="form-group col-4">
+              <div className="form-group col-4">
                 <InputLabel htmlFor="sub_area">Sub-area</InputLabel>
                 <Select
                   style={{ width: "100%" }}
@@ -209,14 +309,15 @@ class NewRequest extends Component {
                 </Select>
               </div>
             </div>
-            <div class="row justify-content-center mt-4">
-              <div class="form-group col-3">
+            <div className="row justify-content-center mt-4">
+              <div className="form-group col-3">
                 <Button
                   variant="contained"
                   color="primary"
                   style={{ textTransform: "none" }}
                   fullWidth
                   size="large"
+                  type="submit"
                 >
                   Create
                 </Button>
@@ -229,4 +330,11 @@ class NewRequest extends Component {
   }
 }
 
-export default NewRequest;
+const mapStateToProps = state => ({
+  bareas: state.requests.b_areas
+});
+
+export default connect(
+  mapStateToProps,
+  { getBAreas, createRequest }
+)(NewRequest);

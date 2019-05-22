@@ -17,8 +17,8 @@ import {
   AppNavbarBrand,
   AppSidebarToggler
 } from "@coreui/react";
-import logo from "../../assets/img/brand/footprint.png";
-import sygnet from "../../assets/img/brand/sygnet.svg";
+import logo from "../../assets/logo.png";
+import logo_user from "../../assets/user.png";
 
 const propTypes = {
   children: PropTypes.node
@@ -34,7 +34,7 @@ class DefaultHeader extends Component {
           <DropdownToggle nav>
             <img
               style={{ background: "white", padding: "5px" }}
-              src={"../../assets/img/avatars/user.png"}
+              src={logo_user}
               className="img-avatar"
             />
           </DropdownToggle>

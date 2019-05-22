@@ -1,22 +1,29 @@
 import React, { Component } from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
+import { getUser } from "./actions/userActions";
+
 // import { renderRoutes } from 'react-router-config';
 import "./App.scss";
 import Web3 from "web3";
-import axios from "axios";
+import loading_gif from "./assets/loading.gif";
 
 const loading = () => (
-  <div className="animated fadeIn pt-3 text-center">Loading...</div>
+  <div
+    className="app animated fadeIn pt-3 text-center"
+    style={{
+      justifyContent: "center",
+      alignItems: "center"
+    }}
+  >
+    <img src={loading_gif} width="200px" height="200px" />
+  </div>
 );
 
 // Containers
 const DefaultLayout = React.lazy(() => import("./containers/DefaultLayout"));
 
 // Pages
-const Login = React.lazy(() => import("./views/Pages/Login"));
-const Register = React.lazy(() => import("./views/Pages/Register"));
-const Page404 = React.lazy(() => import("./views/Pages/Page404"));
-const Page500 = React.lazy(() => import("./views/Pages/Page500"));
 const Metamask = React.lazy(() => import("./views/MetamaskNotFound"));
 const GuestPage = React.lazy(() => import("./views/Guests/Guests"));
 
@@ -75,20 +82,6 @@ class App extends Component {
     }, 2000);
   }
 
-  loadUser = account => {
-    return new Promise((resolve, reject) => {
-      axios
-        .get("http://localhost:3000/api/v1/users/" + account)
-        .then(function(response) {
-          resolve(response);
-        })
-        .catch(function(error) {
-          reject(error);
-          return;
-        });
-    });
-  };
-
   getAccount = () => {
     var context = this;
     return new Promise((resolve, reject) => {
@@ -108,20 +101,10 @@ class App extends Component {
     await this.getAccount().catch(function(error) {
       console.log(error);
     });
-    console.log(this.state.account);
-    let u = await this.loadUser(this.state.account);
-    this.setState({ user: u });
+
+    this.props.getUser(this.state.account);
   }
   render() {
-    /*this.web3.eth.getAccounts(function(err, accounts) {
-      if (err != null) console.error("An error occurred: " + err);
-      else if (accounts.length === 0) {
-        console.log("No login");
-      } else {
-        console.log(accounts);
-      }
-    });*/
-
     const error = (
       <React.Suspense fallback={loading()}>
         <Metamask message={this.state.erroMessage} />
@@ -135,42 +118,50 @@ class App extends Component {
             <Route
               path="/"
               name="HomeGuest"
-              render={props => <GuestPage {...props} />}
+              render={props => (
+                <GuestPage {...props} account={this.state.account} />
+              )}
             />
           </Switch>
         </React.Suspense>
       </HashRouter>
     );
 
-    if (this.state.user) {
-      console.log(this.state.user.data);
-    }
-
-    if (
-      this.state.user &&
-      this.state.user.data.type == "Admin" &&
-      !this.state.erroMessage
-    ) {
-      return (
-        <HashRouter>
-          <React.Suspense fallback={loading()}>
-            <Switch>
-              <Route
-                path="/"
-                name="Home"
-                render={props => <DefaultLayout {...props} role="admin" />}
-              />
-            </Switch>
-          </React.Suspense>
-        </HashRouter>
-      );
-    } else if (this.state.account == "0x0" || this.state.erroMessage) {
-      console.log(this.state.user, this.state.account, this.state.erroMessage);
-      return error;
+    if (this.props.user.data) {
+      if (
+        this.props.user &&
+        this.props.user.data.type == "Admin" &&
+        !this.state.erroMessage
+      ) {
+        return (
+          <HashRouter>
+            <React.Suspense fallback={loading()}>
+              <Switch>
+                <Route
+                  path="/"
+                  name="Home"
+                  render={props => <DefaultLayout {...props} role="admin" />}
+                />
+              </Switch>
+            </React.Suspense>
+          </HashRouter>
+        );
+      } else if (this.state.account == "0x0" || this.state.erroMessage) {
+        return error;
+      } else {
+        return guest;
+      }
     } else {
-      return guest;
+      return null;
     }
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  user: state.users.item
+});
+
+export default connect(
+  mapStateToProps,
+  { getUser }
+)(App);
