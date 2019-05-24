@@ -26,6 +26,7 @@ import loading_gif from "../../assets/loading.gif";
 const DefaultAside = React.lazy(() => import("./DefaultAside"));
 const DefaultFooter = React.lazy(() => import("./DefaultFooter"));
 const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
+const Loading = React.lazy(() => import("../../views/Loading"));
 
 const headerStyle = {
   background: "#fff",
@@ -44,18 +45,6 @@ class DefaultLayout extends Component {
     this.props.getPendingRequests();
   }
 
-  loading = () => (
-    <div
-      className="app animated fadeIn pt-3 text-center"
-      style={{
-        justifyContent: "center",
-        alignItems: "center"
-      }}
-    >
-      <img src={loading_gif} width="200px" height="200px" />
-    </div>
-  );
-
   signOut(e) {
     e.preventDefault();
     this.props.history.push("/login");
@@ -66,7 +55,7 @@ class DefaultLayout extends Component {
       return (
         <div className="app">
           <AppHeader fixed style={headerStyle}>
-            <Suspense fallback={this.loading()}>
+            <Suspense fallback={<Loading />}>
               <DefaultHeader
                 onLogout={e => this.signOut(e)}
                 role={this.props.role}
@@ -86,7 +75,7 @@ class DefaultLayout extends Component {
             </AppSidebar>
             <main className="main" style={{ backgroundColor: "#e0fae1" }}>
               <Container fluid className="mt-3">
-                <Suspense fallback={this.loading()}>
+                <Suspense fallback={<Loading />}>
                   <Switch>
                     {routes.map((route, idx) => {
                       return route.component ? (
@@ -95,7 +84,12 @@ class DefaultLayout extends Component {
                           path={route.path}
                           exact={route.exact}
                           name={route.name}
-                          render={props => <route.component {...props} />}
+                          render={props => (
+                            <route.component
+                              {...props}
+                              account={this.props.account}
+                            />
+                          )}
                         />
                       ) : null;
                     })}
@@ -110,15 +104,10 @@ class DefaultLayout extends Component {
               </Suspense>
             </AppAside>
           </div>
-          <AppFooter>
-            <Suspense>
-              <DefaultFooter />
-            </Suspense>
-          </AppFooter>
         </div>
       );
     } else {
-      return this.loading();
+      return <Loading />;
     }
   }
 }

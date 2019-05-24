@@ -16,7 +16,7 @@ const loading = () => (
       alignItems: "center"
     }}
   >
-    <img src={loading_gif} width="200px" height="200px" />
+    <img src={loading_gif} width="128px" height="336px" />
   </div>
 );
 
@@ -140,7 +140,13 @@ class App extends Component {
                 <Route
                   path="/"
                   name="Home"
-                  render={props => <DefaultLayout {...props} role="admin" />}
+                  render={props => (
+                    <DefaultLayout
+                      {...props}
+                      role="admin"
+                      account={this.state.account}
+                    />
+                  )}
                 />
               </Switch>
             </React.Suspense>

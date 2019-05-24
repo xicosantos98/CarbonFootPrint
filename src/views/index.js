@@ -1,2 +1,3 @@
 import Dashboard from "./Dashboard";
-export { Dashboard };
+import Requests from "./Requests";
+export { Dashboard, Requests };

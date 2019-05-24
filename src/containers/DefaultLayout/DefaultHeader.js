@@ -39,7 +39,7 @@ class DefaultHeader extends Component {
             />
           </DropdownToggle>
           <DropdownMenu right style={{ right: "auto" }}>
-            <DropdownItem href="#/theme/colors">
+            <DropdownItem href="#/requests">
               <i className="fa fa-bell-o" /> Requests
               {this.props.pending_count == 0 ? null : (
                 <Badge color="success">{this.props.pending_count}</Badge>

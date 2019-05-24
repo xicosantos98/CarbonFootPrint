@@ -1,29 +1,4 @@
 import React, { Component } from "react";
-import {
-  Badge,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Col,
-  Container,
-  Collapse,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Fade,
-  Form,
-  FormGroup,
-  FormText,
-  FormFeedback,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButtonDropdown,
-  InputGroupText,
-  Label,
-  Row
-} from "reactstrap";
 
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";

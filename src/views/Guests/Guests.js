@@ -11,6 +11,8 @@ const DefaultHeader = React.lazy(() =>
   import("../../containers/DefaultLayout/DefaultHeader")
 );
 
+const Loading = React.lazy(() => import("../../views/Loading"));
+
 const headerStyle = {
   background: "#fff",
   textColor: "#ffffff"
@@ -24,23 +26,11 @@ class Guests extends Component {
     };
   }
 
-  loading = () => (
-    <div
-      className="app animated fadeIn pt-3 text-center"
-      style={{
-        justifyContent: "center",
-        alignItems: "center"
-      }}
-    >
-      <img src={loading_gif} width="200px" height="200px" />
-    </div>
-  );
-
   render() {
     return (
       <div className="app">
         <AppHeader fixed style={headerStyle}>
-          <Suspense fallback={this.loading()}>
+          <Suspense fallback={<Loading />}>
             <DefaultHeader onLogout={e => this.signOut(e)} role="guest" />
           </Suspense>
         </AppHeader>
@@ -48,7 +38,7 @@ class Guests extends Component {
         <div className="app-body">
           <main className="main" style={{ backgroundColor: "#e0fae1" }}>
             <Container fluid className="mt-3">
-              <Suspense fallback={this.loading()}>
+              <Suspense fallback={<Loading />}>
                 <Switch>
                   {routes.map((route, idx) => {
                     return route.component ? (
