@@ -42,22 +42,36 @@ router
   })
 
   .get("/pending", function(req, res) {
-    console.log(req.originalUrl);
     var count = c_instance.requestsCount().toNumber();
     var requests = [];
 
-    for (var i = 1; i <= count; i++) {
-      var request = c_instance.requests(i);
-      if (!request[2]) {
-        requests.push({
-          id: request[0],
-          user: request[1],
-          accepted: request[2],
-          org_name: request[3],
-          org_desc: request[4],
-          org_barea: request[5],
-          org_email: request[6]
-        });
+    if (req.headers.partial) {
+      for (var i = 1; i <= count; i++) {
+        var request = c_instance.requests(i);
+        if (!request[2]) {
+          requests.push({
+            Name: request[3],
+            Description: request[4],
+            "Business Area": request[5],
+            Email: request[6],
+            User: request[1]
+          });
+        }
+      }
+    } else {
+      for (var i = 1; i <= count; i++) {
+        var request = c_instance.requests(i);
+        if (!request[2]) {
+          requests.push({
+            id: request[0],
+            user: request[1],
+            accepted: request[2],
+            org_name: request[3],
+            org_desc: request[4],
+            org_barea: request[5],
+            org_email: request[6]
+          });
+        }
       }
     }
 
@@ -86,6 +100,22 @@ router
     }
 
     res.send(json);
+  })
+
+  .post("/cancel", function(req, res) {
+    if (!req.body.hasOwnProperty("org_name")) {
+      res.status(400).send({ message: "Error, invalid request" });
+    } else {
+      try {
+        c_instance.rejectRequest(req.body.org_name, {
+          from: req.headers.address,
+          gas: 3000000
+        });
+        res.status(201).send({ message: "Request rejected" });
+      } catch (error) {
+        res.status(403).send({ message: error.message });
+      }
+    }
   })
 
   .post("/", function(req, res) {

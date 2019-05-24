@@ -6,7 +6,8 @@ function verifyBody(body) {
     body.hasOwnProperty("name") &&
     body.hasOwnProperty("desc") &&
     body.hasOwnProperty("barea") &&
-    body.hasOwnProperty("email")
+    body.hasOwnProperty("email") &&
+    body.hasOwnProperty("address")
   ) {
     return true;
   } else {
@@ -94,6 +95,7 @@ router
           req.body.desc,
           req.body.barea,
           req.body.email,
+          req.body.address,
           [],
           [],
           [],

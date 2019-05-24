@@ -16,7 +16,7 @@ fs.readFile("./abi.json", handleFile);
 function handleFile(err, data) {
   if (err) console.log(err);
   abijson = JSON.parse(data);
-  contractAddress = "0x8a656cee0c2bf85cdc196d872f8e7faa983c1119";
+  contractAddress = "0xe486ce762d6e70c32cc5e9084bd6fc4b801ffb9e";
 
   console.log("Contract addres: " + contractAddress);
   initWeb3();
@@ -69,7 +69,7 @@ app.use(cors());
 app.use((req, res, next) => {
   if (
     (req.method == "POST" || req.method == "PUT") &&
-    req.originalUrl != "/api/v1/requests"
+    req.originalUrl !== "/api/v1/requests"
   ) {
     if (req.headers.address == null) {
       res.status(403).send({ message: "Address cannot be null" });
