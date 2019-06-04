@@ -5,7 +5,7 @@ class Loading extends Component {
   render() {
     return (
       <div
-        className="app animated fadeIn pt-3 text-center"
+        className="text-center"
         style={{
           justifyContent: "center",
           alignItems: "center"

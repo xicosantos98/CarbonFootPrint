@@ -26,6 +26,7 @@ const DefaultLayout = React.lazy(() => import("./containers/DefaultLayout"));
 // Pages
 const Metamask = React.lazy(() => import("./views/MetamaskNotFound"));
 const GuestPage = React.lazy(() => import("./views/Guests/Guests"));
+const AdminOrg = React.lazy(() => import("./containers/UserOrganizations"));
 
 class App extends Component {
   constructor(props) {
@@ -130,28 +131,41 @@ class App extends Component {
     if (this.props.user.data) {
       if (
         this.props.user &&
-        this.props.user.data.type == "Admin" &&
-        !this.state.erroMessage
+        !this.state.erroMessage &&
+        !this.props.user.data.message
       ) {
-        return (
-          <HashRouter>
+        console.log(this.props.user.data);
+        if (this.props.user.data.type == "Organization Admin") {
+          return (
             <React.Suspense fallback={loading()}>
-              <Switch>
-                <Route
-                  path="/"
-                  name="Home"
-                  render={props => (
-                    <DefaultLayout
-                      {...props}
-                      role="admin"
-                      account={this.state.account}
-                    />
-                  )}
-                />
-              </Switch>
+              <AdminOrg user={this.props.user.data} />;
             </React.Suspense>
-          </HashRouter>
-        );
+          );
+        } else {
+          return (
+            <HashRouter>
+              <React.Suspense fallback={loading()}>
+                <Switch>
+                  <Route
+                    path="/"
+                    name="Home"
+                    render={props => (
+                      <DefaultLayout
+                        {...props}
+                        role={
+                          this.props.user.data.type == "Admin"
+                            ? "admin"
+                            : "user"
+                        }
+                        account={this.state.account}
+                      />
+                    )}
+                  />
+                </Switch>
+              </React.Suspense>
+            </HashRouter>
+          );
+        }
       } else if (this.state.account == "0x0" || this.state.erroMessage) {
         return error;
       } else {

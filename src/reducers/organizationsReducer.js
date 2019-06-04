@@ -1,7 +1,12 @@
-import { FETCH_ORGANIZATIONS, NEW_ORGANIZATION } from "../actions/types";
+import {
+  FETCH_ORGANIZATIONS,
+  NEW_ORGANIZATION,
+  FILTER_ORGANIZATIONS
+} from "../actions/types";
 
 const initialState = {
   organizations: [],
+  filteredOrganizations: [],
   organization: {}
 };
 
@@ -11,6 +16,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         organizations: action.payload
+      };
+    case FILTER_ORGANIZATIONS:
+      return {
+        ...state,
+        filteredOrganizations: action.payload
       };
     case NEW_ORGANIZATION:
       return {

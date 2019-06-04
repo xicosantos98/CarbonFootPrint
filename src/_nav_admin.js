@@ -3,17 +3,27 @@ export default {
     {
       name: "Home",
       url: "/dashboard",
-      icon: "icon-home"
+      icon: "fas fa-home"
     },
     {
-      name: "Colors",
+      name: "Managers",
       url: "/theme/colors",
-      icon: "icon-drop"
+      icon: "fas fa-user-tie"
     },
     {
-      name: "Typography",
+      name: "Measure Units",
       url: "/theme/typography",
-      icon: "icon-pencil"
+      icon: "fas fa-balance-scale"
+    },
+    {
+      name: "C02eq by type",
+      url: "/theme/typography",
+      icon: "fas fa-shoe-prints"
+    },
+    {
+      name: "Organizations",
+      url: "/theme/typography",
+      icon: "fas fa-building"
     }
     // {
     //   name: "Buttons",

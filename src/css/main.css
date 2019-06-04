@@ -6,6 +6,9 @@
     color: #0b5b3b !important;
 }
 
+.sidebar .nav-link .nav-icon {
+    font-size: 1rem !important;
+}
 
 .sidebar .nav-link.active {
     color: #fff !important;

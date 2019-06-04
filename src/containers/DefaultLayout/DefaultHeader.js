@@ -10,6 +10,7 @@ import {
   NavItem
 } from "reactstrap";
 import PropTypes from "prop-types";
+import Typography from "@material-ui/core/Typography";
 
 import {
   AppAsideToggler,
@@ -61,6 +62,13 @@ class DefaultHeader extends Component {
         >
           <i className="fa fa-plus" />
           &nbsp;New organization
+        </Button>
+      );
+    } else if (this.props.role == "admin_org") {
+      return (
+        <Button block color="ghost-success" className="mr-3" href="#/">
+          <i class="fas fa-user-tie" style={{ fontSize: 20 }} />
+          &nbsp;{this.props.org_name}
         </Button>
       );
     } else {

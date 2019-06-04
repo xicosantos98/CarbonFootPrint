@@ -15,7 +15,9 @@ import {
   AppSidebarNav
 } from "@coreui/react";
 // sidebar nav config
-import navigation from "../../_nav";
+import navigationAdmin from "../../_nav_admin";
+import navigationOrgAdmin from "../../_nav_orgadmin";
+
 // routes config
 import routes from "../../routes";
 
@@ -60,6 +62,7 @@ class DefaultLayout extends Component {
                 onLogout={e => this.signOut(e)}
                 role={this.props.role}
                 pending_count={this.props.pendingRequests.data.length}
+                org_name={this.props.org_name}
               />
             </Suspense>
           </AppHeader>
@@ -68,7 +71,14 @@ class DefaultLayout extends Component {
               <AppSidebarHeader />
               <AppSidebarForm />
               <Suspense>
-                <AppSidebarNav navConfig={navigation} {...this.props} />
+                <AppSidebarNav
+                  navConfig={
+                    this.props.role == "admin"
+                      ? navigationAdmin
+                      : navigationOrgAdmin
+                  }
+                  {...this.props}
+                />
               </Suspense>
               <AppSidebarFooter />
               <AppSidebarMinimizer />

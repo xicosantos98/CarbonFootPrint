@@ -122,6 +122,7 @@ class Requests extends Component {
           hideColumns={columns}
           name={"Requests"}
           updateSelectedList={this.updateSelectedList}
+          selectionEnable={true}
         />
         <div className="row justify-content-end mt-5">
           <div className="col-12 col-md-2 text-right">

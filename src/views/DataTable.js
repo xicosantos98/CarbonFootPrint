@@ -20,14 +20,17 @@ import BlockIcon from "@material-ui/icons/EventBusy";
 import AcceptIcon from "@material-ui/icons/EventAvailable";
 import { dark } from "@material-ui/core/styles/createPalette";
 import { IncomingMessage } from "http";
+import { isNull } from "util";
 
 class EnhancedTableHead extends React.Component {
   renderHeadingRow = (_cell, cellIndex) => {
     let header = Object.keys(this.props.data[0]);
 
-    for (var i = 0; i < this.props.hideColumns.length; i++) {
-      if (cellIndex == this.props.hideColumns[i]) {
-        return null;
+    if (this.props.hideColumns) {
+      for (var i = 0; i < this.props.hideColumns.length; i++) {
+        if (cellIndex == this.props.hideColumns[i]) {
+          return null;
+        }
       }
     }
     return <TableCell key={cellIndex}>{header[cellIndex]}</TableCell>;
@@ -38,14 +41,17 @@ class EnhancedTableHead extends React.Component {
 
     const theadMarkup = (
       <TableRow key="heading">
-        <TableCell padding="checkbox">
-          <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={numSelected === rowCount}
-            onChange={onSelectAllClick}
-            color="primary"
-          />
-        </TableCell>
+        {this.props.selectionEnable ? (
+          <TableCell padding="checkbox">
+            <Checkbox
+              indeterminate={numSelected > 0 && numSelected < rowCount}
+              checked={numSelected === rowCount}
+              onChange={onSelectAllClick}
+              color="primary"
+            />
+          </TableCell>
+        ) : null}
+
         {Object.keys(this.props.data[0]).map(this.renderHeadingRow)}
       </TableRow>
     );
@@ -118,13 +124,10 @@ EnhancedTableToolbar = withStyles(toolbarStyles)(EnhancedTableToolbar);
 const styles = theme => ({
   root: {
     width: "100%",
-    "&$checked": {
-      color: "#4caf50"
-    },
     marginTop: theme.spacing.unit * 3
   },
   table: {
-    minWidth: 1020
+    maxHeight: 100
   },
   tableWrapper: {
     overflowX: "auto"
@@ -138,10 +141,12 @@ class DataTable extends React.Component {
 
   state = {
     selected: [],
+    selectedName: [],
     data: [],
     page: 0,
     rowsPerPage: 5
   };
+  isNull;
 
   componentWillMount() {
     var rows = [];
@@ -168,17 +173,19 @@ class DataTable extends React.Component {
     }
     this.setState({ data: rows });
     if (this.props.data.length != props.data.length) {
-      this.setState({ selected: [] });
+      this.setState({ selectedName: [] });
     }
   }
 
   handleSelectAllClick = event => {
     if (event.target.checked) {
-      this.setState(state => ({ selected: state.data.map((n, i) => i) }));
+      this.setState(state => ({
+        selectedName: state.data.map((n, i) => n[0])
+      }));
       this.props.updateSelectedList(this.state.data.map((n, i) => n));
       return;
     }
-    this.setState({ selected: [] });
+    this.setState({ selectedName: [] });
     this.props.updateSelectedList([]);
   };
 
@@ -186,36 +193,38 @@ class DataTable extends React.Component {
     this.setState({ selected: [] });
   };
 
-  handleClick = (event, id) => {
-    const { selected } = this.state;
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
+  handleClick = (event, name) => {
+    if (this.props.selectionEnable) {
+      const { selectedName } = this.state;
+      const selectedIndex = selectedName.indexOf(name);
+      let newSelected = [];
 
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    var dataSelected = [];
-
-    this.setState({ selected: newSelected });
-
-    newSelected.map((n, i) => {
-      for (var x = 0; x < this.state.data.length; x++) {
-        if (x == n) {
-          dataSelected.push(this.state.data[x]);
-        }
+      if (selectedIndex === -1) {
+        newSelected = newSelected.concat(selectedName, name);
+      } else if (selectedIndex === 0) {
+        newSelected = newSelected.concat(selectedName.slice(1));
+      } else if (selectedIndex === selectedName.length - 1) {
+        newSelected = newSelected.concat(selectedName.slice(0, -1));
+      } else if (selectedIndex > 0) {
+        newSelected = newSelected.concat(
+          selectedName.slice(0, selectedIndex),
+          selectedName.slice(selectedIndex + 1)
+        );
       }
-    });
-    this.props.updateSelectedList(dataSelected);
+
+      this.setState({ selectedName: newSelected });
+
+      var dataSelected = [];
+
+      newSelected.map((n, i) => {
+        for (var x = 0; x < this.state.data.length; x++) {
+          if (this.state.data[x][0] == n) {
+            dataSelected.push(this.state.data[x]);
+          }
+        }
+      });
+      this.props.updateSelectedList(dataSelected);
+    }
   };
 
   handleChangePage = (event, page) => {
@@ -226,70 +235,95 @@ class DataTable extends React.Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
-  isSelected = id => this.state.selected.indexOf(id) !== -1;
+  isSelected = name => this.state.selectedName.indexOf(name) !== -1;
 
   renderRow = (_row, rowIndex) => {
-    const isSelected = this.isSelected(rowIndex);
+    const isSelected = this.isSelected(_row[0]);
     return (
       <TableRow
         key={rowIndex}
         hover
-        onClick={event => this.handleClick(event, rowIndex)}
+        onClick={event => this.handleClick(event, _row[0])}
         role="checkbox"
         aria-checked={isSelected}
         tabIndex={-1}
         selected={isSelected}
       >
-        <TableCell padding="checkbox">
-          <Checkbox checked={isSelected} color="primary" />
-        </TableCell>
-        {this.state.data[rowIndex].map((_cell, cellIndex) => {
-          for (var i = 0; i < this.props.hideColumns.length; i++) {
-            if (cellIndex == this.props.hideColumns[i]) {
-              return null;
+        {this.props.selectionEnable ? (
+          <TableCell padding="checkbox">
+            <Checkbox checked={isSelected} color="primary" />
+          </TableCell>
+        ) : null}
+
+        {this.state.data
+          .slice(
+            this.state.page * this.state.rowsPerPage,
+            this.state.page * this.state.rowsPerPage + this.state.rowsPerPage
+          )
+          [rowIndex].map((_cell, cellIndex) => {
+            if (this.props.hideColumns) {
+              for (var i = 0; i < this.props.hideColumns.length; i++) {
+                if (cellIndex == this.props.hideColumns[i]) {
+                  return null;
+                }
+              }
             }
-          }
-          return (
-            <TableCell key={`${rowIndex}-${cellIndex}`}>
-              {this.state.data[rowIndex][cellIndex]}
-            </TableCell>
-          );
-        })}
+
+            return (
+              <TableCell key={`${rowIndex}-${cellIndex}`}>
+                {
+                  this.state.data.slice(
+                    this.state.page * this.state.rowsPerPage,
+                    this.state.page * this.state.rowsPerPage +
+                      this.state.rowsPerPage
+                  )[rowIndex][cellIndex]
+                }
+              </TableCell>
+            );
+          })}
       </TableRow>
     );
   };
 
   render() {
     const { classes } = this.props;
-    const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
+    const {
+      data,
+      order,
+      orderBy,
+      selectedName,
+      rowsPerPage,
+      page
+    } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
-
-    const tbodyMarkup = this.state.data.map(this.renderRow);
 
     return (
       <Paper className={classes.root}>
         <EnhancedTableToolbar
-          numSelected={selected.length}
+          numSelected={selectedName.length}
           onDeleselectAllClick={this.handleDeselectAll}
           tName={this.props.name}
         />
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
             <EnhancedTableHead
-              numSelected={selected.length}
+              numSelected={selectedName.length}
               order={order}
               orderBy={orderBy}
               onSelectAllClick={this.handleSelectAllClick}
               onRequestSort={this.handleRequestSort}
               rowCount={data.length}
               data={this.props.data}
+              selectionEnable={this.props.selectionEnable}
               hideColumns={this.props.hideColumns}
             />
             <TableBody>
-              {tbodyMarkup}
+              {this.state.data
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map(this.renderRow)}
               {emptyRows > 0 && (
-                <TableRow style={{ height: 49 * emptyRows }}>
+                <TableRow style={{ height: 20 * emptyRows }}>
                   <TableCell colSpan={6} />
                 </TableRow>
               )}

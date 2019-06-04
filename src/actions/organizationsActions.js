@@ -1,4 +1,8 @@
-import { FETCH_ORGANIZATIONS, NEW_ORGANIZATION } from "./types";
+import {
+  FETCH_ORGANIZATIONS,
+  NEW_ORGANIZATION,
+  FILTER_ORGANIZATIONS
+} from "./types";
 import axios from "axios";
 import { BASE_URL } from "../config";
 
@@ -14,6 +18,21 @@ export const getOrganizations = () => dispatch => {
     .catch(function(error) {
       console.log(error);
       return;
+    });
+};
+
+export const getFilterOrganizations = orgName => dispatch => {
+  return axios
+    .get(BASE_URL + "/organizations?name=" + orgName)
+    .then(response => {
+      dispatch({
+        type: FILTER_ORGANIZATIONS,
+        payload: response
+      });
+      return true;
+    })
+    .catch(function(error) {
+      return false;
     });
 };
 
