@@ -448,7 +448,7 @@
 				"type": "uint16"
 			},
 			{
-				"name": "_idOrganization",
+				"name": "_organization",
 				"type": "uint32"
 			}
 		],
@@ -643,10 +643,6 @@
 			{
 				"name": "status",
 				"type": "bool"
-			},
-			{
-				"name": "idOrganization",
-				"type": "uint32"
 			}
 		],
 		"payable": false,
@@ -698,6 +694,25 @@
 			{
 				"name": "year",
 				"type": "uint32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_add",
+				"type": "address"
+			}
+		],
+		"name": "getUserOrganizations",
+		"outputs": [
+			{
+				"name": "orgs",
+				"type": "uint32[]"
 			}
 		],
 		"payable": false,
@@ -935,6 +950,29 @@
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "address"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "userOrganizations",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{

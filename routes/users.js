@@ -10,6 +10,21 @@ router
 
     for (var i = 0; i < count; i++) {
       var usr = c_instance.users(c_instance.arrayUsers(i));
+
+      var organizations = c_instance.getUserOrganizations(
+        c_instance.arrayUsers(i)
+      );
+
+      var orgsUser = [];
+      for (var i = 0; i < organizations.length; i++) {
+        var org = c_instance.organizations(organizations[i].toNumber());
+        orgsUser.push({
+          id: organizations[i],
+          name: org[3],
+          business_area: org[5]
+        });
+      }
+
       var user_type;
 
       switch (usr[1].toNumber()) {
@@ -29,7 +44,7 @@ router
         address: usr[0],
         type: user_type,
         status: usr[2],
-        id_organization: usr[3].toNumber()
+        organizations: orgsUser
       });
     }
 
@@ -45,6 +60,17 @@ router
       res.status(400).send({ message: "Error, invalid request" });
     } else {
       var user = c_instance.users(req.params.address);
+      var organizations = c_instance.getUserOrganizations(req.params.address);
+
+      var orgsUser = [];
+      for (var i = 0; i < organizations.length; i++) {
+        var org = c_instance.organizations(organizations[i].toNumber());
+        orgsUser.push({
+          id: organizations[i],
+          name: org[3],
+          business_area: org[5]
+        });
+      }
 
       if (!c_instance.isNull(user[0])) {
         var user_type;
@@ -66,7 +92,7 @@ router
           address: user[0],
           type: user_type,
           status: user[2],
-          id_organization: user[3].toNumber()
+          organizations: orgsUser
         });
       } else {
         res.status(200).json({ message: "User not found" });

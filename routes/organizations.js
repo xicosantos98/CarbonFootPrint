@@ -27,26 +27,35 @@ router
 
     for (var i = 1; i <= count; i++) {
       var org = c_instance.organizations(i);
-      var co2eq = (org[1] * Math.pow(10, -org[2])).toFixed(org[2]);
-      var prods = c_instance.getOrgProducts(org[0].toNumber());
-      var m_activities = c_instance.getOrgMactivities(org[0].toNumber());
-      var fix_costs = c_instance.getOrgFixCosts(org[0].toNumber());
+      var name = org[3];
 
-      organizations.push({
-        id: org[0].toNumber(),
-        CO2eq: co2eq,
-        name: org[3],
-        description: org[4],
-        business_area: org[5],
-        email: org[6],
-        mproducts: prods,
-        monthly_activities: m_activities,
-        monthly_fix_costs: fix_costs
-      });
+      if (
+        req.query.name &&
+        !name.toLowerCase().match(req.query.name.toLowerCase())
+      ) {
+        continue;
+      } else {
+        var co2eq = (org[1] * Math.pow(10, -org[2])).toFixed(org[2]);
+        var prods = c_instance.getOrgProducts(org[0].toNumber());
+        var m_activities = c_instance.getOrgMactivities(org[0].toNumber());
+        var fix_costs = c_instance.getOrgFixCosts(org[0].toNumber());
+
+        organizations.push({
+          id: org[0].toNumber(),
+          CO2eq: co2eq,
+          name: org[3],
+          description: org[4],
+          business_area: org[5],
+          email: org[6],
+          mproducts: prods,
+          monthly_activities: m_activities,
+          monthly_fix_costs: fix_costs
+        });
+      }
     }
 
     if (organizations.length == 0) {
-      res.status(200).json({ warning: "0 organizations found" });
+      res.status(200).json({ warning: "0 organizations found", length: 0 });
     } else {
       res.status(200).json(organizations);
     }
@@ -74,9 +83,9 @@ router
           id: organization[0].toNumber(),
           CO2eq: co2eq,
           name: organization[3],
-          description: org[4],
-          business_area: org[5],
-          email: org[6],
+          description: organization[4],
+          business_area: organization[5],
+          email: organization[6],
           products: prods,
           monthly_activities: m_activities,
           monthly_fix_costs: fix_costs

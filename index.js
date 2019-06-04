@@ -16,7 +16,7 @@ fs.readFile("./abi.json", handleFile);
 function handleFile(err, data) {
   if (err) console.log(err);
   abijson = JSON.parse(data);
-  contractAddress = "0xe486ce762d6e70c32cc5e9084bd6fc4b801ffb9e";
+  contractAddress = "0x5a9b0098875e1ee6cb251b0308278f0721acbc74";
 
   console.log("Contract addres: " + contractAddress);
   initWeb3();
