@@ -59,6 +59,55 @@ router
     }
   })
 
+  .get("/organization/:idOrganization", function(req, res) {
+    var orgMactivities = [];
+
+    if (req.params.idOrganization == null) {
+      res.status(400).send({ message: "Error, invalid request" });
+    } else {
+      var m_activities = c_instance.getOrgMactivities(
+        req.params.idOrganization
+      );
+
+      if (m_activities.length == 0) {
+        res.status(200).json({ message: "0 monthly activities found" });
+      } else {
+        for (var i = 0; i < m_activities.length; i++) {
+          var id = m_activities[i].toNumber();
+          var activity = c_instance.mactivities(id);
+
+          var co2eq = (activity[2] * Math.pow(10, -activity[4])).toFixed(
+            activity[4]
+          );
+
+          var p_quantities = c_instance.getProdQuantities(
+            activity[0].toNumber()
+          );
+
+          var product_fp = c_instance.productFootPrints(activity[6].toNumber());
+          var product = c_instance.products(product_fp[3].toNumber());
+          var final_product = { id: product[0].toNumber(), name: product[1] };
+
+          orgMactivities.push({
+            id: activity[0],
+            description: activity[1],
+            CO2eq: co2eq,
+            product_qt: activity[3],
+            month: activity[5],
+            productQuantities: p_quantities,
+            output: final_product,
+            id_organization: activity[7],
+            id_unit: activity[8],
+            id_year: activity[9],
+            user: activity[10]
+          });
+        }
+
+        res.status(200).json(orgMactivities);
+      }
+    }
+  })
+
   .get("/:id", function(req, res) {
     if (req.params.id == null) {
       res.status(400).send({ message: "Error, invalid request" });
