@@ -1,7 +1,8 @@
 import {
   FETCH_ORGANIZATIONS,
   NEW_ORGANIZATION,
-  FILTER_ORGANIZATIONS
+  FILTER_ORGANIZATIONS,
+  FETCH_MONTHLY_ACTIVITIES
 } from "./types";
 import axios from "axios";
 import { BASE_URL } from "../config";
@@ -50,5 +51,23 @@ export const createOrganization = (orgData, account) => dispatch => {
     })
     .catch(function(error) {
       return { valid: false, msg: error.response.data.message };
+    });
+};
+
+export const getMonthlyActivities = id_organization => dispatch => {
+  return axios
+    .get(BASE_URL + "/m_activities/organization/" + id_organization)
+    .then(response => {
+      var new_array = response.data.map(act => ({
+        Description: act.description,
+        Product: act.output.name,
+        Month: act.month,
+        Year: act.id_year,
+        CO2eq: act.CO2eq
+      }));
+      dispatch({
+        type: FETCH_MONTHLY_ACTIVITIES,
+        payload: new_array
+      });
     });
 };

@@ -17,7 +17,7 @@ export default {
     },
     {
       name: "Monthly Activities",
-      url: "/theme/typography",
+      url: "/company/monthlyactivites",
       icon: "fas fa-calendar-alt"
     },
     {

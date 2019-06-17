@@ -138,7 +138,7 @@ class App extends Component {
         if (this.props.user.data.type == "Organization Admin") {
           return (
             <React.Suspense fallback={loading()}>
-              <AdminOrg user={this.props.user.data} />;
+              <AdminOrg user={this.props.user.data} />
             </React.Suspense>
           );
         } else {

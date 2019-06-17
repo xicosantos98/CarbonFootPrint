@@ -98,6 +98,7 @@ class DefaultLayout extends Component {
                             <route.component
                               {...props}
                               account={this.props.account}
+                              id_org={this.props.id_org}
                             />
                           )}
                         />

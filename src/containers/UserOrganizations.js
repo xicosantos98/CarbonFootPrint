@@ -42,11 +42,13 @@ class UserOrganizations extends Component {
     super(props);
     this.state = {
       choosedOrg: false,
-      org: null
+      org: null,
+      idOrg: null
     };
   }
-  clickItem = name => {
+  clickItem = (name, id) => {
     this.setState({ org: name });
+    this.setState({ idOrg: id });
     this.setState({ choosedOrg: true });
   };
 
@@ -81,9 +83,14 @@ class UserOrganizations extends Component {
                                 key={i}
                                 button
                                 color="primary"
-                                onClick={() => this.clickItem(org.name)}
+                                onClick={() => this.clickItem(org.name, org.id)}
                               >
-                                <Avatar style={{ backgroundColor: "#0b5b3b" }}>
+                                <Avatar
+                                  style={{
+                                    backgroundColor: "#0b5b3b",
+                                    marginRight: "10px"
+                                  }}
+                                >
                                   <Business />
                                 </Avatar>
                                 <ListItemText
@@ -122,6 +129,7 @@ class UserOrganizations extends Component {
                   {...props}
                   role="admin_org"
                   org_name={this.state.org}
+                  id_org={this.state.idOrg}
                 />
               )}
             />

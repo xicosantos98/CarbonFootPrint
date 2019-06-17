@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { Provider } from "react-redux";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import MomentUtils from "@date-io/moment";
+import DateFnsUtils from "@date-io/date-fns";
 
 import App from "../App";
 
@@ -35,9 +38,11 @@ class RootContainer extends Component {
   render() {
     return (
       <MuiThemeProvider theme={theme}>
-        <Provider store={store}>
-          <App />
-        </Provider>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <Provider store={store}>
+            <App />
+          </Provider>
+        </MuiPickersUtilsProvider>
       </MuiThemeProvider>
     );
   }

@@ -47,6 +47,7 @@ class EnhancedTableHead extends React.Component {
               indeterminate={numSelected > 0 && numSelected < rowCount}
               checked={numSelected === rowCount}
               onChange={onSelectAllClick}
+              disabled={!this.props.multipleSelectionEnable}
               color="primary"
             />
           </TableCell>
@@ -197,7 +198,11 @@ class DataTable extends React.Component {
     if (this.props.selectionEnable) {
       const { selectedName } = this.state;
       const selectedIndex = selectedName.indexOf(name);
-      let newSelected = [];
+      var newSelected = [];
+
+      if (!this.props.multipleSelectionEnable) {
+        this.state.selectedName.length = 0;
+      }
 
       if (selectedIndex === -1) {
         newSelected = newSelected.concat(selectedName, name);
@@ -212,7 +217,9 @@ class DataTable extends React.Component {
         );
       }
 
-      this.setState({ selectedName: newSelected });
+      this.setState({ selectedName: newSelected }, () => {
+        console.log(this.state.selectedName);
+      });
 
       var dataSelected = [];
 
@@ -316,6 +323,7 @@ class DataTable extends React.Component {
               rowCount={data.length}
               data={this.props.data}
               selectionEnable={this.props.selectionEnable}
+              multipleSelectionEnable={this.props.multipleSelectionEnable}
               hideColumns={this.props.hideColumns}
             />
             <TableBody>

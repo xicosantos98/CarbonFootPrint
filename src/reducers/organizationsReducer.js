@@ -1,13 +1,15 @@
 import {
   FETCH_ORGANIZATIONS,
   NEW_ORGANIZATION,
-  FILTER_ORGANIZATIONS
+  FILTER_ORGANIZATIONS,
+  FETCH_MONTHLY_ACTIVITIES
 } from "../actions/types";
 
 const initialState = {
   organizations: [],
   filteredOrganizations: [],
-  organization: {}
+  organization: {},
+  m_activities: []
 };
 
 export default function(state = initialState, action) {
@@ -26,6 +28,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         organization: action.payload
+      };
+    case FETCH_MONTHLY_ACTIVITIES:
+      return {
+        ...state,
+        m_activities: action.payload
       };
     default:
       return state;

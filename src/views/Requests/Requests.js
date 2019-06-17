@@ -123,6 +123,7 @@ class Requests extends Component {
           name={"Requests"}
           updateSelectedList={this.updateSelectedList}
           selectionEnable={true}
+          multipleSelectionEnable={true}
         />
         <div className="row justify-content-end mt-5">
           <div className="col-12 col-md-2 text-right">
