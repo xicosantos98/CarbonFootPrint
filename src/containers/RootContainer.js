@@ -3,6 +3,7 @@ import { Provider } from "react-redux";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
 import DateFnsUtils from "@date-io/date-fns";
+import moment from "moment";
 
 import App from "../App";
 
@@ -38,7 +39,11 @@ class RootContainer extends Component {
   render() {
     return (
       <MuiThemeProvider theme={theme}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <MuiPickersUtilsProvider
+          utils={MomentUtils}
+          moment={moment}
+          locale="pt"
+        >
           <Provider store={store}>
             <App />
           </Provider>

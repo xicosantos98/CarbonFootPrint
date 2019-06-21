@@ -2,10 +2,13 @@ import {
   FETCH_ORGANIZATIONS,
   NEW_ORGANIZATION,
   FILTER_ORGANIZATIONS,
-  FETCH_MONTHLY_ACTIVITIES
+  FETCH_MONTHLY_ACTIVITIES,
+  GET_ORGANIZATION
 } from "./types";
 import axios from "axios";
 import { BASE_URL } from "../config";
+import moment from "moment";
+moment.locale("pt");
 
 export const getOrganizations = () => dispatch => {
   axios
@@ -37,6 +40,21 @@ export const getFilterOrganizations = orgName => dispatch => {
     });
 };
 
+export const getOrganizationDetails = idOrg => dispatch => {
+  return axios
+    .get(BASE_URL + "/organizations/" + idOrg)
+    .then(response => {
+      dispatch({
+        type: GET_ORGANIZATION,
+        payload: response
+      });
+      return true;
+    })
+    .catch(function(error) {
+      return false;
+    });
+};
+
 export const createOrganization = (orgData, account) => dispatch => {
   return axios
     .post(BASE_URL + "/organizations", orgData, {
@@ -54,20 +72,66 @@ export const createOrganization = (orgData, account) => dispatch => {
     });
 };
 
-export const getMonthlyActivities = id_organization => dispatch => {
-  return axios
-    .get(BASE_URL + "/m_activities/organization/" + id_organization)
-    .then(response => {
-      var new_array = response.data.map(act => ({
-        Description: act.description,
-        Product: act.output.name,
-        Month: act.month,
-        Year: act.id_year,
-        CO2eq: act.CO2eq
-      }));
-      dispatch({
-        type: FETCH_MONTHLY_ACTIVITIES,
-        payload: new_array
-      });
+export const getMonthlyActivities = (
+  id_organization,
+  searchText,
+  initialDate,
+  finalDate
+) => dispatch => {
+  var url = BASE_URL + "/m_activities/organization/" + id_organization;
+
+  return axios.get(url).then(response => {
+    var new_array = [];
+
+    if (response.data.length > 0) {
+      if (searchText) {
+        response.data.filter(act => {
+          if (
+            act.description.toLowerCase().match(searchText.toLowerCase()) ||
+            act.output.name.toLowerCase().match(searchText.toLowerCase())
+          ) {
+            new_array.push({
+              Description: act.description,
+              Product: act.output.name,
+              Month: act.month,
+              Year: act.id_year,
+              CO2eq: act.CO2eq
+            });
+          }
+        });
+      }
+
+      if (initialDate && finalDate) {
+        response.data.filter(act => {
+          if (
+            moment(act.month + " " + act.id_year, "MMMM YYYY").isBetween(
+              initialDate,
+              finalDate
+            )
+          ) {
+            new_array.push({
+              Description: act.description,
+              Product: act.output.name,
+              Month: act.month,
+              Year: act.id_year,
+              CO2eq: act.CO2eq
+            });
+          }
+        });
+      } else {
+        new_array = response.data.map(act => ({
+          Description: act.description,
+          Product: act.output.name,
+          Month: act.month,
+          Year: act.id_year,
+          CO2eq: act.CO2eq
+        }));
+      }
+    }
+
+    dispatch({
+      type: FETCH_MONTHLY_ACTIVITIES,
+      payload: new_array
     });
+  });
 };
