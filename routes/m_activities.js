@@ -103,7 +103,13 @@ router
           });
         }
 
-        res.status(200).json(orgMactivities);
+        if (orgMactivities.length == 0) {
+          res
+            .status(200)
+            .json({ warning: "0 monthly activities found", length: 0 });
+        } else {
+          res.status(200).json(orgMactivities);
+        }
       }
     }
   })

@@ -73,7 +73,14 @@ router
         var co2eq = (organization[1] * Math.pow(10, -organization[2])).toFixed(
           organization[2]
         );
-        var prods = c_instance.getOrgProducts(organization[0].toNumber());
+        var id_prods = c_instance.getOrgProducts(organization[0].toNumber());
+        var prods = [];
+
+        for (var i = 0; i < id_prods.length; i++) {
+          var prod = c_instance.products(id_prods[i].toNumber());
+          prods.push({ id: id_prods[i], name: prod[1], description: prod[2] });
+        }
+
         var m_activities = c_instance.getOrgMactivities(
           organization[0].toNumber()
         );
