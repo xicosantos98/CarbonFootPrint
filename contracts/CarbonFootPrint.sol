@@ -1,8 +1,12 @@
 pragma solidity >=0.4.2;
 
 contract CarbonFootPrint {
-    
-    // -- Estrutura dos produtos
+
+// -- Structures Implementation --
+
+// ----------------------------- PRODUCT STRUCTURES -----------------------------
+
+// -- General Product Structure --
     struct Product{
         uint32 id;
         string name;
@@ -13,7 +17,8 @@ contract CarbonFootPrint {
         uint32 idUnit;
         uint32[] productFootPrints;
     }
-
+    
+// -- Specific Product Footprint - Result of Monthly Activity --
     struct ProductFootprint{
         uint32 id;
         uint32 co2eq;
@@ -22,7 +27,8 @@ contract CarbonFootPrint {
         uint32 year;
         string month;
     }
-
+ 
+// -- Products Used in Monthly Activity Quantity --
     struct ProductQuantity{
         uint32 id;
         uint32 quantity;
@@ -31,7 +37,7 @@ contract CarbonFootPrint {
     }
 
 
-    // -- Estrutura das organizações
+// -- Organizations Structure -- 
     struct Organization{
         uint32 id;
         uint32 co2eq;
@@ -45,7 +51,7 @@ contract CarbonFootPrint {
         uint32[] m_fixcosts;
     }
 
-    // -- Estrutura das atividades mensais
+// -- Monthly Activities Structure -- 
     struct MonthlyActivity{
         uint32 id;
         string description;
@@ -61,7 +67,7 @@ contract CarbonFootPrint {
         address idUser;
     }
 
-    // -- Estrutura dos custos fixos mensais
+// -- Monthly Fixed Costs Structure
     struct MonthlyFixCost{
         uint32 id;
         uint32 co2eq;
@@ -74,7 +80,7 @@ contract CarbonFootPrint {
         uint32 year;
     }
 
-    // -- Estrutura dos custos dos produtos
+// -- Product Cost Structure
     struct ProductCost{
         uint32 id;
         uint32 co2eq;
@@ -84,7 +90,7 @@ contract CarbonFootPrint {
         uint32 idM_Activity;
     }
 
-    // -- Estrutura do tipo de custo
+// -- Cost Type Structure --
     struct CostType{
         uint32 id;
         uint32 co2PerUnit;
@@ -95,7 +101,7 @@ contract CarbonFootPrint {
         uint32[] products_costs;
     }
 
-    // -- Estrutura das unidades
+// -- Unit Structure --    
     struct Unit{
         uint32 id;
         string measure;
@@ -106,14 +112,14 @@ contract CarbonFootPrint {
         bool negative;
     }
 
-    // -- Users
+// -- Users Structure --
     struct User{
         address user_add;
         uint16 tipo; // 0 - Admin , 1 - OrgAdmin,  2 - User
         bool status;
     }
     
-    // -- Request
+// -- Request Structure --
     struct Request{
         uint32 id;
         address user;
@@ -125,7 +131,9 @@ contract CarbonFootPrint {
     }
 
 
-    // -- Mappings
+// ----------------------------- MAPPINGS REQUIRED TO ACCESS RESPECTIVE STRUCT INFORMATION -----------------------------
+// ----------------------------- AND COUNTERS FOR TOTAL NUMBER OF ELEMENTS -----------------------------
+    
     mapping(uint32 => Product) public products;
     uint32 public productsCount;
 
@@ -167,6 +175,9 @@ contract CarbonFootPrint {
         address indexed _candidateAddress
     );
 
+
+// ----------------------------- CONSTRUCTOR AND DEFAULT VALUES SETTING -----------------------------
+
     constructor () public{
         
         users[msg.sender] = User(msg.sender, 0, true);
@@ -180,6 +191,8 @@ contract CarbonFootPrint {
 
         addYear(2019);
     }
+    
+//  ----------------------------- GETTERS -----------------------------
 
     function getYearsCount() public view returns(uint count){
         return arrayYears.length;
@@ -189,41 +202,45 @@ contract CarbonFootPrint {
         return arrayUsers.length;
     }
     
+// -- Get 
     function getUserOrganizations(address _add) public view returns(uint32[] memory orgs){
         return userOrganizations[_add];
     }
 
-    function isNull(address _add) public pure returns(bool addressNull){
-        return _add == address(0);
-    }
-
-    // -- GETTERS -> organization
+// -- Get All Products From Organization --
     function getOrgProducts(uint32 _org) public view returns(uint32[] memory prods){
         return organizations[_org].products;
     }
-
+    
+//-- Get Organizations Monthly Activities --
     function getOrgMactivities(uint32 _org) public view returns(uint32[] memory m_activities){
         return organizations[_org].m_activities;
     }
-
+    
+//Get Organization's Fixed Costs
     function getOrgFixCosts(uint32 _org) public view returns(uint32[] memory m_fixcosts){
         return organizations[_org].m_fixcosts;
     }
     
-    // -- GETTERS -> MonthlyActivity
+// -- 
     function getProdQuantities(uint32 _prod) public view returns(uint32[] memory quantities){
-        return mactivities[_prod].productQuantities;
+        return mactiviies[_prod].productQuantities;
     }
 
-
-
-    // -- GETTERS -> products
+// -- Get All Footprints For a Specific Product --
+    
     function getFootPrintsProd(uint32 _prod) public view returns(uint32[] memory footprints){
         return products[_prod].productFootPrints;
     }   
 
+// ----------------------------- ADDITIONAL FUNCTIONS -----------------------------
 
-
+// -- Verification if Address (User) Exists --
+    function isNull(address _add) public pure returns(bool addressNull){
+        return _add == address(0);
+    }
+    
+// -- Add New User Function --
     function addUser (address _userResp,address _user, uint16 _tipo, uint32 _organization) public {
         
         require(users[_user].user_add == address(0), "User already registred");
