@@ -1,6 +1,6 @@
 pragma solidity >=0.4.2;
 
-contract CarbonFootPrint{
+contract CarbonFootPrint {
     
     // -- Estrutura dos produtos
     struct Product{
@@ -20,6 +20,7 @@ contract CarbonFootPrint{
         uint16 exp;
         uint32 idProduct;
         uint32 year;
+        string month;
     }
 
     struct ProductQuantity{
@@ -110,7 +111,6 @@ contract CarbonFootPrint{
         address user_add;
         uint16 tipo; // 0 - Admin , 1 - OrgAdmin,  2 - User
         bool status;
-        uint32 idOrganization;
     }
     
     // -- Request
@@ -148,6 +148,8 @@ contract CarbonFootPrint{
     uint32 public unitsCount;
 
     mapping(address => User) public users;
+    mapping(address => uint32[]) public userOrganizations;
+    
     address[] public arrayUsers;
 
     mapping(uint32 => ProductFootprint) public productFootPrints;
@@ -166,7 +168,8 @@ contract CarbonFootPrint{
     );
 
     constructor () public{
-        users[msg.sender] = User(msg.sender, 0, true, 0);
+        
+        users[msg.sender] = User(msg.sender, 0, true);
         arrayUsers.push(msg.sender);
 
         // -- Initalize units
@@ -184,6 +187,10 @@ contract CarbonFootPrint{
 
     function getUsersCount() public view returns(uint count) {
         return arrayUsers.length;
+    }
+    
+    function getUserOrganizations(address _add) public view returns(uint32[] memory orgs){
+        return userOrganizations[_add];
     }
 
     function isNull(address _add) public pure returns(bool addressNull){
@@ -217,7 +224,7 @@ contract CarbonFootPrint{
 
 
 
-    function addUser (address _userResp,address _user, uint16 _tipo, uint32 _idOrganization) public {
+    function addUser (address _userResp,address _user, uint16 _tipo, uint32 _organization) public {
         
         require(users[_user].user_add == address(0), "User already registred");
 
@@ -225,11 +232,11 @@ contract CarbonFootPrint{
             require(users[_userResp].tipo == 0, "You need to have admin permissions");
         }else if(_tipo == 2){
             require(users[_userResp].tipo == 1 , "You need to have organization admin permissions");
-            require(users[_userResp].idOrganization == _idOrganization, "You need to belong to the organization");
         }
 
-        users[_user] = User(_user, _tipo, true, _idOrganization);
+        users[_user] = User(_user, _tipo, true);
         arrayUsers.push(_user);
+        userOrganizations[_user].push(_organization);
 
         emit registUserEvent(_user);
         
@@ -259,8 +266,9 @@ contract CarbonFootPrint{
     }
 
     function addOrganization(string memory _name, string memory _description, 
-    string memory _businessArea, string memory _email, 
+    string memory _businessArea, string memory _email, address _user, 
     uint32[] memory _products, uint32[] memory _m_activities, uint32[] memory _m_fixcosts) public {
+        
         require(users[msg.sender].tipo == 0, "You need to have admin permissions");
         bool exist = false;
 
@@ -282,6 +290,14 @@ contract CarbonFootPrint{
 
         organizationsCount++;
         organizations[organizationsCount] = Organization(organizationsCount, 0, 0, _name, _description, _businessArea, _email, _products, _m_activities, _m_fixcosts); 
+        
+        
+        if(users[_user].user_add == address(0)){
+            addUser(msg.sender, _user, 1, organizationsCount);    
+        }else{
+            userOrganizations[_user].push(organizationsCount);
+        }
+        
     }
 
 
@@ -319,8 +335,29 @@ contract CarbonFootPrint{
     
     function addRequest(address _user, string memory _orgName, string memory _orgDesc, 
     string memory _orgBarea, string memory _orgEmail) public {
+        
+        bool exist = false;
+        
+        for(uint32 i=1; i <= requestsCount; i++){
+            if(requests[i].user == _user && !requests[i].accepted){
+                exist = true;
+            }
+        }
+        
+        require(!exist, "Same user can't create more than 1 request");
+        
         requestsCount ++;
         requests[requestsCount] = Request(requestsCount, _user, false, _orgName, _orgDesc, _orgBarea, _orgEmail);
+    }
+    
+    function rejectRequest(string memory _name) public {
+        
+        for(uint32 i=1; i <= requestsCount; i++){
+            string memory name = requests[i].org_name;
+            if(keccak256(abi.encodePacked(name)) == keccak256(abi.encodePacked(_name))){
+                requests[i].accepted = true;
+            }
+        }
     }
     
     function existsYear(uint32 _year) public view returns (bool exists){
@@ -335,7 +372,7 @@ contract CarbonFootPrint{
         return exist;
     }
 
-    function addFootPrintProd(uint32 _co2eq, uint16 _exp, uint32 _idProd, uint32 _year) public {
+    function addFootPrintProd(uint32 _co2eq, uint16 _exp, uint32 _idProd, uint32 _year, string memory _month) public {
         
         //require(users[msg.sender].idOrganization == products[_idProd].idOrganization, "The product doesnt belong to your organization");        
         require(products[_idProd].id != uint32(0), "Product doesn't exist");
@@ -343,7 +380,7 @@ contract CarbonFootPrint{
 
         
         pfootPrintCount++;
-        productFootPrints[pfootPrintCount] = ProductFootprint(pfootPrintCount, _co2eq, _exp, _idProd, _year);
+        productFootPrints[pfootPrintCount] = ProductFootprint(pfootPrintCount, _co2eq, _exp, _idProd, _year, _month);
         products[_idProd].productFootPrints.push(pfootPrintCount);
     }
 
