@@ -218,6 +218,36 @@
 		"type": "function"
 	},
 	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_co2eq",
+				"type": "uint32"
+			},
+			{
+				"name": "_exp",
+				"type": "uint16"
+			},
+			{
+				"name": "_idProd",
+				"type": "uint32"
+			},
+			{
+				"name": "_year",
+				"type": "uint32"
+			},
+			{
+				"name": "_month",
+				"type": "string"
+			}
+		],
+		"name": "addFootPrintProd",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"constant": true,
 		"inputs": [
 			{
@@ -246,6 +276,10 @@
 			{
 				"name": "year",
 				"type": "uint32"
+			},
+			{
+				"name": "month",
+				"type": "string"
 			}
 		],
 		"payable": false,
@@ -843,6 +877,40 @@
 		"type": "function"
 	},
 	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_measure",
+				"type": "string"
+			},
+			{
+				"name": "_initials",
+				"type": "string"
+			},
+			{
+				"name": "_base",
+				"type": "uint32"
+			},
+			{
+				"name": "_exp",
+				"type": "uint32"
+			},
+			{
+				"name": "_idUnit",
+				"type": "uint32"
+			},
+			{
+				"name": "_negative",
+				"type": "bool"
+			}
+		],
+		"name": "addUnit",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"constant": true,
 		"inputs": [
 			{
@@ -1044,32 +1112,6 @@
 		],
 		"payable": false,
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_co2eq",
-				"type": "uint32"
-			},
-			{
-				"name": "_exp",
-				"type": "uint16"
-			},
-			{
-				"name": "_idProd",
-				"type": "uint32"
-			},
-			{
-				"name": "_year",
-				"type": "uint32"
-			}
-		],
-		"name": "addFootPrintProd",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{

@@ -153,10 +153,17 @@ router
         var year = parseInt(req.body.year);
         createYear(year, req.headers.address);
 
-        c_instance.addFootPrintProd(0, 0, req.body.product_id, year, {
-          from: req.headers.address,
-          gas: 3000000
-        });
+        c_instance.addFootPrintProd(
+          0,
+          0,
+          req.body.product_id,
+          year,
+          req.body.month,
+          {
+            from: req.headers.address,
+            gas: 3000000
+          }
+        );
 
         c_instance.addMonthlyActivity(
           req.body.description,

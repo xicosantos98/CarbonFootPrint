@@ -66,7 +66,6 @@ router
       res.status(400).send({ message: "Error, invalid request" });
     } else {
       var organization = c_instance.organizations(req.params.id);
-      console.log(organization);
       if (organization[0].toNumber() == 0) {
         res.status(200).json({ message: "Organization not found" });
       } else {
@@ -78,7 +77,18 @@ router
 
         for (var i = 0; i < id_prods.length; i++) {
           var prod = c_instance.products(id_prods[i].toNumber());
-          prods.push({ id: id_prods[i], name: prod[1], description: prod[2] });
+          if (
+            req.query.search_product &&
+            !prod[1].toLowerCase().match(req.query.search_product.toLowerCase())
+          ) {
+            continue;
+          } else {
+            prods.push({
+              id: id_prods[i],
+              name: prod[1],
+              description: prod[2]
+            });
+          }
         }
 
         var m_activities = c_instance.getOrgMactivities(

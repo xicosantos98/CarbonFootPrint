@@ -28,13 +28,13 @@ router
 
     for (var i = 1; i <= count; i++) {
       var cost = c_instance.costsTypes(i);
-      var co2 = (cost[1] * Math.pow(10, -cost[2])).toFixed(cost[2]);
+      var co2 = (cost[1] * Math.pow(10, -cost[2])).toFixed(cost[2].toNumber());
 
       costs.push({
         id: cost[0],
         CO2eq: co2,
         description: cost[3],
-        unit: c_instance.units(cost[4].toNumber())[2]
+        unit: c_instance.units(cost[4].toNumber())[1]
       });
     }
 
@@ -58,7 +58,7 @@ router
           id: cost[0],
           CO2eq: co2,
           description: cost[3],
-          unit: c_instance.units(cost[4].toNumber())[2]
+          unit: c_instance.units(cost[4].toNumber())[1]
         });
       }
     }
