@@ -1,7 +1,8 @@
-import { FILTER_PRODUCTS } from "../actions/types";
+import { FILTER_PRODUCTS, GET_UNITS } from "../actions/types";
 
 const initialState = {
-  filteredProducts: []
+  filteredProducts: [],
+  units: []
 };
 
 export default function(state = initialState, action) {
@@ -10,6 +11,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         filteredProducts: action.payload
+      };
+    case GET_UNITS:
+      return {
+        ...state,
+        units: action.payload
       };
     default:
       return state;

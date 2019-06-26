@@ -67,7 +67,7 @@ class DefaultHeader extends Component {
     } else if (this.props.role == "admin_org") {
       return (
         <Button block color="ghost-success" className="mr-3" href="#/">
-          <i class="fas fa-user-tie" style={{ fontSize: 20 }} />
+          <i className="fas fa-user-tie" style={{ fontSize: 20 }} />
           &nbsp;{this.props.org_name}
         </Button>
       );

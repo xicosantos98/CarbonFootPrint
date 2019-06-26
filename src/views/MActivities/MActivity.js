@@ -9,7 +9,7 @@ import SearchIcon from "@material-ui/icons/SearchOutlined";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Error from "@material-ui/icons/ErrorOutline";
 import Typography from "@material-ui/core/Typography";
-import { Button } from "@material-ui/core";
+import { Button, Tooltip } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import { DatePicker, KeyboardDatePicker } from "@material-ui/pickers";
 import Icon from "@material-ui/core/Icon";
@@ -20,15 +20,11 @@ import InputBase from "@material-ui/core/InputBase";
 import Divider from "@material-ui/core/Divider";
 import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
+import "./MActivity.css";
 
 moment.locale("pt");
 
 const Loading = React.lazy(() => import("../../views/Loading"));
-
-const divError = {
-  alignItems: "center",
-  justifyContent: "center"
-};
 
 const styles = theme => ({
   root: {
@@ -53,14 +49,14 @@ const styles = theme => ({
     margin: 4
   },
   rightIcon: {
-    marginLeft: theme.spacing.unit
+    marginLeft: theme.spacing(1)
   },
   margin: {
-    margin: theme.spacing.unit
+    margin: theme.spacing(1)
   }
 });
 
-const CssTextField = withStyles({
+/*const CssTextField = withStyles({
   root: {
     "& label.Mui-focused": {
       color: "#0b5b3b"
@@ -80,7 +76,7 @@ const CssTextField = withStyles({
       }
     }
   }
-})(TextField);
+})(TextField);*/
 
 class MActivity extends Component {
   constructor(props) {
@@ -238,21 +234,25 @@ class MActivity extends Component {
           ) : (
             <Loading className={"mb-5"} />
           )}
-
-          <Fab
-            color="primary"
-            aria-label="Add"
-            className={classes.fab}
-            style={{
-              textTransform: "none",
-              position: "fixed",
-              bottom: "20px",
-              right: "20px"
-            }}
-            href="#/company/monthlyactivites/create"
-          >
-            <AddIcon className={classes.extendedIcon} />
-          </Fab>
+          <Tooltip title="Create activity">
+            <Fab
+              color="primary"
+              aria-label="Add"
+              className={classes.fab}
+              style={{
+                textTransform: "none",
+                position: "fixed",
+                bottom: "20px",
+                right: "20px"
+              }}
+              href="#/company/monthlyactivites/create"
+            >
+              <AddIcon
+                style={{ textTransform: "none" }}
+                className={classes.extendedIcon}
+              />
+            </Fab>
+          </Tooltip>
         </div>
       </div>
     );

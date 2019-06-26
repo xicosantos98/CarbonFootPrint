@@ -55,18 +55,12 @@ class EnhancedTableHead extends React.Component {
 
 const toolbarStyles = theme => ({
   root: {
-    paddingRight: theme.spacing.unit
+    paddingRight: theme.spacing(1)
   },
-  highlight:
-    theme.palette.type === "light"
-      ? {
-          color: "#ffffff",
-          backgroundColor: "#4caf50"
-        }
-      : {
-          color: "#ffffff",
-          backgroundColor: "#4caf50"
-        },
+  highlight: {
+    color: "#ffffff",
+    backgroundColor: "#0b5b3b"
+  },
   spacer: {
     flex: "1 1 100%"
   },
@@ -117,7 +111,7 @@ EnhancedTableToolbar = withStyles(toolbarStyles)(EnhancedTableToolbar);
 const styles = theme => ({
   root: {
     width: "100%",
-    marginTop: theme.spacing.unit * 3
+    marginTop: theme.spacing(3)
   },
   table: {
     maxHeight: 100

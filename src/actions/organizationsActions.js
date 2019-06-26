@@ -3,7 +3,9 @@ import {
   NEW_ORGANIZATION,
   FILTER_ORGANIZATIONS,
   FETCH_MONTHLY_ACTIVITIES,
-  GET_ORGANIZATION
+  GET_ORGANIZATION,
+  GET_PRODUCTS_ORGANIZATION,
+  GET_EXTERNAL_PRODUCTS
 } from "./types";
 import axios from "axios";
 import { BASE_URL } from "../config";
@@ -40,9 +42,9 @@ export const getFilterOrganizations = orgName => dispatch => {
     });
 };
 
-export const getOrganizationDetails = idOrg => dispatch => {
+export const getOrganizationDetails = (idOrg, search) => dispatch => {
   return axios
-    .get(BASE_URL + "/organizations/" + idOrg)
+    .get(BASE_URL + "/organizations/" + idOrg + "?search_product=" + search)
     .then(response => {
       dispatch({
         type: GET_ORGANIZATION,
@@ -134,4 +136,34 @@ export const getMonthlyActivities = (
       payload: new_array
     });
   });
+};
+
+export const getProductsOrganization = (idOrg, search) => dispatch => {
+  return axios
+    .get(BASE_URL + "/products/organization/" + idOrg + "?search=" + search)
+    .then(response => {
+      dispatch({
+        type: GET_PRODUCTS_ORGANIZATION,
+        payload: response
+      });
+      return true;
+    })
+    .catch(function(error) {
+      return false;
+    });
+};
+
+export const getExternalProducts = (idOrg, search) => dispatch => {
+  return axios
+    .get(BASE_URL + "/products/external/" + idOrg + "?search=" + search)
+    .then(response => {
+      dispatch({
+        type: GET_EXTERNAL_PRODUCTS,
+        payload: response
+      });
+      return true;
+    })
+    .catch(function(error) {
+      return false;
+    });
 };

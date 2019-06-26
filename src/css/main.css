@@ -20,12 +20,12 @@
 }
 
 .sidebar .nav-link:hover {
-    background: #66cc99 !important;
-    color: #fff !important;
+    background: #e0fae1 !important;
+    color: #0b5b3b !important;
 }
 
 .sidebar .nav-link:hover .nav-icon {
-    color: #fff !important;
+    color: #0b5b3b !important;
 }
 
 .sidebar .nav-link .nav-icon {

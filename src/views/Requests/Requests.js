@@ -23,7 +23,7 @@ const divError = {
 
 const styles = theme => ({
   rightIcon: {
-    marginLeft: theme.spacing.unit
+    marginLeft: theme.spacing(1)
   }
 });
 var columns = [4];
