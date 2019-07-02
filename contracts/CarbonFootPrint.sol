@@ -26,6 +26,7 @@ contract CarbonFootPrint {
         uint32 idProduct;
         uint32 year;
         string month;
+        uint32 idMA;
     }
  
 // -- Products Used in Monthly Activity Quantity --
@@ -188,7 +189,23 @@ contract CarbonFootPrint {
         addUnit("kilogram", "kg", 10, 3, 1, true);
         addUnit("gram", "g", 10, 6, 1, true);
         addUnit("milligram", "mg", 10, 9, 1, true);
-
+        
+        addUnit("megaliter", "Ml", 10, 0, 5, false);
+        addUnit("kilolitre", "kl", 10, 3, 5, true);
+        addUnit("hectolitre", "hl", 10, 4, 5, true);
+        addUnit("decalitre", "dl", 10, 5, 5, true);
+        addUnit("litre", "l", 10, 6, 5, true);
+        
+        addUnit("kilometre", "km", 10, 0, 10, false);
+        addUnit("metre", "m", 10, 3, 10, true);
+        addUnit("centimetre", "cm", 10, 5, 10, true);
+        
+        addUnit("kilowatt houre", "kw/h", 10, 0, 13, false);
+        addUnit("watt houre", "w/h", 10, 3, 13, true);
+        
+        addUnit("unit", "unit", 10, 0, 15, false);
+        
+        
         addYear(2019);
     }
     
@@ -274,7 +291,7 @@ contract CarbonFootPrint {
     }
     
 // -- Add New Measure Unit Function --
-    function addUnit(string memory _measure, string memory _initials, uint32 _base, uint32 _exp, uint32 _idUnit,bool _negative) private{
+    function addUnit(string memory _measure, string memory _initials, uint32 _base, uint32 _exp, uint32 _idUnit,bool _negative) public{
         
         require(users[msg.sender].tipo == 0, "You need to have admin permissions");
 
@@ -394,7 +411,7 @@ contract CarbonFootPrint {
     }
 
 // -- Add New Product Footprint Function --
-    function addFootPrintProd(uint32 _co2eq, uint16 _exp, uint32 _idProd, uint32 _year, string memory _month) public {
+    function addFootPrintProd(uint32 _co2eq, uint16 _exp, uint32 _idProd, uint32 _year, string memory _month, uint32 _idMa) public {
         
         //require(users[msg.sender].idOrganization == products[_idProd].idOrganization, "The product doesnt belong to your organization");        
         require(products[_idProd].id != uint32(0), "Product doesn't exist");
@@ -402,7 +419,7 @@ contract CarbonFootPrint {
 
         
         pfootPrintCount++;
-        productFootPrints[pfootPrintCount] = ProductFootprint(pfootPrintCount, _co2eq, _exp, _idProd, _year, _month);
+        productFootPrints[pfootPrintCount] = ProductFootprint(pfootPrintCount, _co2eq, _exp, _idProd, _year, _month, _idMa);
         products[_idProd].productFootPrints.push(pfootPrintCount);
     }
 
@@ -430,12 +447,12 @@ contract CarbonFootPrint {
 
 // -- Add Organization's New Monthly Activity Function --
     function addMonthlyActivity(string memory _desc, uint32 _qtd, string memory _month,
-        uint32[] memory _prodQuantities, uint32 _output, uint32 _idOrg, uint32 _idUnit, uint32 _year) public{
+        uint32[] memory _prodQuantities, uint32 _output, uint32 _idOrg, uint32 _idUnit, uint32 _year, uint32 _co2eq, uint16 _exp ) public{
         
         //require(users[msg.sender].idOrganization == _idOrg, "You need to belong to the organization");    
 
         mactivitiesCount++;
-        mactivities[mactivitiesCount] = MonthlyActivity(mactivitiesCount, _desc, 0, _qtd, 0, _month, _prodQuantities, _output, _idOrg, _idUnit, _year, msg.sender);
+        mactivities[mactivitiesCount] = MonthlyActivity(mactivitiesCount, _desc, _co2eq, _qtd, _exp, _month, _prodQuantities, _output, _idOrg, _idUnit, _year, msg.sender);
         organizations[_idOrg].m_activities.push(mactivitiesCount);
     }
     
