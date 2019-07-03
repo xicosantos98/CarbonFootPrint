@@ -12,7 +12,7 @@ export default {
     },
     {
       name: "Products",
-      url: "/theme/typography",
+      url: "/company/products",
       icon: "fas fa-clipboard-list"
     },
     {
@@ -22,7 +22,7 @@ export default {
     },
     {
       name: "Monthly Fix Costs",
-      url: "/theme/typography",
+      url: "/company/monthlycosts",
       icon: "fas fa-euro-sign"
     },
     {

@@ -127,6 +127,7 @@ class UserOrganizations extends Component {
               render={props => (
                 <DefaultLayout
                   {...props}
+                  account={this.props.account}
                   role="admin_org"
                   org_name={this.state.org}
                   id_org={this.state.idOrg}

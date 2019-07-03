@@ -3,9 +3,14 @@ import {
   NEW_ORGANIZATION,
   FILTER_ORGANIZATIONS,
   FETCH_MONTHLY_ACTIVITIES,
+  FETCH_MONTHLY_FIX_COSTS,
   GET_ORGANIZATION,
   GET_PRODUCTS_ORGANIZATION,
-  GET_EXTERNAL_PRODUCTS
+  GET_EXTERNAL_PRODUCTS,
+  CREATE_MONTHLY_ACTIVITY,
+  CREATE_PRODUCT_QUANTITY,
+  CREATE_PRODUCTION_COST,
+  CREATE_MONTHLY_FIX_COST
 } from "./types";
 import axios from "axios";
 import { BASE_URL } from "../config";
@@ -138,6 +143,66 @@ export const getMonthlyActivities = (
   });
 };
 
+export const getMonthlyCosts = (
+  id_organization,
+  searchText,
+  initialDate,
+  finalDate
+) => dispatch => {
+  var url = BASE_URL + "/m_costs/organization/" + id_organization;
+  return axios.get(url).then(response => {
+    var new_array = [];
+
+    if (response.data.length > 0) {
+      if (searchText) {
+        response.data.filter(cost => {
+          if (cost.description.toLowerCase().match(searchText.toLowerCase())) {
+            new_array.push({
+              Description: cost.description,
+              Type: cost.cost_type,
+              Month: cost.month,
+              Year: cost.year,
+              CO2eq: cost.CO2eq
+            });
+          }
+        });
+      }
+
+      if (initialDate && finalDate) {
+        response.data.filter(cost => {
+          if (
+            moment(cost.month + " " + cost.year, "MMMM YYYY").isBetween(
+              initialDate,
+              finalDate
+            )
+          ) {
+            new_array.push({
+              Description: cost.description,
+              Type: cost.cost_type,
+              Month: cost.month,
+              Year: cost.year,
+              CO2eq: cost.CO2eq
+            });
+          }
+        });
+      } else {
+        new_array = response.data.map(cost => ({
+          Description: cost.description,
+          Type: cost.cost_type,
+          Month: cost.month,
+          Year: cost.year,
+          CO2eq: cost.CO2eq
+        }));
+      }
+    }
+
+    dispatch({
+      type: FETCH_MONTHLY_FIX_COSTS,
+      payload: new_array
+    });
+  });
+};
+
 export const getProductsOrganization = (idOrg, search) => dispatch => {
   return axios
     .get(BASE_URL + "/products/organization/" + idOrg + "?search=" + search)
@@ -165,5 +230,73 @@ export const getExternalProducts = (idOrg, search) => dispatch => {
     })
     .catch(function(error) {
       return false;
+    });
+};
+
+export const createMactivity = (data, account) => dispatch => {
+  return axios
+    .post(BASE_URL + "/m_activities", data, {
+      headers: { "Content-Type": "application/json", address: account }
+    })
+    .then(response => {
+      dispatch({
+        type: CREATE_MONTHLY_ACTIVITY,
+        payload: response
+      });
+      return { valid: true, msg: response.data.message, id: response.data.id };
+    })
+    .catch(function(error) {
+      return { valid: false, msg: error.response.data.message };
+    });
+};
+
+export const createProdQuantity = (data, account) => dispatch => {
+  return axios
+    .post(BASE_URL + "/p_quantities", data, {
+      headers: { "Content-Type": "application/json", address: account }
+    })
+    .then(response => {
+      dispatch({
+        type: CREATE_PRODUCT_QUANTITY,
+        payload: response
+      });
+      return { valid: true, msg: response.data.message };
+    })
+    .catch(function(error) {
+      return { valid: false, msg: error.response.data.message };
+    });
+};
+
+export const createProdCost = (data, account) => dispatch => {
+  return axios
+    .post(BASE_URL + "/p_costs", data, {
+      headers: { "Content-Type": "application/json", address: account }
+    })
+    .then(response => {
+      dispatch({
+        type: CREATE_PRODUCTION_COST,
+        payload: response
+      });
+      return { valid: true, msg: response.data.message };
+    })
+    .catch(function(error) {
+      return { valid: false, msg: error.response.data.message };
+    });
+};
+
+export const createFixCost = (data, account) => dispatch => {
+  return axios
+    .post(BASE_URL + "/m_costs", data, {
+      headers: { "Content-Type": "application/json", address: account }
+    })
+    .then(response => {
+      dispatch({
+        type: CREATE_MONTHLY_FIX_COST,
+        payload: response
+      });
+      return { valid: true, msg: response.data.message };
+    })
+    .catch(function(error) {
+      return { valid: false, msg: error.response.data.message };
     });
 };

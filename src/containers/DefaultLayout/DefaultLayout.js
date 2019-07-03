@@ -20,6 +20,7 @@ import navigationOrgAdmin from "../../_nav_orgadmin";
 
 // routes config
 import routes from "../../routes";
+import routesOrg from "../../routes_org";
 
 import { connect } from "react-redux";
 import { getPendingRequests } from "../../actions/requestsActions";
@@ -86,26 +87,49 @@ class DefaultLayout extends Component {
             <main className="main" style={{ backgroundColor: "#e0fae1" }}>
               <Container fluid className="mt-3">
                 <Suspense fallback={<Loading />}>
-                  <Switch>
-                    {routes.map((route, idx) => {
-                      return route.component ? (
-                        <Route
-                          key={idx}
-                          path={route.path}
-                          exact={route.exact}
-                          name={route.name}
-                          render={props => (
-                            <route.component
-                              {...props}
-                              account={this.props.account}
-                              id_org={this.props.id_org}
-                            />
-                          )}
-                        />
-                      ) : null;
-                    })}
-                    <Redirect from="/" to="/dashboard" />
-                  </Switch>
+                  {this.props.role == "admin" ? (
+                    <Switch>
+                      {routes.map((route, idx) => {
+                        return route.component ? (
+                          <Route
+                            key={idx}
+                            path={route.path}
+                            exact={route.exact}
+                            name={route.name}
+                            render={props => (
+                              <route.component
+                                {...props}
+                                account={this.props.account}
+                                id_org={this.props.id_org}
+                              />
+                            )}
+                          />
+                        ) : null;
+                      })}
+                      <Redirect from="/" to="/dashboard" />
+                    </Switch>
+                  ) : (
+                    <Switch>
+                      {routesOrg.map((route, idx) => {
+                        return route.component ? (
+                          <Route
+                            key={idx}
+                            path={route.path}
+                            exact={route.exact}
+                            name={route.name}
+                            render={props => (
+                              <route.component
+                                {...props}
+                                account={this.props.account}
+                                id_org={this.props.id_org}
+                              />
+                            )}
+                          />
+                        ) : null;
+                      })}
+                      <Redirect from="/" to="/dashboard" />
+                    </Switch>
+                  )}
                 </Suspense>
               </Container>
             </main>

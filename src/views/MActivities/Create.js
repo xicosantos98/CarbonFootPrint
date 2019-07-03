@@ -20,11 +20,15 @@ import TableRow from "@material-ui/core/TableRow";
 import AddIcon from "@material-ui/icons/Add";
 import SaveIcon from "@material-ui/icons/Save";
 import DeleteIcon from "@material-ui/icons/DeleteForeverOutlined";
+import iziToast from "izitoast";
 
 import {
   getExternalProducts,
   getOrganizationDetails,
-  getProductsOrganization
+  getProductsOrganization,
+  createMactivity,
+  createProdQuantity,
+  createProdCost
 } from "../../actions/organizationsActions";
 
 import { getUnits } from "../../actions/productsActions";
@@ -111,12 +115,14 @@ class Create extends Component {
       openOutputModal: false,
       openInputModal: false,
       outputProdSelected: {},
+      outputProdQtd: 0,
+      outputProdUnit: "",
       inputProdSelected: {},
       outputProds: [],
       inputProds: [],
       units: [],
       filteredInputProds: [],
-      actDate: moment().format("MMMM YYYY"),
+      actDate: moment(),
       monthInput: moment().format("MMMM"),
       yearInput: moment().format("YYYY"),
       quantityInput: 0,
@@ -153,8 +159,13 @@ class Create extends Component {
     });
   };
 
-  closeModalOutput = value => {
-    this.setState({ outputProdSelected: value, openOutputModal: false });
+  closeModalOutput = (prod, qtd, unit) => {
+    this.setState({
+      outputProdSelected: prod,
+      outputProdQtd: qtd,
+      outputProdUnit: unit,
+      openOutputModal: false
+    });
     this.setState({ loadingOutput: true });
   };
 
@@ -225,6 +236,7 @@ class Create extends Component {
     ) {
       var arr = this.state.tableRows;
       arr.push({
+        id: this.state.inputProdSelected.id,
         type: "product",
         description: this.state.inputProdSelected.product,
         year: this.state.inputProdSelected.year,
@@ -236,15 +248,16 @@ class Create extends Component {
         var new_row =
           Number(this.state.quantityInput) * Number(this.state.co2eqInput);
 
+        console.log(new_row);
+
         var totalProduct = Number(this.state.totalCO2eqProduct) + new_row;
-        var totalActivity = Number(this.state.totalCO2eq) + new_row;
+        //var totalActivity = Number(this.state.totalCO2eq) + new_row;
 
         this.setState({
           inputProdSelected: {},
           quantityInput: 0,
           co2eqInput: 0,
-          totalCO2eqProduct: totalProduct.toFixed(3),
-          totalCO2eq: totalActivity.toFixed(3)
+          totalCO2eqProduct: totalProduct.toFixed(3)
         });
       });
     } else if (
@@ -253,6 +266,7 @@ class Create extends Component {
     ) {
       var arr = this.state.tableRows;
       arr.push({
+        id: this.state.costTypeSelected.id,
         type: "cost",
         description: this.state.costTypeSelected.description,
         year: moment().format("YYYY"),
@@ -264,12 +278,13 @@ class Create extends Component {
         var new_row =
           Number(this.state.quantityInputCost) *
           Number(this.state.costTypeSelected.CO2eq);
-        var totalProduct = Number(this.state.totalCO2eqProduct) + new_row;
-
+        var totalMA = Number(this.state.totalCO2eq) + new_row;
+        var totalProd = Number(this.state.totalCO2eqProduct) + new_row;
         this.setState({
           costTypeSelected: {},
           quantityInputCost: "",
-          totalCO2eqProduct: totalProduct.toFixed(3)
+          totalCO2eq: totalMA.toFixed(3),
+          totalCO2eqProduct: totalProd.toFixed(3)
         });
       });
     }
@@ -291,10 +306,102 @@ class Create extends Component {
     this.props.getCostTypes();
   };
 
+  saveMonthlyActivity = () => {
+    var co2prod =
+      (Number(this.state.totalCO2eqProduct) / Number(this.state.outputProdQtd)).toFixed(3);
+
+    var body = {
+      description: this.state.description,
+      productQt: this.state.outputProdQtd,
+      month: this.state.actDate.format("MMMM"),
+      year: this.state.actDate.format("YYYY"),
+      unit: this.state.outputProdUnit,
+      product_id: this.state.outputProdSelected.id,
+      organization: this.props.id_org,
+      co2OutProd: co2prod,
+      co2activity: this.state.totalCO2eq
+    };
+
+    this.props.createMactivity(body, this.props.account).then(response => {
+      if (response.valid) {
+        for (const row of this.state.tableRows) {
+          if (row.type == "product") {
+            var bodyInput = {
+              quantity: row.quantity,
+              p_footprint: row.id,
+              m_activity: response.id
+            };
+
+            this.props
+              .createProdQuantity(bodyInput, this.props.account)
+              .then(response => {
+                if (response.valid) {
+                  console.log(response.msg);
+                } else {
+                  console.log(response.msg);
+                }
+              });
+          } else {
+            var bodyInput = {
+              quantity: row.quantity,
+              cost_type: row.id,
+              m_activity: response.id
+            };
+
+            this.props
+              .createProdCost(bodyInput, this.props.account)
+              .then(response => {
+                if (response.valid) {
+                  console.log(response.msg);
+                } else {
+                  console.log(response.msg);
+                }
+              });
+          }
+        }
+        this.showNotification("success", "Monthly activity created !");
+        this.setState({
+          outputProdSelected: {},
+          inputProdSelected: {},
+          costTypeSelected: {},
+          description: "",
+          tableRows: [],
+          totalCO2eq: 0,
+          totalCO2eqProduct: 0
+        });
+      } else {
+        this.showNotification("error", response.msg);
+      }
+    });
+  };
+
+  showNotification(type, msg) {
+    var color;
+
+    if (type == "error") {
+      color = "#ec644b";
+    } else {
+      color = "#4dbd74";
+    }
+
+    iziToast.show({
+      title: "",
+      position: "topRight",
+      messageSize: 15,
+      messageColor: "#fff",
+      iconColor: "#fff",
+      icon: "fa fa-exclamation-triangle",
+      message: msg,
+      color: color,
+      maxWidth: 800,
+      progressBarColor: "#fff"
+    });
+  }
+
   render() {
     const { classes } = this.props;
     //const { anchorEl } = this.state;
-    console.log(this.state.costTypeSelected);
+    //console.log(this.state.tableRows);
     return (
       <div className="col-12">
         <div>
@@ -342,15 +449,19 @@ class Create extends Component {
                 onFilterChange={this.onFilterChange}
               />
             </div>
-            <div className="col-4 text-end">
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-              >
-                Save
-                <SaveIcon className={classes.leftIcon} />
-              </Button>
+            <div className="col-4 text-right">
+              <Tooltip title="Save monthly activity">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{ textTransform: "none" }}
+                  className={classes.button}
+                  onClick={this.saveMonthlyActivity}
+                >
+                  <SaveIcon className={classes.leftIcon} />
+                  Save
+                </Button>
+              </Tooltip>
             </div>
           </div>
           {this.state.outputProdSelected.main ? (
@@ -377,11 +488,9 @@ class Create extends Component {
               <KeyboardDatePicker
                 clearable
                 label="Activity Date"
-                value={this.state.actDate}
+                value={this.state.actDate.format("MMMM YYYY")}
                 onChange={(date, x) => {
-                  this.setState({ actDate: x });
-                  //this.setState({ yearInput: moment(x).format("YYYY") });
-                  //this.setState({ monthInput: moment(x).format("MMMM") });
+                  this.setState({ actDate: date });
                 }}
                 views={["year", "month"]}
               />
@@ -613,11 +722,24 @@ class Create extends Component {
                                   var co2eq_del =
                                     Number(arr[i].co2eq) *
                                     Number(arr[i].quantity);
-                                  var new_co2eq =
+                                  var new_co2eqMA =
                                     Number(this.state.totalCO2eq) - co2eq_del;
-                                  this.setState({
-                                    totalCO2eq: new_co2eq.toFixed(3)
-                                  });
+
+                                  var new_co2Prod =
+                                    Number(this.state.totalCO2eqProduct) -
+                                    co2eq_del;
+
+                                  if (arr[i].type == "cost") {
+                                    this.setState({
+                                      totalCO2eqProduct: new_co2Prod.toFixed(3)
+                                    });
+                                  } else {
+                                    this.setState({
+                                      totalCO2eq: new_co2eqMA.toFixed(3),
+                                      totalCO2eqProduct: new_co2Prod.toFixed(3)
+                                    });
+                                  }
+
                                   arr.splice(i, 1);
                                   this.setState({ tableRows: arr });
                                 }}
@@ -639,7 +761,10 @@ class Create extends Component {
                         <TableCell colSpan={3} />
                         <TableCell colSpan={2}>Total (Product)</TableCell>
                         <TableCell align="right">
-                          {this.state.totalCO2eqProduct}
+                          {(
+                            Number(this.state.totalCO2eqProduct) /
+                            Number(this.state.outputProdQtd)
+                          ).toFixed(3)}
                         </TableCell>
                       </TableRow>
                     </TableBody>
@@ -668,6 +793,9 @@ export default connect(
     getProductsOrganization,
     getExternalProducts,
     getUnits,
-    getCostTypes
+    getCostTypes,
+    createMactivity,
+    createProdQuantity,
+    createProdCost
   }
 )(withStyles(styles)(Create));

@@ -11,9 +11,10 @@ export const getCostTypes = () => dispatch => {
         type: GET_COST_TYPES,
         payload: response
       });
+      return true;
     })
     .catch(function(error) {
       console.log(error);
-      return;
+      return false;
     });
 };

@@ -203,9 +203,7 @@ class DataTable extends React.Component {
         );
       }
 
-      this.setState({ selectedName: newSelected }, () => {
-        console.log(this.state.selectedName);
-      });
+      this.setState({ selectedName: newSelected });
 
       var dataSelected = [];
 

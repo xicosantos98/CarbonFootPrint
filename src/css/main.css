@@ -50,6 +50,10 @@
     background: #0b5b3b !important;
 }
 
+a:hover {
+    color: #ffffff !important;
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 5px;
