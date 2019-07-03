@@ -34,12 +34,6 @@ router
     ) {
       res.status(400).send({ message: "Error, invalid request" });
     } else {
-      var product = c_instance.productFootPrints(req.body.p_footprint);
-      var co2product = (product[1] * Math.pow(10, -product[2])).toFixed(
-        product[2]
-      );
-      var num = co2product * req.body.quantity;
-
       try {
         c_instance.addProdQuantity(
           req.body.quantity,
@@ -47,19 +41,15 @@ router
           req.body.m_activity,
           { from: req.headers.address, gas: 3000000 }
         );
-        var m_activity = c_instance.mactivities(req.body.m_activity);
-        var co2mactivity = m_activity[2] * Math.pow(10, -m_activity[4]) + num;
-        var expMactivity = countDecimals(co2mactivity);
-        var newCO2mactivity = Math.round(
-          co2mactivity * Math.pow(10, expMactivity)
-        );
-        c_instance.updateCO2mactivity(
+        /*c_instance.updateCO2mactivity(
           m_activity[0].toNumber(),
           newCO2mactivity,
           expMactivity,
           { from: req.headers.address, gas: 3000000 }
-        );
+        );*/
         res.status(201).send({ message: "Product quantity created" });
       } catch (error) {}
     }
   });
+
+module.exports = router;

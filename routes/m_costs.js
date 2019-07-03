@@ -74,6 +74,47 @@ router
     }
   })
 
+  .get("/organization/:idOrganization", function(req, res) {
+    var orgMcosts = [];
+
+    if (req.params.idOrganization == null) {
+      res.status(400).send({ message: "Error, invalid request" });
+    } else {
+      var m_fix_costs = c_instance.getOrgFixCosts(req.params.idOrganization);
+
+      if (m_fix_costs.length == 0) {
+        res.status(200).json({ message: "0 monthly fix costs found" });
+      } else {
+        for (var i = 0; i < m_fix_costs.length; i++) {
+          var id = m_fix_costs[i].toNumber();
+          var cost = c_instance.mfixcosts(id);
+
+          var co2 = (cost[1] * Math.pow(10, -cost[2])).toFixed(cost[2]);
+          var costType = c_instance.costsTypes(cost[6].toNumber());
+
+          orgMcosts.push({
+            id: cost[0],
+            CO2eq: co2,
+            description: cost[3],
+            quantity: cost[4],
+            month: cost[5],
+            cost_type: costType[3],
+            organization: cost[7],
+            year: cost[8]
+          });
+        }
+
+        if (orgMcosts.length == 0) {
+          res
+            .status(200)
+            .json({ warning: "0 monthly fix costs found", length: 0 });
+        } else {
+          res.status(200).json(orgMcosts);
+        }
+      }
+    }
+  })
+
   .post("/", function(req, res) {
     if (!verifyBody(req.body)) {
       res.status(400).send({ message: "Error, invalid request" });

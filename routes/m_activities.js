@@ -9,7 +9,8 @@ function verifyBody(body) {
     body.hasOwnProperty("unit") &&
     body.hasOwnProperty("product_id") &&
     body.hasOwnProperty("organization") &&
-    body.hasOwnProperty("year")
+    body.hasOwnProperty("year") &&
+    body.hasOwnProperty("co2OutProd")
   ) {
     return true;
   } else {
@@ -119,6 +120,7 @@ router
       res.status(400).send({ message: "Error, invalid request" });
     } else {
       var activity = c_instance.mactivities(req.params.id);
+      console.log(activity);
       if (activity[0].toNumber() == 0) {
         res.status(200).json({ message: "Monthly activity not found" });
       } else {
@@ -128,7 +130,7 @@ router
 
         var p_quantities = c_instance.getProdQuantities(activity[0].toNumber());
 
-        m_activities.push({
+        res.status(200).json({
           id: activity[0],
           description: activity[1],
           CO2eq: co2eq,
@@ -153,12 +155,21 @@ router
         var year = parseInt(req.body.year);
         createYear(year, req.headers.address);
 
+        var numAct = Number(req.body.co2activity);
+        var expAct = countDecimals(numAct);
+        var co2eqAct = Math.round(numAct * Math.pow(10, expAct));
+
+        var numProd = Number(req.body.co2OutProd);
+        var expProd = countDecimals(numProd);
+        var co2eqProd = Math.round(numProd * Math.pow(10, expProd));
+
         c_instance.addFootPrintProd(
-          0,
-          0,
+          co2eqProd,
+          expProd,
           req.body.product_id,
           year,
           req.body.month,
+          c_instance.mactivitiesCount().toNumber() + 1,
           {
             from: req.headers.address,
             gas: 3000000
@@ -174,9 +185,28 @@ router
           req.body.organization,
           req.body.unit,
           year,
+          co2eqAct,
+          expAct,
           { from: req.headers.address, gas: 3000000 }
         );
-        res.status(201).send({ message: "Monthly activity created" });
+
+        var new_ma = c_instance.mactivitiesCount().toNumber();
+
+        var org = c_instance.organizations(req.body.organization);
+        //console.log(org);
+        var co2org = (org[1] * Math.pow(10, -org[2]) + numAct).toFixed(3);
+        var expOrg = countDecimals(co2org);
+        var newco2eqOrg = Math.round(co2org * Math.pow(10, expOrg));
+
+        c_instance.updateCO2org(org[0].toNumber(), newco2eqOrg, expOrg, {
+          from: req.headers.address,
+          gas: 3000000
+        });
+
+        res.status(201).send({
+          message: "Monthly activity created",
+          id: new_ma
+        });
       } catch (error) {
         res.status(403).send({ message: error.message });
       }

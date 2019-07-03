@@ -64,6 +64,7 @@ router
       var cost = c_instance.costsTypes(req.body.cost_type);
       var co2perunit = (cost[1] * Math.pow(10, -cost[2])).toFixed(cost[2]);
       var num = co2perunit * req.body.quantity;
+      num = num.toFixed(cost[2]);
       var exp = countDecimals(num);
       var co2eq = Math.round(num * Math.pow(10, exp));
 
@@ -75,7 +76,7 @@ router
           req.body.cost_type,
           req.body.m_activity
         );
-        var m_activity = c_instance.mactivities(req.body.m_activity);
+        /*var m_activity = c_instance.mactivities(req.body.m_activity);
         var co2mactivity = m_activity[2] * Math.pow(10, -m_activity[4]) + num;
         var expMactivity = countDecimals(co2mactivity);
         var newCO2mactivity = Math.round(
@@ -87,7 +88,7 @@ router
           newCO2mactivity,
           expMactivity,
           { from: req.headers.address, gas: 3000000 }
-        );
+        );*/
         res
           .status(201)
           .send({ message: "Production Cost added to monthly activity" });

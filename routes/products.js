@@ -45,7 +45,11 @@ router
             footprint[2]
           );
 
-          footprintarray.push({ id: prodsFootPrint[x].toNumber(), CO2eq: num });
+          footprintarray.push({
+            id: prodsFootPrint[x].toNumber(),
+            CO2eq: num,
+            MonthlyActivity: footprint[6]
+          });
         }
 
         var organization = c_instance.organizations(prod[5].toNumber());
@@ -210,6 +214,58 @@ router
     }
   })
 
+  .get("/final/footprints", (req, res) => {
+    var count = c_instance.productsCount().toNumber();
+    var products = [];
+
+    for (var i = 1; i <= count; i++) {
+      var prod = c_instance.products(i);
+      var name = prod[1];
+      var organization = c_instance.organizations(prod[5].toNumber());
+
+      console.log(Boolean(prod[4]));
+
+      if (
+        req.query.search &&
+        !name.toLowerCase().match(req.query.search.toLowerCase())
+      ) {
+        continue;
+      } else if (Boolean(prod[4]) == true) {
+        continue;
+      } else {
+        var prodsFootPrint = c_instance.getFootPrintsProd(i);
+        for (var x = 0; x < prodsFootPrint.length; x++) {
+          var footprint = c_instance.productFootPrints(
+            prodsFootPrint[x].toNumber()
+          );
+          var num = (footprint[1] * Math.pow(10, -footprint[2])).toFixed(
+            footprint[2]
+          );
+
+          products.push({
+            id: prodsFootPrint[x].toNumber(),
+            CO2eq: num,
+            month: footprint[5],
+            year: footprint[4],
+            organization: organization[3],
+            name: name
+          });
+        }
+      }
+    }
+
+    if (products.length == 0) {
+      res.status(200).json({ warning: "0 products found", length: 0 });
+    } else {
+      res.status(200).json(products);
+    }
+  })
+
+  .get("/tree/:id", async (req, res) => {
+    var result = await getTree(req.params.id);
+    res.status(201).json(result);
+  })
+
   .post("/", function(req, res) {
     if (!verifyBody(req.body)) {
       res.status(400).send({ message: "Error, invalid request" });
@@ -253,6 +309,7 @@ router
           req.body.product,
           year,
           req.body.month,
+          0,
           {
             from: req.headers.address,
             gas: 3000000
@@ -264,5 +321,57 @@ router
       }
     }
   });
+
+async function getTree(id) {
+  var footprint = c_instance.productFootPrints(id);
+  var co2eq = (footprint[1] * Math.pow(10, -footprint[2])).toFixed(
+    footprint[2]
+  );
+  var id = footprint[3].toNumber();
+  var product = c_instance.products(id);
+  var name_product = product[1];
+  var idMA = footprint[6].toNumber();
+  var p_quantities = c_instance.getProdQuantities(idMA);
+
+  var obj_prod = {
+    name: name_product,
+    attributes: {
+      //"Product CO2eq": co2eq,
+      //"Monthly Activity CO2eq": co2eqMA,
+      //Organization: org[3]
+    },
+    children: []
+  };
+
+  obj_prod.attributes["Product CO2eq"] = co2eq;
+
+  if (Number(idMA) == 0) {
+    obj_prod.attributes["Organization"] = "Matéria prima";
+  } else {
+    var m_activity = c_instance.mactivities(idMA);
+    var co2eqMA = (m_activity[2] * Math.pow(10, -m_activity[4])).toFixed(
+      m_activity[4]
+    );
+    var org = c_instance.organizations(m_activity[7].toNumber());
+    obj_prod.attributes["Organization"] = org[3];
+    obj_prod.attributes["Monthly Activity CO2eq"] = co2eqMA;
+  }
+
+  if (p_quantities.length > 0) {
+    var p_inputs = [];
+
+    for (const qtd of p_quantities) {
+      var quantity = c_instance.productsQuantities(qtd.toNumber());
+      p_inputs.push(quantity[2].toNumber());
+    }
+
+    for (let i = 0; i < p_inputs.length; i++) {
+      var newObj = await getTree(p_inputs[i]);
+      obj_prod.children.push(newObj);
+    }
+  }
+
+  return obj_prod;
+}
 
 module.exports = router;

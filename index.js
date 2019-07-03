@@ -16,7 +16,7 @@ fs.readFile("./abi.json", handleFile);
 function handleFile(err, data) {
   if (err) console.log(err);
   abijson = JSON.parse(data);
-  contractAddress = "0xc1a6631fb93e834ba98f80bea915b20f96e61e90";
+  contractAddress = "0xa0e702ef8d542854018166d51a5c68dc412c8396";
 
   console.log("Contract addres: " + contractAddress);
   initWeb3();
@@ -108,6 +108,7 @@ var mactivitiesRoute = require("./routes/m_activities");
 var pcostsRoute = require("./routes/p_costs");
 var reqsRoute = require("./routes/requests");
 var unitsRoute = require("./routes/units");
+var pQtdRoute = require("./routes/p_quantities");
 
 app.use("/api/v1/users", usersRoute);
 app.use("/api/v1/organizations", orgsRoute);
@@ -119,7 +120,7 @@ app.use("/api/v1/m_activities", mactivitiesRoute);
 app.use("/api/v1/p_costs", pcostsRoute);
 app.use("/api/v1/requests", reqsRoute);
 app.use("/api/v1/units", unitsRoute);
-
+app.use("/api/v1/p_quantities", pQtdRoute);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(port, () => console.log(`Listening on port ${port}!`));

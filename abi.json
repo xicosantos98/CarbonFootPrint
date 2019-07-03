@@ -218,36 +218,6 @@
 		"type": "function"
 	},
 	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_co2eq",
-				"type": "uint32"
-			},
-			{
-				"name": "_exp",
-				"type": "uint16"
-			},
-			{
-				"name": "_idProd",
-				"type": "uint32"
-			},
-			{
-				"name": "_year",
-				"type": "uint32"
-			},
-			{
-				"name": "_month",
-				"type": "string"
-			}
-		],
-		"name": "addFootPrintProd",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"constant": true,
 		"inputs": [
 			{
@@ -280,6 +250,10 @@
 			{
 				"name": "month",
 				"type": "string"
+			},
+			{
+				"name": "idMA",
+				"type": "uint32"
 			}
 		],
 		"payable": false,
@@ -382,6 +356,56 @@
 		],
 		"payable": false,
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_desc",
+				"type": "string"
+			},
+			{
+				"name": "_qtd",
+				"type": "uint32"
+			},
+			{
+				"name": "_month",
+				"type": "string"
+			},
+			{
+				"name": "_prodQuantities",
+				"type": "uint32[]"
+			},
+			{
+				"name": "_output",
+				"type": "uint32"
+			},
+			{
+				"name": "_idOrg",
+				"type": "uint32"
+			},
+			{
+				"name": "_idUnit",
+				"type": "uint32"
+			},
+			{
+				"name": "_year",
+				"type": "uint32"
+			},
+			{
+				"name": "_co2eq",
+				"type": "uint32"
+			},
+			{
+				"name": "_exp",
+				"type": "uint16"
+			}
+		],
+		"name": "addMonthlyActivity",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -566,6 +590,40 @@
 			}
 		],
 		"name": "addCostType",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_co2eq",
+				"type": "uint32"
+			},
+			{
+				"name": "_exp",
+				"type": "uint16"
+			},
+			{
+				"name": "_idProd",
+				"type": "uint32"
+			},
+			{
+				"name": "_year",
+				"type": "uint32"
+			},
+			{
+				"name": "_month",
+				"type": "string"
+			},
+			{
+				"name": "_idMa",
+				"type": "uint32"
+			}
+		],
+		"name": "addFootPrintProd",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -1257,48 +1315,6 @@
 		],
 		"payable": false,
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_desc",
-				"type": "string"
-			},
-			{
-				"name": "_qtd",
-				"type": "uint32"
-			},
-			{
-				"name": "_month",
-				"type": "string"
-			},
-			{
-				"name": "_prodQuantities",
-				"type": "uint32[]"
-			},
-			{
-				"name": "_output",
-				"type": "uint32"
-			},
-			{
-				"name": "_idOrg",
-				"type": "uint32"
-			},
-			{
-				"name": "_idUnit",
-				"type": "uint32"
-			},
-			{
-				"name": "_year",
-				"type": "uint32"
-			}
-		],
-		"name": "addMonthlyActivity",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
