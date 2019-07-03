@@ -26,8 +26,8 @@ export default {
       icon: "fas fa-euro-sign"
     },
     {
-      name: "Production Costs",
-      url: "/theme/typography",
+      name: "Cost Types",
+      url: "/company/cost_types",
       icon: "fas fa-industry"
     }
   ]

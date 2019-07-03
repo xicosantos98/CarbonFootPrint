@@ -3,6 +3,7 @@ import Tree from "react-d3-tree";
 import { connect } from "react-redux";
 import { makeTree } from "../../actions/productsActions";
 import { Typography } from "@material-ui/core";
+import Loading from "../Loading";
 
 const svg = {
   shape: "circle",
@@ -103,7 +104,7 @@ class ProductDetails extends Component {
         </div>
       );
     } else {
-      return <p> 0000000000</p>;
+      return <Loading className={"mb-5"} />;
     }
   }
 }

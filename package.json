@@ -38,7 +38,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.5",
     "react-app-polyfill": "^0.2.2",
-    "react-chartjs-2": "^2.7.4",
+    "react-chartjs-2": "^2.7.6",
     "react-d3-tree": "^1.13.0",
     "react-dom": "^16.8.5",
     "react-redux": "^7.0.3",

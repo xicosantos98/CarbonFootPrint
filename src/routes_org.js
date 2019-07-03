@@ -6,6 +6,7 @@ const NewActivity = React.lazy(() => import("./views/MActivities/Create"));
 const Products = React.lazy(() => import("./views/Products/Products"));
 const ProductDetails = React.lazy(() => import("./views/Products/Details"));
 const MCosts = React.lazy(() => import("./views/MCosts/MCosts"));
+const CostTypes = React.lazy(() => import("./views/CostTypes/CostType"));
 // --- My components
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
@@ -43,6 +44,12 @@ const routes = [
     path: "/company/monthlycosts",
     name: "MonthlyCosts",
     component: MCosts,
+    exact: true
+  },
+  {
+    path: "/company/cost_types",
+    name: "CostTypes",
+    component: CostTypes,
     exact: true
   }
 ];

@@ -56,7 +56,7 @@ class DynamicDialog extends React.Component {
   };
 
   handleCancel = () => {
-    this.props.onClose("");
+    this.props.onClose(null, null, null, null, null);
   };
 
   handleListItemClick = (event, index) => {
@@ -76,7 +76,7 @@ class DynamicDialog extends React.Component {
     return (
       <div>
         <Dialog
-          onClose={this.handleClose}
+          onClose={this.handleCancel}
           aria-labelledby="simple-dialog-title"
           fullWidth={true}
           scroll="paper"

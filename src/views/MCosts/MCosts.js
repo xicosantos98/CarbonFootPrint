@@ -158,30 +158,34 @@ class MCosts extends Component {
   };
 
   closeModalCreate = (type, month, year, description, quantity) => {
-    var body = {
-      description: description,
-      quantity: quantity,
-      month: month,
-      cost_type: type.id,
-      organization: this.props.id_org,
-      year: year
-    };
+    if (type != null) {
+      var body = {
+        description: description,
+        quantity: quantity,
+        month: month,
+        cost_type: type.id,
+        organization: this.props.id_org,
+        year: year
+      };
 
-    this.props.createFixCost(body, this.props.account).then(response => {
-      if (response.valid) {
-        this.showNotification("success", "Monthly fix cost created !");
-        this.setState(
-          { loadingModal: true, openCreateModal: false, loading: true },
-          () => {
-            this.props.getMonthlyCosts(this.props.id_org).then(res => {
-              this.setState({ loading: false });
-            });
-          }
-        );
-      } else {
-        this.showNotification("error", response.msg);
-      }
-    });
+      this.props.createFixCost(body, this.props.account).then(response => {
+        if (response.valid) {
+          this.showNotification("success", "Monthly fix cost created !");
+          this.setState(
+            { loadingModal: true, openCreateModal: false, loading: true },
+            () => {
+              this.props.getMonthlyCosts(this.props.id_org).then(res => {
+                this.setState({ loading: false });
+              });
+            }
+          );
+        } else {
+          this.showNotification("error", response.msg);
+        }
+      });
+    } else {
+      this.setState({ openCreateModal: false });
+    }
   };
 
   render() {

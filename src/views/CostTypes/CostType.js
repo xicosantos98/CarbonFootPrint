@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
-import {
-  getFootPrintsFinal,
-  createProduct
-} from "../../actions/productsActions";
+import { getCostTypes, createCostType } from "../../actions/costTypesActions";
 import DataTable from "../DataTable";
 import { Button, Link, Tooltip, Fab } from "@material-ui/core";
 import InfoIcon from "@material-ui/icons/InfoOutlined";
@@ -12,7 +9,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { getUnits } from "../../actions/productsActions";
 import iziToast from "izitoast";
 const Loading = React.lazy(() => import("../../views/Loading"));
-const DialogCreate = React.lazy(() => import("./ModalCreate"));
+const DialogCreate = React.lazy(() => import("./DialogCreate"));
 
 const styles = theme => ({
   leftIcon: {
@@ -20,12 +17,12 @@ const styles = theme => ({
   }
 });
 
-class Products extends Component {
+class CostTypes extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selectProd: [],
-      prods: [],
+      costs: [],
       loading: true,
       loadingModal: true,
       openCreateModal: false,
@@ -67,33 +64,28 @@ class Products extends Component {
     });
   };
 
-  closeModalCreate = (
-    description,
-    name,
-    month,
-    year,
-    intermediate,
-    co2eq,
-    unit
-  ) => {
+  closeModalCreate = (description, co2eq, unit) => {
     if (description != null) {
       var body = {
         description: description,
-        name: name,
-        month: month,
-        year: year,
-        intermediate: intermediate,
         unit: unit,
-        organization: this.props.id_org,
-        co2eqProd: co2eq
+        co2: co2eq
       };
 
-      this.props.createProduct(body, this.props.account).then(response => {
+      this.props.createCostType(body, this.props.account).then(response => {
         if (response.valid) {
-          this.showNotification("success", "Product created !");
+          this.showNotification("success", "Cost Type created !");
           this.setState({ openCreateModal: false, loading: true }, () => {
-            this.props.getFootPrintsFinal().then(res => {
+            this.props.getCostTypes().then(response => {
               this.setState({ loading: false });
+              if (response) {
+                var arr = this.props.cost_types.data.map(cost => ({
+                  Description: cost.description,
+                  CO2eq: cost.CO2eq,
+                  Unit: cost.unit
+                }));
+                this.setState({ costs: arr, loading: false });
+              }
             });
           });
         } else {
@@ -106,17 +98,15 @@ class Products extends Component {
   };
 
   componentWillMount() {
-    this.props.getFootPrintsFinal().then(response => {
+    this.props.getCostTypes().then(response => {
       if (response) {
-        var arr = this.props.foot_prints.data.map(prod => ({
-          Ref: prod.id,
-          Name: prod.name,
-          Organization: prod.organization,
-          Month: prod.month,
-          Year: prod.year,
-          CO2eq: prod.CO2eq
+        console.log(this.props.cost_types);
+        var arr = this.props.cost_types.data.map(cost => ({
+          Description: cost.description,
+          CO2eq: cost.CO2eq,
+          Unit: cost.unit
         }));
-        this.setState({ prods: arr, loading: false });
+        this.setState({ costs: arr, loading: false });
       }
     });
 
@@ -128,33 +118,17 @@ class Products extends Component {
   render() {
     const { classes } = this.props;
     return !this.state.loading &&
-      this.state.prods &&
-      this.state.prods.length > 0 ? (
+      this.state.costs &&
+      this.state.costs.length > 0 ? (
       <div>
         <DataTable
-          data={this.state.prods}
-          name={"Products"}
+          data={this.state.costs}
+          name={"Cost Types"}
           updateSelectedList={this.updateSelectedList}
-          selectionEnable={true}
+          selectionEnable={false}
           multipleSelectionEnable={false}
         />
-        <div className="row justify-content-end mt-2">
-          <div className="col-12 col-md-2 text-right">
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ textTransform: "none" }}
-              fullWidth
-              className={classes.button}
-              //onClick={this.acceptRequests}
-              disabled={this.state.selectProd.length == 0}
-              href={"#/company/products/details/" + this.state.selectProd}
-            >
-              <InfoIcon className={classes.leftIcon} />
-              Details
-            </Button>
-          </div>
-        </div>
+
         <DialogCreate
           open={this.state.openCreateModal}
           onClose={this.closeModalCreate}
@@ -182,7 +156,7 @@ class Products extends Component {
         </Tooltip>
       </div>
     ) : !this.state.loading && this.state.prods.length == 0 ? (
-      <p>Sem produtos</p>
+      <p>Sem cost types</p>
     ) : this.state.loading ? (
       <Loading className={"mb-5"} />
     ) : null;
@@ -190,11 +164,11 @@ class Products extends Component {
 }
 
 const mapStateToProps = state => ({
-  foot_prints: state.products.fp_prod,
+  cost_types: state.cost_types.costTypes,
   units: state.products.units
 });
 
 export default connect(
   mapStateToProps,
-  { getFootPrintsFinal, getUnits, createProduct }
-)(withStyles(styles)(Products));
+  { getCostTypes, getUnits, createCostType }
+)(withStyles(styles)(CostTypes));

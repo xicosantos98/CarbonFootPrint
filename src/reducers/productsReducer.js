@@ -2,14 +2,16 @@ import {
   FILTER_PRODUCTS,
   GET_UNITS,
   GET_FINAL_PRODUCTS_FP,
-  GET_TREE
+  GET_TREE,
+  CREATE_PRODUCT
 } from "../actions/types";
 
 const initialState = {
   filteredProducts: [],
   units: [],
   fp_prod: [],
-  tree: {}
+  tree: {},
+  product: {}
 };
 
 export default function(state = initialState, action) {
@@ -33,6 +35,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         tree: action.payload
+      };
+    case CREATE_PRODUCT:
+      return {
+        ...state,
+        product: action.payload
       };
     default:
       return state;
