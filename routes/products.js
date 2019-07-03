@@ -223,8 +223,6 @@ router
       var name = prod[1];
       var organization = c_instance.organizations(prod[5].toNumber());
 
-      console.log(Boolean(prod[4]));
-
       if (
         req.query.search &&
         !name.toLowerCase().match(req.query.search.toLowerCase())
@@ -279,6 +277,29 @@ router
           req.body.unit,
           [],
           { from: req.headers.address, gas: 3000000 }
+        );
+
+        var new_prod = c_instance.productsCount().toNumber();
+        var co2eqProd = 0;
+        var expProd = 0;
+
+        if (Number(req.body.co2eqProd) > 0) {
+          var numProd = Number(req.body.co2eqProd);
+          expProd = countDecimals(numProd);
+          co2eqProd = Math.round(numProd * Math.pow(10, expProd));
+        }
+
+        c_instance.addFootPrintProd(
+          co2eqProd,
+          expProd,
+          new_prod,
+          req.body.year,
+          req.body.month,
+          0,
+          {
+            from: req.headers.address,
+            gas: 3000000
+          }
         );
         res.status(201).send({ message: "Product created" });
       } catch (error) {
