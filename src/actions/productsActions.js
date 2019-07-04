@@ -38,9 +38,9 @@ export const getUnits = () => dispatch => {
     });
 };
 
-export const getFootPrintsFinal = () => dispatch => {
+export const getFootPrintsFinal = prodName => dispatch => {
   return axios
-    .get(BASE_URL + "/products/final/footprints")
+    .get(BASE_URL + "/products/final/footprints?search=" + prodName)
     .then(response => {
       dispatch({
         type: GET_FINAL_PRODUCTS_FP,

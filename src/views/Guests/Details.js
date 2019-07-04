@@ -3,16 +3,19 @@ import { makeStyles } from "@material-ui/core/styles";
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import { getFilterOrganizations } from "../../actions/organizationsActions";
-import { getFilterProducts } from "../../actions/productsActions";
+import { getFootPrintsFinal } from "../../actions/productsActions";
 import DataTable from "../DataTable";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import Divider from "@material-ui/core/Divider";
 import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
+import InfoIcon from "@material-ui/icons/InfoOutlined";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
+import { Button } from "@material-ui/core";
 const Loading = React.lazy(() => import("../../views/Loading"));
+const Dialog = React.lazy(() => import("./DialogDetails"));
 
 const pageStyles = theme => ({
   root: {
@@ -53,14 +56,31 @@ class Details extends Component {
   state = {
     selectValue: "Products",
     searchText: "",
-    selectReq: [],
+    selectProd: 0,
     searchClick: false,
     loading: false,
-    resultData: []
+    resultData: [],
+    openModal: false
   };
 
   updateSelectedList = selected => {
-    this.setState({ selectReq: selected });
+    if (selected.length > 0) {
+      this.setState({ selectProd: selected[0][0] });
+    } else {
+      this.setState({ selectProd: 0 });
+    }
+  };
+
+  openModal = () => {
+    this.setState({
+      openModal: true
+    });
+  };
+
+  closeModal = () => {
+    this.setState({
+      openModal: false
+    });
   };
 
   search = () => {
@@ -69,17 +89,18 @@ class Details extends Component {
     this.setState({ searchClick: true });
 
     if (this.state.selectValue == "Products") {
-      this.props.getFilterProducts(this.state.searchText).then(response => {
+      this.props.getFootPrintsFinal(this.state.searchText).then(response => {
         if (response) {
           var prodsArray = [];
 
           for (var i = 0; i < this.props.filtered_products.data.length; i++) {
             var prod = {
+              Ref: this.props.filtered_products.data[i].id,
               Name: this.props.filtered_products.data[i].name,
-              Unit: this.props.filtered_products.data[i].unit,
-              Description: this.props.filtered_products.data[i].description,
-              Organization: this.props.filtered_products.data[i].organization
-                .name
+              Month: this.props.filtered_products.data[i].month,
+              Year: this.props.filtered_products.data[i].year,
+              Organization: this.props.filtered_products.data[i].organization,
+              CO2eq: this.props.filtered_products.data[i].CO2eq
             };
             prodsArray.push(prod);
           }
@@ -164,9 +185,16 @@ class Details extends Component {
                 <SearchIcon style={{ color: "#0b5b3b" }} />
               </IconButton>
             </Paper>
+            {this.state.openModal ? (
+              <Dialog
+                open={this.state.openModal}
+                onClose={this.closeModal}
+                id={this.state.selectProd}
+              />
+            ) : null}
           </div>
         </div>
-        <div className="row justify-content-center mt-5">
+        <div className="row justify-content-center mt-5 mb-3">
           <div className="col-12 col-md-8 text-center">
             {this.state.resultData &&
             this.state.resultData.length > 0 &&
@@ -176,7 +204,8 @@ class Details extends Component {
                 data={this.state.resultData}
                 name={"Results"}
                 updateSelectedList={this.updateSelectedList}
-                selectionEnable={false}
+                selectionEnable={this.state.selectValue == "Products"}
+                multipleSelectionEnable={false}
               />
             ) : this.state.loading ? (
               <Loading className={"mb-5"} />
@@ -189,6 +218,28 @@ class Details extends Component {
             ) : null}
           </div>
         </div>
+        {this.state.resultData &&
+        this.state.resultData.length > 0 &&
+        this.state.searchClick &&
+        !this.state.loading ? (
+          <div className="row justify-content-center mt-2 mb-3">
+            <div className="col-6" />
+            <div className="col-2 text-right">
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ textTransform: "none" }}
+                fullWidth
+                className={classes.button}
+                onClick={this.openModal}
+                disabled={this.state.selectProd == 0}
+              >
+                <InfoIcon className={classes.leftIcon} />
+                Details
+              </Button>
+            </div>
+          </div>
+        ) : null}
       </div>
     );
   }
@@ -196,9 +247,9 @@ class Details extends Component {
 
 const mapStateToProps = state => ({
   filtered_organizations: state.organizations.filteredOrganizations,
-  filtered_products: state.products.filteredProducts
+  filtered_products: state.products.fp_prod
 });
 export default connect(
   mapStateToProps,
-  { getFilterOrganizations, getFilterProducts }
+  { getFilterOrganizations, getFootPrintsFinal }
 )(withStyles(pageStyles)(Details));

@@ -55,11 +55,7 @@ class DynamicDialog extends React.Component {
   };
 
   handleClose = () => {
-    if (
-      this.state.name !== "" &&
-      Number(this.state.co2eq) !== 0 &&
-      this.state.unitSelected !== ""
-    ) {
+    if (this.state.name !== "" && this.state.unitSelected !== "") {
       this.props.onClose(
         this.state.description,
         this.state.name,

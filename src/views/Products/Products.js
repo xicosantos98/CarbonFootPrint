@@ -92,7 +92,7 @@ class Products extends Component {
         if (response.valid) {
           this.showNotification("success", "Product created !");
           this.setState({ openCreateModal: false, loading: true }, () => {
-            this.props.getFootPrintsFinal().then(res => {
+            this.props.getFootPrintsFinal("").then(res => {
               this.setState({ loading: false });
             });
           });
@@ -106,7 +106,7 @@ class Products extends Component {
   };
 
   componentWillMount() {
-    this.props.getFootPrintsFinal().then(response => {
+    this.props.getFootPrintsFinal("").then(response => {
       if (response) {
         var arr = this.props.foot_prints.data.map(prod => ({
           Ref: prod.id,
