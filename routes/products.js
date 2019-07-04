@@ -287,20 +287,21 @@ router
           var numProd = Number(req.body.co2eqProd);
           expProd = countDecimals(numProd);
           co2eqProd = Math.round(numProd * Math.pow(10, expProd));
+
+          c_instance.addFootPrintProd(
+            co2eqProd,
+            expProd,
+            new_prod,
+            req.body.year,
+            req.body.month,
+            0,
+            {
+              from: req.headers.address,
+              gas: 3000000
+            }
+          );
         }
 
-        c_instance.addFootPrintProd(
-          co2eqProd,
-          expProd,
-          new_prod,
-          req.body.year,
-          req.body.month,
-          0,
-          {
-            from: req.headers.address,
-            gas: 3000000
-          }
-        );
         res.status(201).send({ message: "Product created" });
       } catch (error) {
         res.status(403).send({ message: error.message });
