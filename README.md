@@ -48,3 +48,8 @@ A solução deverá:
 
 ## Criar produto 📷
 ![](https://user-images.githubusercontent.com/29258150/61911678-178e3f00-af30-11e9-93e7-b427f99fbd10.png)
+
+## Traceabilidade de um produto 📷
+![](https://user-images.githubusercontent.com/29258150/61911781-502e1880-af30-11e9-99cf-dfacf5423162.png)
+
+
