@@ -40,11 +40,11 @@ A solução deverá:
 ## Criar atividade 📷
 ![](https://user-images.githubusercontent.com/29258150/61911529-ab134000-af2f-11e9-80aa-c365a7858576.png)
 
-## Criar organização 📷
-![](https://user-images.githubusercontent.com/29258150/61910916-d8f78500-af2d-11e9-822c-1e6a2fbe5243.png)
+## Selecionar produto de output 📷
+![](https://user-images.githubusercontent.com/29258150/61911613-e4e44680-af2f-11e9-8952-2f056db04851.png)
 
-## Criar organização 📷
-![](https://user-images.githubusercontent.com/29258150/61910916-d8f78500-af2d-11e9-822c-1e6a2fbe5243.png)
+## Selecionar produtos de input 📷
+![](https://user-images.githubusercontent.com/29258150/61911645-f9c0da00-af2f-11e9-9784-a9dc07aa14d5.png)
 
-## Criar organização 📷
-![](https://user-images.githubusercontent.com/29258150/61910916-d8f78500-af2d-11e9-822c-1e6a2fbe5243.png)
+## Criar produto 📷
+![](https://user-images.githubusercontent.com/29258150/61911678-178e3f00-af30-11e9-93e7-b427f99fbd10.png)
